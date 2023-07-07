@@ -7,22 +7,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.4.3",
-    "react": "^18.2.0",
-    "react-devtools": "^4.27.8",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.0",
-    "react-scripts": "5.0.1",
-    "react-scroll": "^1.8.9"
-  },
+  "dependencies": {},
   "scripts": {
-    "start": "cd client && react-scripts start",
-    "build": "cd client && react-scripts build",
-    "test": "cd client && react-scripts test",
-    "eject": "cd client && react-scripts eject",
+    "start": "cd client && npx react-scripts start",
+    "build": "cd client && npx react-scripts build",
+    "test": "cd client && npx react-scripts test",
+    "eject": "cd client && npx react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
