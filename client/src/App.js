@@ -1,12 +1,12 @@
 import React from 'react';
 // MW - Import ApolloClient, ApolloProvider, InMemoryCache, createHttpLink
-import { ApolloClient, JourneyProvider, InMemoryCache, createHttpLink, } from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, } from '@apollo/client';
 // MW - Import setContext
 import { setContext } from '@apollo/client/link/context';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 // TODO: Import pages here
-import Navbar from './components/Navbar';
+// import Navbar from './components/Navbar';
 
 // MW - Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -34,16 +34,16 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <JourneyProvider client={client}>
+    <ApolloProvider client={client}>
       <Router>
         <>
-          <Navbar />
+          {/* <Navbar /> */}
           <Switch>
             <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
           </Switch>
         </>
       </Router>
-    </JourneyProvider>
+    </ApolloProvider>
   );
 }
 
