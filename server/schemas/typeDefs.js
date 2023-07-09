@@ -25,6 +25,10 @@ const typeDefs = gql`
     creator: User!
     invitedTravelers: [User!]!
   }
+type Auth {
+    token: ID!
+    user: User
+  }
 
   type Query {
     users: [User!]!
@@ -35,7 +39,7 @@ const typeDefs = gql`
 
   type Mutation {
     login(email: String!, password: String!): Auth
-    createUser(firstName: String!, lastName: String!, email: String!): User!
+    addProfile(firstName: String!, lastName: String!, email: String!): Auth
     createJourney(
       destinationCity: String!
       destinationState: String!
@@ -52,4 +56,4 @@ const typeDefs = gql`
   }
 `;
 
-module.exports = typeDefs;
+module.exports = typeDefs;module.exports = typeDefs;

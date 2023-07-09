@@ -1,23 +1,19 @@
 import React from 'react';
-// MW - Import ApolloClient, ApolloProvider, InMemoryCache, createHttpLink
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, } from '@apollo/client';
-// MW - Import setContext
+import {  ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-// TODO: Import pages here
-// import Navbar from './components/Navbar';
+import { ApolloClient } from 'apollo-client'
 
-// MW - Construct our main GraphQL API endpoint
+import LandingPages from './pages/LandingPages';
+import NavBar from './components/NavBar';
+
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
 
-// MW - Construct request middleware that will attach the JWT token to every request as an `authorization` header
 const authLink = setContext((_, { headers }) => {
-  // MW - get the authentication token from local storage if it exists
   const token = localStorage.getItem('id_token');
-  // MW - return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
@@ -27,7 +23,6 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  // MW - Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
@@ -36,12 +31,13 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <>
-          {/* <Navbar /> */}
-          <Switch>
-            <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
-          </Switch>
-        </>
+        <div className="flex-column justify-flex-start min-100-vh">
+          <NavBar /> {/* Include the NavBar component */}
+          <div className="container">
+            <Route path="/" element={<LandingPages />} />
+            <Route path="/signup" element={<LandingPages />} />
+          </div>
+        </div>
       </Router>
     </ApolloProvider>
   );
