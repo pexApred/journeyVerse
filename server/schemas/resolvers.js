@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Journey = require('../models/Journey');
+const { generateToken } = require('../utils/auth');
 
 // Define your GraphQL resolvers
 const resolvers = {
@@ -10,24 +11,37 @@ const resolvers = {
     journey: (_, { id }) => Journey.findById(id),// returns a single journey by id
   },
   Mutation: {
-    addProfile: (_, { firstName, lastName, email }) => {
-      const user = new User({ firstName, lastName, email });// creates a new user
-      return user.save();
-    },
+//     addProfile: (_, { firstName, lastName, email }) => {
+//       const user = new User({ firstName, lastName, email });// creates a new user
+//       return user.save();
+//     },
 
-    login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
+//     login: async (parent, { email, password }) => {
+//       const user = await User.findOne({ email });
 
-      if (!user) {
-          throw new AuthenticationError('Sorry, no user found with this email! Please try again!');
+//       if (!user) {
+//           throw new AuthenticationError('Sorry, no user found with this email! Please try again!');
+//       }
+//       const correctPw = await user.isCorrectPassword(password);
+
+//       if (!correctPw) {
+//           throw new AuthenticationError('Sorry, incorrect password! Please try again!');
+//       }
+//       const token = signToken(user);
+//       return { token, user };
+//   },
+    createUser: async (parent, { firstName, lastName, password, email }, context) => {
+      try {
+          const user = await User.create( { firstName, lastName, password, email });
+
+          if (!user) {
+              throw new Error("Something is wrong!");
+          }
+          const token = generateToken(user.toJSON());
+          return { token, user };
+      } catch (err) {
+          throw new Error(err);
       }
-      const correctPw = await user.isCorrectPassword(password);
-
-      if (!correctPw) {
-          throw new AuthenticationError('Sorry, incorrect password! Please try again!');
-      }
-      const token = signToken(user);
-      return { token, user };
   },
     // creates a new journey
     createJourney: (

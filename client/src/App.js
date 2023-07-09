@@ -2,11 +2,11 @@ import React from 'react';
 import {  ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-
-import { ApolloClient } from 'apollo-client'
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// TODO: Import pages here
+import Navbar from './components/NavBar';
 import LandingPages from './pages/LandingPages';
-import NavBar from './components/NavBar';
+import LoginPage from './pages/Login';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -31,13 +31,12 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div className="flex-column justify-flex-start min-100-vh">
-          <NavBar /> {/* Include the NavBar component */}
-          <div className="container">
-            <Route path="/" element={<LandingPages />} />
-            <Route path="/signup" element={<LandingPages />} />
-          </div>
-        </div>
+          {/* <Navbar /> */}
+          <Routes>
+            <Route path='/login' element={<LoginPage/>}> 
+            </Route>
+            <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
+          </Routes>
       </Router>
     </ApolloProvider>
   );

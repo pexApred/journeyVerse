@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
-const config = require('../config/config');
-
-const secret = config.jwtSecret;
-const expiration = config.jwt.expiresIn;
+// const config = require('../config/connection');
+const secret = 'mysecretsshhhhh';
+const expiration = '2h';
+// const secret = config.jwtSecret;
+// const expiration = config.jwt.expiresIn;
 
 // Generate a JWT token
 const generateToken = (user) => {
