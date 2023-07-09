@@ -1,7 +1,6 @@
 import React from 'react';
 import {  ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // TODO: Import pages here
 import Navbar from './components/NavBar';
