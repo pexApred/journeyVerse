@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Journey = require('../models/Journey');
+const { generateToken } = require('../utils/auth');
 
 // Define your GraphQL resolvers
 const resolvers = {
@@ -10,10 +11,20 @@ const resolvers = {
     journey: (_, { id }) => Journey.findById(id),// returns a single journey by id
   },
   Mutation: {
-    createUser: (_, { firstName, lastName, email }) => {
-      const user = new User({ firstName, lastName, email });// creates a new user
-      return user.save();
-    },
+    createUser: async (parent, { firstName, lastName, password, email }, context) => {
+      try {
+          const user = await User.create( { firstName, lastName, password, email });
+
+          if (!user) {
+              throw new Error("Something is wrong!");
+          }
+          const token = generateToken(user.toJSON());
+          return { token, user };
+      } catch (err) {
+          throw new Error(err);
+      }
+  },
+
     // creates a new journey
     createJourney: (
       _,

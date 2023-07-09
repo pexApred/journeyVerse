@@ -4,9 +4,10 @@ import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, } from '@a
 // MW - Import setContext
 import { setContext } from '@apollo/client/link/context';
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // TODO: Import pages here
-// import Navbar from './components/Navbar';
+import Navbar from './components/NavBar';
+import LoginPage from './pages/Login';
 
 // MW - Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -38,9 +39,11 @@ function App() {
       <Router>
         <>
           {/* <Navbar /> */}
-          <Switch>
+          <Routes>
+            <Route path='/login' element={<LoginPage/>}> 
+            </Route>
             <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
-          </Switch>
+          </Routes>
         </>
       </Router>
     </ApolloProvider>

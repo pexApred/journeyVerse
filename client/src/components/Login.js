@@ -1,34 +1,72 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../utils/mutations';
 
-const Login = ({ handleLoginFormSubmit }) => {
-  const [loginData, setLoginData] = useState({
-    email: '',
-    password: ''
-  });
+import Auth from '../utils/auth';
+// const Login = ({ handleLoginFormSubmit }) => {
+//   const [loginData, setLoginData] = useState({
+//     email: '',
+//     password: ''
+//   });
 
-  const handleLoginInputChange = (event) => {
-    const { name, value } = event.target;
-    setLoginData({ ...loginData, [name]: value });
-  };
+//   const handleLoginInputChange = (event) => {
+//     const { name, value } = event.target;
+//     setLoginData({ ...loginData, [name]: value });
+//   };
 
-  const handleSubmit = (event) => {
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     // Perform login logic using loginData object
+//     handleLoginFormSubmit(loginData);
+//   };
+
+  const Login = (props) => {
+    const [formState, setFormState] = useState({ email: '', password: '' });
+    const [login, { error, data }] = useMutation(LOGIN_USER);
+  
+    // update state based on form input changes
+    const handleChange = (event) => {
+      const { name, value } = event.target;
+  
+      setFormState({
+        ...formState,
+        [name]: value,
+      });
+    };
+  // submit form
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    // Perform login logic using loginData object
-    handleLoginFormSubmit(loginData);
+    console.log(formState);
+    try {
+      const { data } = await login({
+        variables: { ...formState },
+      });
+
+      Auth.login(data.login.token);
+    } catch (e) {
+      console.error(e);
+    }
+
+    // clear form values
+    setFormState({
+      email: '',
+      password: '',
+    });
   };
 
   return (
     <div>
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleFormSubmit}>
         <div>
           <label htmlFor="email">Email:</label>
           <input
             type="email"
             name="email"
             id="email"
-            value={loginData.email}
-            onChange={handleLoginInputChange}
+            value={formState.email}
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -37,8 +75,8 @@ const Login = ({ handleLoginFormSubmit }) => {
             type="password"
             name="password"
             id="password"
-            value={loginData.password}
-            onChange={handleLoginInputChange}
+            value={formState.password}
+            onChange={handleChange}
           />
         </div>
         <button type="submit">Login</button>
