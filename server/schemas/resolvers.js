@@ -11,6 +11,25 @@ const resolvers = {
     journey: (_, { id }) => Journey.findById(id),// returns a single journey by id
   },
   Mutation: {
+//     addProfile: (_, { firstName, lastName, email }) => {
+//       const user = new User({ firstName, lastName, email });// creates a new user
+//       return user.save();
+//     },
+
+//     login: async (parent, { email, password }) => {
+//       const user = await User.findOne({ email });
+
+//       if (!user) {
+//           throw new AuthenticationError('Sorry, no user found with this email! Please try again!');
+//       }
+//       const correctPw = await user.isCorrectPassword(password);
+
+//       if (!correctPw) {
+//           throw new AuthenticationError('Sorry, incorrect password! Please try again!');
+//       }
+//       const token = signToken(user);
+//       return { token, user };
+//   },
     createUser: async (parent, { firstName, lastName, password, email }, context) => {
       try {
           const user = await User.create( { firstName, lastName, password, email });
@@ -24,7 +43,6 @@ const resolvers = {
           throw new Error(err);
       }
   },
-
     // creates a new journey
     createJourney: (
       _,

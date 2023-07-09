@@ -25,6 +25,10 @@ const typeDefs = gql`
     creator: User!
     invitedTravelers: [User!]!
   }
+type Auth {
+    token: ID!
+    user: User
+  }
 
   type Auth {
     token: ID!
@@ -57,4 +61,4 @@ const typeDefs = gql`
   }
 `;
 
-module.exports = typeDefs;
+module.exports = typeDefs;module.exports = typeDefs;
