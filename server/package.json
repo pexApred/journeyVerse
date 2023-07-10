@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "server": "nodemon index.js --ignore client"
+    "server": "nodemon index.js --ignore client",
+    "watch": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +18,8 @@
     "graphql": "^16.3.0",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
   }
 }

@@ -48,10 +48,10 @@ function App() {
               path='/'
               element={<LandingPages />}
             />
-          <Route 
-                path='/dashboard'
-                element={<DashBoard />}
-              />
+            <Route
+              path='/dashboard'
+              element={<DashBoard />}
+            />
             <Route
               path='/journey'
               element={<JourneyPage />}
@@ -60,7 +60,7 @@ function App() {
               path='/details/:journeyId'
               element={<DetailsPage />}
             />
-            <Route path='/loginPage' element={<LoginPage/>}> 
+            <Route path='/login' element={<LoginPage />}>
             </Route>
             <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
           </Routes>
