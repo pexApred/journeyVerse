@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
-import Signup from './Signup';
-import Login from './Login';
+import Signup from './SignupForm';
+import Login from './LoginForm';
 import Auth from '../utils/auth';
 
 const AppNavbar = () => {
