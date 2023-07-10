@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cd server && node server.js",
     "install": "cd client && npm install && cd ../server && npm install",
-    "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\""
+    "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+    "build": "cd client && npm run build"
   },
   "author": "",
   "license": "ISC",
