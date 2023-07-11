@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-const JourneyPages = () => {
+const DetailsPages = () => {
   const [journeyData, setJourneyData] = useState({
-    destinationCity: '',
-    destinationState: '',
-    destinationCountry: '',
-    departingDate: '',
-    returningDate: '',
-    transportationOutbound: '',
-    transportationReturn: '',
-    transportationDetails: '',
-    accommodations: '',
+    destinationCity: "",
+    destinationState: "",
+    destinationCountry: "",
+    departingDate: "",
+    returningDate: "",
+    transportationOutbound: "",
+    transportationReturn: "",
+    transportationDetails: "",
+    accommodations: "",
     inviteTravelers: [],
   });
 
@@ -28,9 +28,9 @@ const JourneyPages = () => {
 
   const handleAddTraveler = () => {
     const newInviteTraveler = {
-      firstName: '',
-      lastName: '',
-      email: '',
+      firstName: "",
+      lastName: "",
+      email: "",
     };
     setJourneyData({
       ...journeyData,
@@ -47,12 +47,12 @@ const JourneyPages = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Save journey data to localStorage or perform other actions
-    localStorage.setItem('journeyData', JSON.stringify(journeyData));
-    console.log('Journey data saved:', journeyData);
+    localStorage.setItem("journeyData", JSON.stringify(journeyData));
+    console.log("Journey data saved:", journeyData);
   };
 
   useEffect(() => {
-    const savedJourneyData = localStorage.getItem('journeyData');
+    const savedJourneyData = localStorage.getItem("journeyData");
     if (savedJourneyData) {
       setJourneyData(JSON.parse(savedJourneyData));
     }
@@ -71,7 +71,9 @@ const JourneyPages = () => {
         />
       </div>
       <div>
-        <label htmlFor="destinationState">Destination State/Province/Region:</label>
+        <label htmlFor="destinationState">
+          Destination State/Province/Region:
+        </label>
         <input
           type="text"
           name="destinationState"
@@ -162,7 +164,9 @@ const JourneyPages = () => {
                 name={`firstName-${index}`}
                 id={`firstName-${index}`}
                 value={traveler.firstName}
-                onChange={(event) => handleInviteTravelerInputChange(index, event)}
+                onChange={(event) =>
+                  handleInviteTravelerInputChange(index, event)
+                }
               />
             </div>
             <div>
@@ -172,7 +176,9 @@ const JourneyPages = () => {
                 name={`lastName-${index}`}
                 id={`lastName-${index}`}
                 value={traveler.lastName}
-                onChange={(event) => handleInviteTravelerInputChange(index, event)}
+                onChange={(event) =>
+                  handleInviteTravelerInputChange(index, event)
+                }
               />
             </div>
             <div>
@@ -182,7 +188,9 @@ const JourneyPages = () => {
                 name={`email-${index}`}
                 id={`email-${index}`}
                 value={traveler.email}
-                onChange={(event) => handleInviteTravelerInputChange(index, event)}
+                onChange={(event) =>
+                  handleInviteTravelerInputChange(index, event)
+                }
               />
             </div>
             <button type="button" onClick={() => handleRemoveTraveler(index)}>
@@ -199,4 +207,4 @@ const JourneyPages = () => {
   );
 };
 
-export default JourneyPages;
+export default DetailsPages;
