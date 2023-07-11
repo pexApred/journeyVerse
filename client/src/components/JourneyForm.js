@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const JourneyForm = () => {
     const [journeyData, setJourneyData] = useState({
+        id: '',
         destinationCity: '',
         destinationState: '',
         destinationCountry: '',
@@ -48,6 +49,8 @@ const JourneyForm = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const newId = Date.now().toString();
+        setJourneyData({ ...journeyData, id: newId });
         // Save journey data to localStorage or perform other actions
         localStorage.setItem('journeyData', JSON.stringify(journeyData));
         console.log('Journey data saved:', journeyData);
