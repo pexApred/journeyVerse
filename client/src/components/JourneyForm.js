@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import '../css/JourneyForm.css';
 
+
+
 const JourneyForm = () => {
     const [journeyData, setJourneyData] = useState({
         id: '',

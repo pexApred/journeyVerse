@@ -1,25 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import JourneyList from '../components/JourneyList';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
+
 import '../css/DashboardPage.css'; 
+
+
+import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown';
+
+import './DashboardPage.css'; 
+
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
+
 const DashboardPage = () => {
-  // Sample data for demonstration purposes
-  const profilePicture = 'path/to/profile-picture.jpg';
+  const [profilePicture, setProfilePicture] = useState(null);
   const email = 'user@example.com';
-  const currentJourney = {
-    id: 1,
-    destination: 'New York',
-    departingDate: '2023-07-15',
+  const [currentJourney, setCurrentJourney] = useState(null);
+  const [journeyHistory, setJourneyHistory] = useState([]);
+
+  const handleProfilePictureChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setProfilePicture(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
-  const journeyHistory = [
-    { id: 1, destination: 'Paris', departingDate: '2023-06-01' },
-    { id: 2, destination: 'Tokyo', departingDate: '2023-05-15' },
-    // ... more journeys
-  ];
+
+  useEffect(() => {
+    // Simulate fetching current journey from an API
+    setCurrentJourney({
+      id: 1,
+      destination: 'New York',
+      departingDate: '2023-07-15',
+    });
+
+    // Simulate fetching journey history from an API
+    setJourneyHistory([
+      { id: 1, destination: 'Paris', departingDate: '2023-06-01' },
+      { id: 2, destination: 'Tokyo', departingDate: '2023-05-15' },
+      // ... more journeys
+    ]);
+  }, []);
 
   return (
     <div>
@@ -27,15 +56,34 @@ const DashboardPage = () => {
       <NavBar />
       <Container className="justify-content-center">
       {/* Profile Widget */}
+
+//       <div>
+//         {profilePicture ? (
+//           <img src={profilePicture} alt="Profile" />
+//         ) : (
+//           <div>
+//             <input type="file" onChange={handleProfilePictureChange} accept="image/*" />
+//             <p>{email}</p>
+//           </div>
+//         )}
+//       </div><br></br><br></br>
+
       <Row className='profile'>
         <Col sm={1}>
-         <div><img src={profilePicture} alt="Profile" roundedCircle/></div>
+           {profilePicture ? (
+          <img src={profilePicture} alt="Profile" />
+        ) : (
+          <div>
+            <input type="file" onChange={handleProfilePictureChange} accept="image/*" />
+            <p>{email}</p>
+//          <div><img src={profilePicture} alt="Profile" roundedCircle/></div>
          </Col>
         <Col sm={11}>
         <div><h1>First Last</h1><h3>{email}</h3></div>
         </Col>
       </Row>
         {/* Create a journey link */}
+
 
         <Button className="button" as={Link} to="/journey" variant="primary">
           Create a Journey
@@ -50,18 +98,46 @@ const DashboardPage = () => {
             <p>Departing Date: {currentJourney.departingDate}</p>
           </Card>
         )}
-
+      </div><br></br><br></br>
+      <div>
+        {/* Create a journey link */}
+        <Button as={Link} to="/journey" variant="primary">
+          Create a Journey
+        </Button>
+      </div><br></br><br></br>
+      <div>
         {/* Display the journey list */}
         <Card className="history" style={{ width: '60%' }}>
         {journeyHistory && journeyHistory.length > 0 ? (
-            <JourneyList journeys={journeyHistory} />
+
+          <>
+            <h2>Journey List</h2>
+            <Dropdown>
+              <Dropdown.Toggle variant="secondary">
+                Select a Journey
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {journeyHistory.map((journey) => (
+                  <Dropdown.Item key={journey.id}>
+                    <Link to={`/journey/${journey.id}`}>
+                      {journey.destination}, {journey.departingDate}
+                    </Link>
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          </>
         ) : (
           <p>No journey history available.</p>
         )}
+//       </div>
+
+//             <JourneyList journeys={journeyHistory} />
+//         ) : (
+//           <p>No journey history available.</p>
+//         )}
         </Card>
       </Container>
-      {/* Journey History */}
-      {/* ... implementation of journey history ... */}
 
       <Footer />
       </div>
