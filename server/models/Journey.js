@@ -4,6 +4,10 @@ const { Schema, model } = require('mongoose');
 // create a new mongoose schema
 // Journey model 
 const journeySchema = new Schema({
+  id: {
+    type: String,
+    required: true,
+  },
   destinationCity: {
     type: String,
     required: true,
