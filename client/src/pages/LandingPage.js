@@ -1,16 +1,19 @@
 import React from 'react';
-import LoginForm from '../components/LoginForm';
-import SignupForm from '../components/SignupForm';
-import NavBar from '../components/NavBar';
+import AppNavbar from '../components/NavBar';
 import Footer from '../components/Footer';
 
 const LandingPage = () => {
   return (
     <>
-      <NavBar />
-      <LoginForm />
-      <SignupForm />
-      <Footer />
+    <div>
+      <AppNavbar />
+    </div>
+    <h1 > journeyVerse
+      <p>
+      A Journey of a thousand miles begins with one click.
+      </p>
+    </h1>
+    <Footer />
     </>
   );
 };
