@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
+// useNavigate is a hook provided by react-router-dom to redirect the user programmatically
+import { useNavigate } from 'react-router-dom';
 import { LOGIN_USER } from '../utils/mutations'
 // import { Link } from "react-router-dom";
 import Auth from '../utils/auth';
@@ -11,6 +13,8 @@ const LoginForm = () => {
   const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [loginUser] = useMutation(LOGIN_USER);
+
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -34,6 +38,7 @@ const LoginForm = () => {
       });
 
       Auth.login(data.login.token);
+      navigate('/dashboard');
     } catch (err) {
       console.error(err);
       setShowAlert(true);

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
-import Signup from './SignupForm';
-import Login from './LoginForm';
+import SignupForm from './SignupForm';
+import LoginForm from './LoginForm';
 import Auth from '../utils/auth';
 
 const AppNavbar = () => {
@@ -12,20 +12,14 @@ const AppNavbar = () => {
     <>
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container fluid>
-          <Navbar.Brand as={Link} to="/">
-            JourneyVerse
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbar" />
+          <Navbar.Brand as={Link} to="/">JourneyVerse</Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbar"/>
           <Navbar.Collapse id="navbar" className="d-flex flex-row-reverse">
+
             <Nav className="ml-auto d-flex">
-              <Nav.Link as={Link} to="/">
-                Homepage
-              </Nav.Link>
-              {Auth.loggedIn() ? (
+              <Nav.Link as={Link} to="/"></Nav.Link>{Auth.loggedIn() ? (
                 <>
-                  <Nav.Link as={Link} to="/saved">
-                    Dashboard
-                  </Nav.Link>
+                  <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>
               ) : (
@@ -35,12 +29,9 @@ const AppNavbar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Modal
-        size="lg"
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        aria-labelledby="signup-modal"
-      >
+
+
+      <Modal size="lg" show={showModal} onHide={() => setShowModal(false)} aria-labelledby="signup-modal">
         <Tab.Container defaultActiveKey="login">
           <Modal.Header closeButton>
             <Modal.Title id="signup-modal">
@@ -54,16 +45,17 @@ const AppNavbar = () => {
               </Nav>
             </Modal.Title>
           </Modal.Header>
+
           <Modal.Body>
-  <Tab.Content>
-    <Tab.Pane eventKey="login">
-      <Login handleLoginFormSubmit={() => setShowModal(false)} />
-    </Tab.Pane>
-    <Tab.Pane eventKey="signup">
-      <Signup handleModalClose={() => setShowModal(false)} />
-    </Tab.Pane>
-  </Tab.Content>
-</Modal.Body>
+            <Tab.Content>
+              <Tab.Pane eventKey="login">
+                <LoginForm handleLoginFormSubmit={() => setShowModal(false)} />
+              </Tab.Pane>
+              <Tab.Pane eventKey="signup">
+                <SignupForm handleModalClose={() => setShowModal(false)} />
+              </Tab.Pane>
+            </Tab.Content>
+          </Modal.Body>
 
         </Tab.Container>
       </Modal>
