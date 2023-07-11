@@ -22,7 +22,8 @@ const JourneyForm = () => {
     const handleInviteTravelerInputChange = (index, event) => {
         const { name, value } = event.target;
         const updatedInviteTravelers = [...journeyData.inviteTravelers];
-        updatedInviteTravelers[index][name] = value;
+        const travelerKey = name.split('-')[0];
+        updatedInviteTravelers[index][travelerKey] = value;
         setJourneyData({ ...journeyData, inviteTravelers: updatedInviteTravelers });
     };
 
@@ -31,7 +32,8 @@ const JourneyForm = () => {
             firstName: '',
             lastName: '',
             email: '',
-        };
+            
+        };console.log('newInviteTraveler:', newInviteTraveler);
         setJourneyData({
             ...journeyData,
             inviteTravelers: [...journeyData.inviteTravelers, newInviteTraveler],
