@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { CREATE_USER } from "../utils/mutations";
+import { Button } from 'react-bootstrap';
 import Auth from "../utils/auth";
 
 const Signup = () => {
@@ -51,10 +52,10 @@ const Signup = () => {
   };
 
   return (
-    <main className="d-flex justify-content-center align-items-center vh-100">
+    <main className="signup d-flex justify-content-center align-items-center vh-100">
       <div className="col-4 col-lg-4">
         <div className="card">
-          <h4 className="card-header bg-dark text-light p-2">Sign Up</h4>
+          <h4 className="card-header" style={{ background: '#578F6A', color: '#FFFFFF'}}>Sign Up</h4>
           <div className="card-body">
             {data ? (
               <p>
@@ -64,7 +65,7 @@ const Signup = () => {
             ) : (
               <form onSubmit={handleFormSubmit}>
                 <input
-                  className="form-input"
+                  className="form-input mb-3"
                   placeholder="Your First Name"
                   name="firstName"
                   type="text"
@@ -72,7 +73,7 @@ const Signup = () => {
                   onChange={handleChange}
                 />
                 <input
-                  className="form-input"
+                  className="form-input mb-3"
                   placeholder="Your Last Name"
                   name="lastName"
                   type="text"
@@ -80,7 +81,7 @@ const Signup = () => {
                   onChange={handleChange}
                 />
                 <input
-                  className="form-input"
+                  className="form-input mb-3"
                   placeholder="Your email"
                   name="email"
                   type="email"
@@ -88,7 +89,7 @@ const Signup = () => {
                   onChange={handleChange}
                 />
                 <input
-                  className="form-input"
+                  className="form-input mb-3"
                   placeholder="******"
                   name="password"
                   type="password"
@@ -98,6 +99,7 @@ const Signup = () => {
                 <div>
                   <label htmlFor="profilePicture">Profile Picture:</label>
                   <input
+                  className="form-input mb-3"
                     type="file"
                     name="profilePicture"
                     id="profilePicture"
@@ -105,13 +107,12 @@ const Signup = () => {
                     onChange={handleProfilePictureChange}
                   />
                 </div>
-                <button
+                <Button
                   className="btn btn-block btn-info"
-                  style={{ cursor: "pointer" }}
                   type="submit"
                 >
                   Submit
-                </button>
+                </Button>
               </form>
             )}
 

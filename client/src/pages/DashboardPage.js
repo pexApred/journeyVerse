@@ -25,7 +25,7 @@ const DashboardPage = () => {
     <div>
       {/* Header */}
       <NavBar />
-      <Container>
+      <Container className="justify-content-center">
       {/* Profile Widget */}
       <Row className='profile'>
         <Col sm={1}>
