@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 // MW - Import ApolloClient, ApolloProvider, InMemoryCache, createHttpLink
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, } from '@apollo/client';
 // MW - Import setContext
