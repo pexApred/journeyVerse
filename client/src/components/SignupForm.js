@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_USER } from "../utils/mutations";
 import { Button } from 'react-bootstrap';
 import Auth from "../utils/auth";
+import "../css/SignupForm.css";
 
 const Signup = () => {
   const [formState, setFormState] = useState({

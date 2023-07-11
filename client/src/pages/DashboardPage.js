@@ -3,7 +3,7 @@ import JourneyList from '../components/JourneyList';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
-import './DashboardPage.css'; 
+import '../css/DashboardPage.css'; 
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 const DashboardPage = () => {
