@@ -1,4 +1,7 @@
 import React from 'react';
+import JourneyList from '../components/JourneyList';
+import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
 
 const DashboardPages = () => {
   // Sample data for demonstration purposes
@@ -29,6 +32,8 @@ const DashboardPages = () => {
 
   return (
     <div>
+      {/* Header */}
+      <NavBar />
       {/* Profile Widget */}
       <div>
         <img src={profilePicture} alt="Profile" />
@@ -59,6 +64,7 @@ const DashboardPages = () => {
       {/* Journey Widget */}
       <div>
         <h2>Journey Widget</h2>
+        <JourneyList />
         {/* Display the current in-progress journey */}
         {currentJourney && (
           <div>
@@ -87,6 +93,7 @@ const DashboardPages = () => {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 };
