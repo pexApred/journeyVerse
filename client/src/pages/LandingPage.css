@@ -1,0 +1,10 @@
+.landing-page {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+  
+  .custom-container {
+    width: 50%;
+    height: 70%;
+  }

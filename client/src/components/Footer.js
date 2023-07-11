@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 const Footer = () => {
   return (
     <footer className='footer fixed-bottom mt-auto py-3'>
-      <Container>
+      <Container className="flex-grow-1">
         <Row>
           <Col className='text-center text-sm-left'>
           <img src="/client/public/journeyverse-logo.png" alt="Logo" className="logo" />

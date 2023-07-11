@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
 import { useMutation } from "@apollo/client";
 import { CREATE_USER } from "../utils/mutations";
-
 import Auth from "../utils/auth";
 
 const Signup = () => {
@@ -53,8 +51,8 @@ const Signup = () => {
   };
 
   return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10">
+    <main className="d-flex justify-content-center align-items-center vh-100">
+      <div className="col-4 col-lg-4">
         <div className="card">
           <h4 className="card-header bg-dark text-light p-2">Sign Up</h4>
           <div className="card-body">
