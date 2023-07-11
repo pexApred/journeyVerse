@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useMutation } from "@apollo/client";
-import { ADD_PROFILE } from "../utils/mutations";
+import { CREATE_USER } from "../utils/mutations";
 
 import Auth from "../utils/auth";
 
 const Signup = () => {
   const [formState, setFormState] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
-  const [addProfile, { error, data }] = useMutation(ADD_PROFILE);
+  const [createUser, { error, data }] = useMutation(CREATE_USER);
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -30,11 +31,11 @@ const Signup = () => {
     console.log(formState);
 
     try {
-      const { data } = await addProfile({
+      const { data } = await createUser({
         variables: { ...formState },
       });
 
-      Auth.login(data.addProfile.token);
+      Auth.login(data.createUser.token);
     } catch (e) {
       console.error(e);
     }
@@ -55,10 +56,18 @@ const Signup = () => {
               <form onSubmit={handleFormSubmit}>
                 <input
                   className="form-input"
-                  placeholder="Your username"
-                  name="name"
+                  placeholder="Your First Name"
+                  name="firstName"
                   type="text"
-                  value={formState.name}
+                  value={formState.firstName}
+                  onChange={handleChange}
+                />
+                 <input
+                  className="form-input"
+                  placeholder="Your Last Name"
+                  name="lastName"
+                  type="text"
+                  value={formState.lastName}
                   onChange={handleChange}
                 />
                 <input

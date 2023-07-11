@@ -1,9 +1,9 @@
 // ./server/models/Journey.js
+const { Schema, model } = require('mongoose');
 
-const mongoose = require('mongoose');
 // create a new mongoose schema
 // Journey model 
-const journeySchema = new mongoose.Schema({
+const journeySchema = new Schema({
   destinationCity: {
     type: String,
     required: true,
@@ -40,17 +40,19 @@ const journeySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  creator: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  invitedTravelers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  }],
+  // creator: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'User',
+  //   required: true,
+  // },
+  invitedTravelers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    }
+  ],
 });
 
-const Journey = mongoose.model('Journey', journeySchema);
+const Journey = model('Journey', journeySchema);
 
 module.exports = Journey;

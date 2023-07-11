@@ -6,9 +6,13 @@ import { setContext } from '@apollo/client/link/context';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // TODO: Import pages here
-import Navbar from './components/NavBar';
-import LoginPage from './pages/Login';
-
+// import Navbar from './components/NavBar';
+import LoginPage from './pages/LoginPage';
+import DashBoard from './pages/DashboardPages';
+import DetailsPage from './pages/DetailsPages';
+import JourneyPage from './pages/JourneyPages';
+import LandingPages from './pages/LandingPages';
+// import Profile from './pages/Profile';
 // MW - Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -40,7 +44,23 @@ function App() {
         <>
           {/* <Navbar /> */}
           <Routes>
-            <Route path='/login' element={<LoginPage/>}> 
+            <Route
+              path='/'
+              element={<LandingPages />}
+            />
+            <Route
+              path='/dashboard'
+              element={<DashBoard />}
+            />
+            <Route
+              path='/journey'
+              element={<JourneyPage />}
+            />
+            <Route
+              path='/details/:journeyId'
+              element={<DetailsPage />}
+            />
+            <Route path='/login' element={<LoginPage />}>
             </Route>
             <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
           </Routes>
