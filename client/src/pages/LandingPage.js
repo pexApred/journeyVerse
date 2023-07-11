@@ -11,19 +11,19 @@ const LandingPage = () => {
     <div>
       <AppNavbar />
     </div>
-   <div className="landing-page">
-        <Container className='custom-container'>
-          <h1 className="display-4 text-center">JourneyVerse</h1>
-          <p className="lead text-center">Collaborate travel plans through JourneyVerse: an app which facilitates logistics on upcoming trips, travel companions, and journaling.
-          </p>
-        </Container>
+    <Container className='custom-container d-flex flex-column align-items-center'>
+        <div className="landing-page">
+    <div>
+       <h1 className="display-4 text-center">JourneyVerse</h1>
+        <p className="lead text-center">Collaborate travel plans through JourneyVerse: an app which facilitates logistics on upcoming trips, travel companions, and journaling.
+        </p>
+          </div>
     </div>
     {/* WE NEED TO MAKE THE SIGN UP DIV SHOW CONDITIONALLY: Logged-in/logged out */}
     <div className="signup">
-      <Container>
-        <Signup />
-    </Container>
+    <Signup />
     </div>
+    </Container>
     <Footer />
     </>
   );
