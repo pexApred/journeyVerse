@@ -3,8 +3,13 @@ import JourneyList from '../components/JourneyList';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
+
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
+
+import './DashboardPage.css'; 
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+
 
 const DashboardPage = () => {
   const [profilePicture, setProfilePicture] = useState(null);
@@ -45,26 +50,49 @@ const DashboardPage = () => {
     <div>
       {/* Header */}
       <NavBar />
+      <Container className="justify-content-center">
       {/* Profile Widget */}
-      <div>
-        {profilePicture ? (
+
+//       <div>
+//         {profilePicture ? (
+//           <img src={profilePicture} alt="Profile" />
+//         ) : (
+//           <div>
+//             <input type="file" onChange={handleProfilePictureChange} accept="image/*" />
+//             <p>{email}</p>
+//           </div>
+//         )}
+//       </div><br></br><br></br>
+
+      <Row className='profile'>
+        <Col sm={1}>
+           {profilePicture ? (
           <img src={profilePicture} alt="Profile" />
         ) : (
           <div>
             <input type="file" onChange={handleProfilePictureChange} accept="image/*" />
             <p>{email}</p>
-          </div>
-        )}
-      </div><br></br><br></br>
+//          <div><img src={profilePicture} alt="Profile" roundedCircle/></div>
+         </Col>
+        <Col sm={11}>
+        <div><h1>First Last</h1><h3>{email}</h3></div>
+        </Col>
+      </Row>
+        {/* Create a journey link */}
 
-      <div>
+
+        <Button className="button" as={Link} to="/journey" variant="primary">
+          Create a Journey
+        </Button>
+
         {/* Display the current in-progress journey */}
+
         {currentJourney && (
-          <div>
+          <Card className="current" style={{ width: '60%' }}>
             <h2>Current Journey</h2>
             <p>Destination: {currentJourney.destination}</p>
             <p>Departing Date: {currentJourney.departingDate}</p>
-          </div>
+          </Card>
         )}
       </div><br></br><br></br>
       <div>
@@ -75,7 +103,9 @@ const DashboardPage = () => {
       </div><br></br><br></br>
       <div>
         {/* Display the journey list */}
+        <Card className="history" style={{ width: '60%' }}>
         {journeyHistory && journeyHistory.length > 0 ? (
+
           <>
             <h2>Journey List</h2>
             <Dropdown>
@@ -96,10 +126,17 @@ const DashboardPage = () => {
         ) : (
           <p>No journey history available.</p>
         )}
-      </div>
+//       </div>
+
+//             <JourneyList journeys={journeyHistory} />
+//         ) : (
+//           <p>No journey history available.</p>
+//         )}
+        </Card>
+      </Container>
 
       <Footer />
-    </div>
+      </div>
   );
 };
 

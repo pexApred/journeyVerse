@@ -1,0 +1,12 @@
+.landing-page {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .lead {
+    max-width: 60%;
+  }
+/*   
+  .custom-container {
+  } */
