@@ -1,0 +1,25 @@
+.profile {
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding: 1%;
+}
+
+.current {
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding: 1%;
+}
+
+.history {
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding: 1%;
+}
+
+h1, h2 {
+    color: #578F6A ;
+}
+
+.button Button {
+    color: #578F6A ;
+}

@@ -3,6 +3,8 @@ import JourneyList from '../components/JourneyList';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
+import './DashboardPage.css'; 
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 const DashboardPage = () => {
   // Sample data for demonstration purposes
@@ -23,43 +25,46 @@ const DashboardPage = () => {
     <div>
       {/* Header */}
       <NavBar />
+      <Container>
       {/* Profile Widget */}
-      <div>
-        <img src={profilePicture} alt="Profile" />
-        <p>{email}</p>
-      </div>
-
-      <div>
+      <Row className='profile'>
+        <Col sm={1}>
+         <div><img src={profilePicture} alt="Profile" roundedCircle/></div>
+         </Col>
+        <Col sm={11}>
+        <div><h1>First Last</h1><h3>{email}</h3></div>
+        </Col>
+      </Row>
         {/* Create a journey link */}
-        <Link to="/journey">Create a Journey</Link>
-      </div>
 
-      <div>
+        <Button className="button" as={Link} to="/journey" variant="primary">
+          Create a Journey
+        </Button>
+
         {/* Display the current in-progress journey */}
+
         {currentJourney && (
-          <div>
+          <Card className="current" style={{ width: '60%' }}>
             <h2>Current Journey</h2>
             <p>Destination: {currentJourney.destination}</p>
             <p>Departing Date: {currentJourney.departingDate}</p>
-          </div>
+          </Card>
         )}
 
         {/* Display the journey list */}
+        <Card className="history" style={{ width: '60%' }}>
         {journeyHistory && journeyHistory.length > 0 ? (
-          <>
-            <h2>Journey History</h2>
             <JourneyList journeys={journeyHistory} />
-          </>
         ) : (
           <p>No journey history available.</p>
         )}
-      </div>
-
+        </Card>
+      </Container>
       {/* Journey History */}
       {/* ... implementation of journey history ... */}
 
       <Footer />
-    </div>
+      </div>
   );
 };
 
