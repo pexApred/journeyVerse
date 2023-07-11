@@ -2,8 +2,9 @@ import React from 'react';
 import JourneyList from '../components/JourneyList';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
 
-const DashboardPages = () => {
+const DashboardPage = () => {
   // Sample data for demonstration purposes
   const profilePicture = 'path/to/profile-picture.jpg';
   const email = 'user@example.com';
@@ -18,18 +19,6 @@ const DashboardPages = () => {
     // ... more journeys
   ];
 
-  const handleEditProfile = () => {
-    // Handle edit profile functionality
-  };
-
-  const handleEditMap = () => {
-    // Handle edit map functionality
-  };
-
-  const handleEditWeather = () => {
-    // Handle edit weather functionality
-  };
-
   return (
     <div>
       {/* Header */}
@@ -38,64 +27,40 @@ const DashboardPages = () => {
       <div>
         <img src={profilePicture} alt="Profile" />
         <p>{email}</p>
-        <button onClick={handleEditProfile}>Edit Profile</button>
       </div>
 
-      {/* Countdown Widget */}
       <div>
-        <h2>Countdown Widget</h2>
-        {/* Implement the countdown functionality based on the departing date */}
+        {/* Create a journey link */}
+        <Link to="/journey">Create a Journey</Link>
       </div>
 
-      {/* Map Widget */}
       <div>
-        <h2>Map Widget</h2>
-        {/* Implement the map functionality with default directions and edit button */}
-        <button onClick={handleEditMap}>Edit Map</button>
-      </div>
-
-      {/* Weather Widget */}
-      <div>
-        <h2>Weather Widget</h2>
-        {/* Implement the weather functionality based on the map's endpoint and edit button */}
-        <button onClick={handleEditWeather}>Edit Weather</button>
-      </div>
-
-      {/* Journey Widget */}
-      <div>
-        <h2>Journey Widget</h2>
-        <JourneyList />
         {/* Display the current in-progress journey */}
         {currentJourney && (
           <div>
-            <h3>Current Journey</h3>
+            <h2>Current Journey</h2>
             <p>Destination: {currentJourney.destination}</p>
             <p>Departing Date: {currentJourney.departingDate}</p>
           </div>
         )}
-      </div>
 
-      {/* Banter: Comment Section */}
-      <div>
-        <h2>Banter: Comment Section</h2>
-        {/* Implement the comment section */}
+        {/* Display the journey list */}
+        {journeyHistory && journeyHistory.length > 0 ? (
+          <>
+            <h2>Journey History</h2>
+            <JourneyList journeys={journeyHistory} />
+          </>
+        ) : (
+          <p>No journey history available.</p>
+        )}
       </div>
 
       {/* Journey History */}
-      <div>
-        <h2>Journey History</h2>
-        {/* Display the last 10 previous journeys */}
-        {journeyHistory.map((journey) => (
-          <div key={journey.id}>
-            <h3>Journey {journey.id}</h3>
-            <p>Destination: {journey.destination}</p>
-            <p>Departing Date: {journey.departingDate}</p>
-          </div>
-        ))}
-      </div>
+      {/* ... implementation of journey history ... */}
+
       <Footer />
     </div>
   );
 };
 
-export default DashboardPages;
+export default DashboardPage;

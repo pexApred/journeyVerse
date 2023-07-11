@@ -12,6 +12,7 @@ const Signup = () => {
     lastName: "",
     email: "",
     password: "",
+    profilePicture: null,
   });
   const [createUser, { error, data }] = useMutation(CREATE_USER);
 
@@ -22,6 +23,16 @@ const Signup = () => {
     setFormState({
       ...formState,
       [name]: value,
+    });
+  };
+
+  // handle profile picture upload
+  const handleProfilePictureChange = (event) => {
+    const file = event.target.files[0];
+
+    setFormState({
+      ...formState,
+      profilePicture: file,
     });
   };
 
@@ -62,7 +73,7 @@ const Signup = () => {
                   value={formState.firstName}
                   onChange={handleChange}
                 />
-                 <input
+                <input
                   className="form-input"
                   placeholder="Your Last Name"
                   name="lastName"
@@ -86,6 +97,16 @@ const Signup = () => {
                   value={formState.password}
                   onChange={handleChange}
                 />
+                <div>
+                  <label htmlFor="profilePicture">Profile Picture:</label>
+                  <input
+                    type="file"
+                    name="profilePicture"
+                    id="profilePicture"
+                    accept="image/*"
+                    onChange={handleProfilePictureChange}
+                  />
+                </div>
                 <button
                   className="btn btn-block btn-info"
                   style={{ cursor: "pointer" }}
