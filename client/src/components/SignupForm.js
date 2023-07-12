@@ -111,6 +111,9 @@ const Signup = () => {
                 <Button
                   className="btn btn-block btn-info"
                   type="submit"
+                  style={{
+                    fontSize: '1.5rem',
+                }}
                 >
                   Submit
                 </Button>

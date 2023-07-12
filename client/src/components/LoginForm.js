@@ -86,7 +86,10 @@ const LoginForm = () => {
         <Button
           disabled={!(userFormData.email && userFormData.password)}
           type='submit'
-          variant='success'>
+          className="fromlabel btn btn-block btn-info"
+          style={{
+            fontSize: '1.5rem',
+        }}>
           Submit
         </Button>
       </Form>

@@ -46,8 +46,16 @@ const DashboardPage = () => {
     <div>
       {/* Header */}
       <NavBar />
+      <div className="landing-page" style={{
+        backgroundImage: `url('../background.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center' 
+      }}>
       <Container className="justify-content-center">
         {/* Profile Widget */}
+        <div>
+          <h1>Dashboard</h1>
+        </div>
         <Row className='profile'>
           <Col sm={1}>
             {profilePicture ? (
@@ -59,7 +67,7 @@ const DashboardPage = () => {
             )}
           </Col>
           <Col sm={11}>
-            <div><h1>First Last</h1><h3>{email}</h3></div>
+            <div><h2>First Last</h2><h4>{email}</h4></div>
           </Col>
         </Row>
 
@@ -104,7 +112,7 @@ const DashboardPage = () => {
           )}
         </Card>
       </Container>
-
+      </div>
       <Footer />
     </div>
   );

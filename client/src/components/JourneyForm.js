@@ -181,7 +181,7 @@ const JourneyForm = () => {
              <Row>
                 <Col className="d-flex">
                 <div>
-                    <h3 className='invite'>Invite Travelers:</h3>
+                    <h3 className='invite' >Invite Travelers:</h3>
                     {journeyData.inviteTravelers.map((traveler, index) => (
                         <div key={index}>
                             <Row>
@@ -219,7 +219,7 @@ const JourneyForm = () => {
                             </div>
                             </Col>
                             </Row>
-                            <Button className='removet mb-3' type="button" onClick={() => handleRemoveTraveler(index)}>
+                            <Button className='removet mb-3' type="button" variant="danger" onClick={() => handleRemoveTraveler(index)}>
                                 Remove Traveler
                             </Button>
                         </div>
@@ -233,7 +233,10 @@ const JourneyForm = () => {
              </Row>
              <Row>
                 <Col className="submit d-flex justify-content-center mb-3">
-                <Button type="submit">Submit</Button>
+                <Button style={{
+                    fontSize: '1.5rem',
+                }}
+                type="submit" variant="warning">Submit</Button>
                 </Col>
                 </Row>
             </form>
