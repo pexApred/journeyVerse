@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import '../css/JourneyForm.css';
-
-
 
 const JourneyForm = () => {
     const [journeyData, setJourneyData] = useState({
@@ -70,21 +68,27 @@ const JourneyForm = () => {
     return (
 
         <Container>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="destinationCity">Destination City:</label>
-                    <input
-                        className="form-input mb-3"
-                        type="text"
-                        name="destinationCity"
-                        id="destinationCity"
-                        value={journeyData.destinationCity}
-                        onChange={handleInputChange}
-                    />
+            <div className="journeyForm">
+                <div className="journeyForm-container justify-content-center">
+                <h1 className="journeyForm-title mb-3">Start your Journey!</h1>
                 </div>
+                <form onSubmit={handleSubmit}>
+                 <Row>
+                    <Col md={6}>
+                    <div>
+                     <label htmlFor="destinationCity">Destination City:</label>
+                        <input
+                         className="form-input mb-3"
+                         type="text"
+                         name="destinationCity"
+                          id="destinationCity"
+                         value={journeyData.destinationCity}
+                         onChange={handleInputChange}
+                        />
+                    </div>
                 <div>
                     <label htmlFor="destinationState">Destination State/Province/Region:</label>
-                    <input
+                     <input
                         className="form-input mb-3"
                         type="text"
                         name="destinationState"
@@ -126,6 +130,8 @@ const JourneyForm = () => {
                         onChange={handleInputChange}
                     />
                 </div>
+            </Col>
+            <Col md={6}>
                 <div>
                     <label htmlFor="transportationOutbound">Transportation Outbound:</label>
                     <input
@@ -170,10 +176,16 @@ const JourneyForm = () => {
                         onChange={handleInputChange}
                     />
                 </div>
+                </Col>
+             </Row>
+             <Row>
+                <Col className="d-flex justify-content-center">
                 <div>
                     <h3>Invite Travelers:</h3>
                     {journeyData.inviteTravelers.map((traveler, index) => (
                         <div key={index}>
+                            <Row>
+                                <Col md={6}>
                             <h4>Traveler {index + 1}</h4>
                             <div>
                                 <label htmlFor={`firstName-${index}`}>First Name:</label>
@@ -205,17 +217,27 @@ const JourneyForm = () => {
                                     onChange={(event) => handleInviteTravelerInputChange(index, event)}
                                 />
                             </div>
+                            </Col>
+                            </Row>
                             <Button type="button" onClick={() => handleRemoveTraveler(index)}>
                                 Remove Traveler
                             </Button>
                         </div>
+                        
                     ))}
                     <Button type="button" onClick={handleAddTraveler}>
                         Add Traveler
                     </Button>
                 </div>
+                </Col>
+             </Row>
+             <Row>
+                <Col className="d-flex justify-content-center">
                 <Button type="submit">Submit</Button>
+                </Col>
+                </Row>
             </form>
+            </div>
         </Container>
     )
 }
