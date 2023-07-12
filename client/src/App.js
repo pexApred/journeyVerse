@@ -12,6 +12,7 @@ import DashBoard from './pages/DashboardPage';
 import DetailsPage from './pages/DetailsPage';
 import JourneyPage from './pages/JourneyPage';
 import LandingPage from './pages/LandingPage';
+import { JourneyProvider } from './utils/JourneyContext';
 // import Profile from './pages/Profile';
 // MW - Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -63,20 +64,24 @@ function App() {
   // }, []);
 
   return (
-    <ApolloProvider client={client}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route
-            path="/dashboard" 
-            element={isAuthenticated ? <DashBoard /> : <Navigate to="/dashboard" />}
-          />
-          <Route path="/journey" element={isAuthenticated ? <JourneyPage /> : <Navigate to="/" />} />
-          <Route path="/details/:journeyId" element={isAuthenticated ? <DetailsPage /> : <Navigate to="/" />} />
-          <Route path="*" element={<Navigate to="/" /> } />
-        </Routes>
-      </Router>
-    </ApolloProvider>
+    <JourneyProvider>
+      <ApolloProvider client={client}>
+
+        <Router>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route
+              path="/dashboard"
+              element={isAuthenticated ? <DashBoard /> : <Navigate to="/dashboard" />}
+            />
+            <Route path="/journey" element={isAuthenticated ? <JourneyPage /> : <Navigate to="/" />} />
+            <Route path="/details/:journeyId" element={isAuthenticated ? <DetailsPage /> : <Navigate to="/" />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Router>
+
+      </ApolloProvider>  </JourneyProvider>
+
   );
 };
 
