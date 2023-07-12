@@ -8,7 +8,7 @@ const JourneyList = ({ journeys }) => {
       {journeys.map((journey) => (
         <div key={journey.id}>
 
-            {journey.destinationCity}, {journey.destinationState}, {journey.destinationCountry} - {journey.departingDate}{'   '} {/* this is the journey list */}
+          {journey.destinationCity}, {journey.destinationState}, {journey.destinationCountry} - {journey.departingDate}{'   '} {/* this is the journey list */}
           <Link to={`/journey/${journey.id}`}>{/* this is the link to the journey details */}
             View
           </Link>
