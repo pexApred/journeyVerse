@@ -23,8 +23,8 @@ const typeDefs = gql`
       transportationReturn: String!
       transportationDetails: String!
       accommodations: String!
-      creator: ID!
-      invitedTravelers: [ID!]
+      creator: ID
+      invitedTravelers: [InvitedTravelerInput!]
     ): Journey!
     updateJourney(
       id: ID!
@@ -37,10 +37,12 @@ const typeDefs = gql`
       transportationReturn: String
       transportationDetails: String
       accommodations: String
-      creator: ID!
+      creator: ID
       invitedTravelers: [ID!]
     ): Journey!
     deleteJourney(id: ID!): Journey
+    addTraveler(id: ID!, travelerId: ID!): Journey
+    removeTraveler(id: ID!, travelerId: ID!): Journey
   }
 
   type User {
@@ -64,9 +66,16 @@ const typeDefs = gql`
     transportationReturn: String!
     transportationDetails: String!
     accommodations: String!
-    creator: User!
+    creator: User
     invitedTravelers: [User!]
   }
+
+  input InvitedTravelerInput {
+    firstName: String
+    lastName: String
+    email: String
+  }
+
 type Auth {
     token: ID!
     user: User

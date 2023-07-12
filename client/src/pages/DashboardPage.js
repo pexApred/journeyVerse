@@ -3,10 +3,8 @@ import JourneyList from '../components/JourneyList';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
-
 // import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
-
 import '../css/DashboardPage.css';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
@@ -33,13 +31,11 @@ const DashboardPage = () => {
   useEffect(() => {
     // Simulate fetching current journey from an API
     setCurrentJourney({
-      id: 1,
-      destination: 'New York',
-      departingDate: '2023-07-15',
+
     });
 
 
-  },
+  }, [],
   );
 
   return (
@@ -77,31 +73,7 @@ const DashboardPage = () => {
             <p>Departing Date: {currentJourney.departingDate}</p>
           </Card>
         )}
-        <JourneyList journeys={journeyHistory || []} />
-        {/* Display the journey list */}
-        <Card className="history" style={{ width: '60%' }}>
-          {journeyHistory && journeyHistory.length > 0 ? (
-            <>
-              <h2>Journey List</h2>
-              <Dropdown>
-                <Dropdown.Toggle variant="secondary">
-                  Select a Journey
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {journeyHistory.map((journey) => (
-                    <Dropdown.Item key={journey.id}>
-                      <Link to={`/journey/${journey.id}`}>
-                        {journey.destination}, {journey.departingDate}
-                      </Link>
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
-            </>
-          ) : (
-            <p>No journey history available.</p>
-          )}
-        </Card>
+        <JourneyList/>
       </Container>
 
       <Footer />

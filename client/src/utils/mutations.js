@@ -37,8 +37,8 @@ export const CREATE_JOURNEY = gql`
     $transportationReturn: String!
     $transportationDetails: String!
     $accommodations: String!
-    $creator: ID!
-    $invitedTravelers: [ID!]
+    $creator: ID
+    $invitedTravelers: [InvitedTravelerInput!]
   ) {
     createJourney(
       destinationCity: $destinationCity
@@ -65,12 +65,8 @@ export const CREATE_JOURNEY = gql`
       accommodations
       creator {
         id
-        firstName
-        lastName
-        email
       }
       invitedTravelers {
-        id
         firstName
         lastName
         email
@@ -91,8 +87,8 @@ export const UPDATE_JOURNEY = gql`
     $transportationReturn: String
     $transportationDetails: String
     $accommodations: String
-    $creator: ID!
-    $invitedTravelers: [ID!]
+    $creator: ID
+    $invitedTravelers: [InvitedTravelerInput!]
   ) {
     updateJourney(
       id: $id
@@ -163,32 +159,97 @@ export const DELETE_JOURNEY = gql`
   }
 `;
 
-// export const SAVE_JOURNEY = gql`
-//   mutation saveJourney($journeyId: ID!) {
-//     saveJourney(journeyId: $journeyId) {
-//       id
-//       destinationCity
-//       destinationState
-//       destinationCountry
-//       departingDate
-//       returningDate
-//       transportationOutbound
-//       transportationReturn
-//       transportationDetails
-//       accommodations
-//       creator {
-//         id
-//         firstName
-//         lastName
-//         email
-//       }
-//       invitedTravelers {
-//         id
-//         firstName
-//         lastName
-//         email
-//       }
-//     }
-//   }
-// `;
+export const SAVE_JOURNEY = gql`
+  mutation saveJourney($journeyId: ID!) {
+    saveJourney(journeyId: $journeyId) {
+      id
+      destinationCity
+      destinationState
+      destinationCountry
+      departingDate
+      returningDate
+      transportationOutbound
+      transportationReturn
+      transportationDetails
+      accommodations
+      creator {
+        id
+        firstName
+        lastName
+        email
+      }
+      invitedTravelers {
+        id
+        firstName
+        lastName
+        email
+      }
+    }
+  }
+`;
 
+export const ADD_TRAVELER = gql`
+  mutation addTraveler($id: ID!, $travelerId: ID!) {
+    addTraveler(id: $id, travelerId: $travelerId) {
+      id
+      destinationCity
+      destinationState
+      destinationCountry
+      departingDate
+      returningDate
+      transportationOutbound
+      transportationReturn
+      transportationDetails
+      accommodations
+      creator {
+        id
+        firstName
+        lastName
+        email
+      }
+      invitedTravelers {
+        id
+        firstName
+        lastName
+        email
+      }
+    }
+  }
+`;
+
+export const REMOVE_TRAVELER = gql`
+  mutation removeTraveler($id: ID!, $travelerId: ID!) {
+    removeTraveler(id: $id, travelerId: $travelerId) {
+      id
+      destinationCity
+      destinationState
+      destinationCountry
+      departingDate
+      returningDate
+      transportationOutbound
+      transportationReturn
+      transportationDetails
+      accommodations
+      creator {
+        id
+        firstName
+        lastName
+        email
+      }
+      invitedTravelers {
+        id
+        firstName
+        lastName
+        email
+      }
+    }
+  }
+`;
+
+export const INVITED_TRAVELER_INPUT = gql`
+input InvitedTravelerInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+}
+`;

@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import '../css/JourneyForm.css';
-
+import { useMutation } from '@apollo/client';
+import { CREATE_JOURNEY } from '../utils/mutations';
+import { JourneyContext } from '../utils/JourneyContext';
 
 
 const JourneyForm = () => {
@@ -18,6 +20,8 @@ const JourneyForm = () => {
         accommodations: '',
         inviteTravelers: [],
     });
+    const { setJourneys } = useContext(JourneyContext);
+    const [createJourney, { error }] = useMutation(CREATE_JOURNEY);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -51,13 +55,11 @@ const JourneyForm = () => {
         setJourneyData({ ...journeyData, inviteTravelers: updatedInviteTravelers });
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const newId = Date.now().toString();
-        setJourneyData({ ...journeyData, id: newId });
-        // Save journey data to localStorage or perform other actions
-        localStorage.setItem('journeyData', JSON.stringify(journeyData));
-        console.log('Journey data saved:', journeyData);
+        const { data } = await createJourney({ variables: journeyData });
+        console.log('Journey data saved:', data.createJourney);
+        setJourneys(prevJourneys => [...prevJourneys, data.createJourney]);
     };
 
     useEffect(() => {
