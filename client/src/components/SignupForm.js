@@ -98,7 +98,7 @@ const Signup = () => {
                   onChange={handleChange}
                 />
                 <div>
-                  <label htmlFor="profilePicture">Profile Picture:</label>
+                  <label className="formlabel" htmlFor="profilePicture">Profile Picture:</label>
                   <input
                     className="form-input mb-3"
                     type="file"

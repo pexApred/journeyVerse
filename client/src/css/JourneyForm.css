@@ -5,7 +5,42 @@
     padding: 1%;
 }
 
+.journeyForm-container {
+    padding-top: 3em;
+}
+
+.formlabel {
+    color: #1c92a9;
+    font-size: large;
+    font-weight: bold;
+}
+
+.submit {
+    margin-top: 3em;
+}
+
+.removet {
+    margin-top: 1em;
+}
+
+.addt {
+    margin-top: 1em;
+}
 .label {
     color: #578F6A ;
     font-size: large;
 }
+
+.form-input {
+    width: 100%;
+  }
+
+.invite  {
+    color: #4579fb;
+  }
+
+.traveler {
+    font-size: larger;
+    font-weight: bold;
+    color: #578F6A;
+  }

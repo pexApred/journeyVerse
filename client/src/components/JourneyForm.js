@@ -69,14 +69,14 @@ const JourneyForm = () => {
 
         <Container>
             <div className="journeyForm">
-                <div className="journeyForm-container justify-content-center">
+                <div className="journeyForm-container">
                 <h1 className="journeyForm-title mb-3">Start your Journey!</h1>
                 </div>
                 <form onSubmit={handleSubmit}>
                  <Row>
                     <Col md={6}>
                     <div>
-                     <label htmlFor="destinationCity">Destination City:</label>
+                     <label className="formlabel" htmlFor="destinationCity">Destination City:</label>
                         <input
                          className="form-input mb-3"
                          type="text"
@@ -87,7 +87,7 @@ const JourneyForm = () => {
                         />
                     </div>
                 <div>
-                    <label htmlFor="destinationState">Destination State/Province/Region:</label>
+                    <label className="formlabel" htmlFor="destinationState">Destination State/Province/Region:</label>
                      <input
                         className="form-input mb-3"
                         type="text"
@@ -98,7 +98,7 @@ const JourneyForm = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="destinationCountry">Destination Country:</label>
+                    <label className="formlabel" htmlFor="destinationCountry">Destination Country:</label>
                     <input
                         className="form-input mb-3"
                         type="text"
@@ -109,7 +109,7 @@ const JourneyForm = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="departingDate">Departing Date:</label>
+                    <label  className="formlabel" htmlFor="departingDate">Departing Date:</label>
                     <input
                         className="form-input mb-3"
                         type="date"
@@ -120,7 +120,7 @@ const JourneyForm = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="returningDate">Returning Date:</label>
+                    <label className="formlabel" htmlFor="returningDate">Returning Date:</label>
                     <input
                         className="form-input mb-3"
                         type="date"
@@ -133,7 +133,7 @@ const JourneyForm = () => {
             </Col>
             <Col md={6}>
                 <div>
-                    <label htmlFor="transportationOutbound">Transportation Outbound:</label>
+                    <label className="formlabel" htmlFor="transportationOutbound">Transportation Outbound:</label>
                     <input
                         className="form-input mb-3"
                         type="text"
@@ -144,7 +144,7 @@ const JourneyForm = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="transportationReturn">Transportation Return:</label>
+                    <label className="formlabel" htmlFor="transportationReturn">Transportation Return:</label>
                     <input
                         className="form-input mb-3"
                         type="text"
@@ -155,7 +155,7 @@ const JourneyForm = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="transportationDetails">Transportation Details:</label>
+                    <label className="formlabel" htmlFor="transportationDetails">Transportation Details:</label>
                     <input
                         className="form-input mb-3"
                         type="text"
@@ -166,7 +166,7 @@ const JourneyForm = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="accommodations">Accommodations:</label>
+                    <label className="formlabel" htmlFor="accommodations">Accommodations:</label>
                     <input
                         className="form-input mb-3"
                         type="text"
@@ -179,14 +179,14 @@ const JourneyForm = () => {
                 </Col>
              </Row>
              <Row>
-                <Col className="d-flex justify-content-center">
+                <Col className="d-flex">
                 <div>
-                    <h3>Invite Travelers:</h3>
+                    <h3 className='invite'>Invite Travelers:</h3>
                     {journeyData.inviteTravelers.map((traveler, index) => (
                         <div key={index}>
                             <Row>
                                 <Col md={6}>
-                            <h4>Traveler {index + 1}</h4>
+                            <h4 className='traveler'>Traveler {index + 1}</h4>
                             <div>
                                 <label htmlFor={`firstName-${index}`}>First Name:</label>
                                 <input
@@ -219,20 +219,20 @@ const JourneyForm = () => {
                             </div>
                             </Col>
                             </Row>
-                            <Button type="button" onClick={() => handleRemoveTraveler(index)}>
+                            <Button className='removet mb-3' type="button" onClick={() => handleRemoveTraveler(index)}>
                                 Remove Traveler
                             </Button>
                         </div>
                         
                     ))}
-                    <Button type="button" onClick={handleAddTraveler}>
+                    <Button className='addt' type="button" onClick={handleAddTraveler}>
                         Add Traveler
                     </Button>
                 </div>
                 </Col>
              </Row>
              <Row>
-                <Col className="d-flex justify-content-center">
+                <Col className="submit d-flex justify-content-center mb-3">
                 <Button type="submit">Submit</Button>
                 </Col>
                 </Row>
