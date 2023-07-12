@@ -4,10 +4,14 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 
+import '../css/DashboardPage.css'; 
+
+
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 import './DashboardPage.css'; 
+
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Image } from 'react-bootstrap';
+import '../css/Footer.css';
 
 const Footer = () => {
   return (
@@ -7,7 +8,7 @@ const Footer = () => {
       <Container className="flex-grow-1">
         <Row>
           <Col className='text-center text-sm-left'>
-          <img src="/client/public/journeyverse-logo.png" alt="Logo" className="logo" />
+          <Image src="./journeyverse-logo.png" alt="Logo" className="logo" fluid />
           </Col>
           <Col xs={12} sm={4} className="text-center">
             <p className="footer-text">JourneyVerse ©2023</p>

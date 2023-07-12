@@ -1,0 +1,11 @@
+.button Button {
+    color: #578F6A ;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding: 1%;
+}
+
+.label {
+    color: #578F6A ;
+    font-size: large;
+}

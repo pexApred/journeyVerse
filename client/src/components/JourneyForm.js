@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import '../css/JourneyForm.css';
 
 
 
@@ -66,10 +68,13 @@ const JourneyForm = () => {
     }, []);
 
     return (
+        
+     <Container>
         <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="destinationCity">Destination City:</label>
                 <input
+                    className="form-input mb-3"
                     type="text"
                     name="destinationCity"
                     id="destinationCity"
@@ -80,6 +85,7 @@ const JourneyForm = () => {
             <div>
                 <label htmlFor="destinationState">Destination State/Province/Region:</label>
                 <input
+                    className="form-input mb-3"
                     type="text"
                     name="destinationState"
                     id="destinationState"
@@ -90,6 +96,7 @@ const JourneyForm = () => {
             <div>
                 <label htmlFor="destinationCountry">Destination Country:</label>
                 <input
+                    className="form-input mb-3"
                     type="text"
                     name="destinationCountry"
                     id="destinationCountry"
@@ -100,6 +107,7 @@ const JourneyForm = () => {
             <div>
                 <label htmlFor="departingDate">Departing Date:</label>
                 <input
+                    className="form-input mb-3"
                     type="date"
                     name="departingDate"
                     id="departingDate"
@@ -110,6 +118,7 @@ const JourneyForm = () => {
             <div>
                 <label htmlFor="returningDate">Returning Date:</label>
                 <input
+                    className="form-input mb-3"
                     type="date"
                     name="returningDate"
                     id="returningDate"
@@ -120,6 +129,7 @@ const JourneyForm = () => {
             <div>
                 <label htmlFor="transportationOutbound">Transportation Outbound:</label>
                 <input
+                    className="form-input mb-3" 
                     type="text"
                     name="transportationOutbound"
                     id="transportationOutbound"
@@ -130,6 +140,7 @@ const JourneyForm = () => {
             <div>
                 <label htmlFor="transportationReturn">Transportation Return:</label>
                 <input
+                    className="form-input mb-3"
                     type="text"
                     name="transportationReturn"
                     id="transportationReturn"
@@ -140,6 +151,7 @@ const JourneyForm = () => {
             <div>
                 <label htmlFor="transportationDetails">Transportation Details:</label>
                 <input
+                    className="form-input mb-3"
                     type="text"
                     name="transportationDetails"
                     id="transportationDetails"
@@ -150,6 +162,7 @@ const JourneyForm = () => {
             <div>
                 <label htmlFor="accommodations">Accommodations:</label>
                 <input
+                    className="form-input mb-3"
                     type="text"
                     name="accommodations"
                     id="accommodations"
@@ -192,17 +205,18 @@ const JourneyForm = () => {
                                 onChange={(event) => handleInviteTravelerInputChange(index, event)}
                             />
                         </div>
-                        <button type="button" onClick={() => handleRemoveTraveler(index)}>
+                        <Button type="button" onClick={() => handleRemoveTraveler(index)}>
                             Remove Traveler
-                        </button>
+                        </Button>
                     </div>
                 ))}
-                <button type="button" onClick={handleAddTraveler}>
+                <Button type="button" onClick={handleAddTraveler}>
                     Add Traveler
-                </button>
+                </Button>
             </div>
-            <button type="submit">Submit</button>
+            <Button type="submit">Submit</Button>
         </form>
+        </Container>
     )
 }
 
