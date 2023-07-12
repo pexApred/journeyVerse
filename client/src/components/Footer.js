@@ -8,7 +8,7 @@ const Footer = () => {
       <Container className="flex-grow-1">
         <Row>
           <Col className='text-center text-sm-left'>
-          <Image src="./journeyverse-logo.png" alt="Logo" className="logo" fluid />
+            <Image src="./journeyverse-logo.png" alt="Logo" className="logo" fluid />
           </Col>
           <Col xs={12} sm={4} className="text-center">
             <p className="footer-text">JourneyVerse ©2023</p>

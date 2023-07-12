@@ -4,14 +4,10 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 
-import '../css/DashboardPage.css'; 
-
-
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 
-import './DashboardPage.css'; 
-
+import './DashboardPage.css';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 
@@ -55,42 +51,29 @@ const DashboardPage = () => {
       {/* Header */}
       <NavBar />
       <Container className="justify-content-center">
-      {/* Profile Widget */}
+        {/* Profile Widget */}
+        <Row className='profile'>
+          <Col sm={1}>
+            {profilePicture ? (
+              <img src={profilePicture} alt="Profile" />
+            ) : (
+              <div>
+                <input type="file" onChange={handleProfilePictureChange} accept="image/*" />
+                <p>{email}</p>
+              </div>
+            )}
+          </Col>
+          <Col sm={11}>
+            <div><h1>First Last</h1><h3>{email}</h3></div>
+          </Col>
+        </Row>
 
-//       <div>
-//         {profilePicture ? (
-//           <img src={profilePicture} alt="Profile" />
-//         ) : (
-//           <div>
-//             <input type="file" onChange={handleProfilePictureChange} accept="image/*" />
-//             <p>{email}</p>
-//           </div>
-//         )}
-//       </div><br></br><br></br>
-
-      <Row className='profile'>
-        <Col sm={1}>
-           {profilePicture ? (
-          <img src={profilePicture} alt="Profile" />
-        ) : (
-          <div>
-            <input type="file" onChange={handleProfilePictureChange} accept="image/*" />
-            <p>{email}</p>
-//          <div><img src={profilePicture} alt="Profile" roundedCircle/></div>
-         </Col>
-        <Col sm={11}>
-        <div><h1>First Last</h1><h3>{email}</h3></div>
-        </Col>
-      </Row>
         {/* Create a journey link */}
-
-
         <Button className="button" as={Link} to="/journey" variant="primary">
           Create a Journey
         </Button>
 
         {/* Display the current in-progress journey */}
-
         {currentJourney && (
           <Card className="current" style={{ width: '60%' }}>
             <h2>Current Journey</h2>
@@ -98,50 +81,37 @@ const DashboardPage = () => {
             <p>Departing Date: {currentJourney.departingDate}</p>
           </Card>
         )}
-      </div><br></br><br></br>
-      <div>
-        {/* Create a journey link */}
-        <Button as={Link} to="/journey" variant="primary">
-          Create a Journey
-        </Button>
-      </div><br></br><br></br>
-      <div>
+        <JourneyList />
         {/* Display the journey list */}
         <Card className="history" style={{ width: '60%' }}>
-        {journeyHistory && journeyHistory.length > 0 ? (
-
-          <>
-            <h2>Journey List</h2>
-            <Dropdown>
-              <Dropdown.Toggle variant="secondary">
-                Select a Journey
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {journeyHistory.map((journey) => (
-                  <Dropdown.Item key={journey.id}>
-                    <Link to={`/journey/${journey.id}`}>
-                      {journey.destination}, {journey.departingDate}
-                    </Link>
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </>
-        ) : (
-          <p>No journey history available.</p>
-        )}
-//       </div>
-
-//             <JourneyList journeys={journeyHistory} />
-//         ) : (
-//           <p>No journey history available.</p>
-//         )}
+          {journeyHistory && journeyHistory.length > 0 ? (
+            <>
+              <h2>Journey List</h2>
+              <Dropdown>
+                <Dropdown.Toggle variant="secondary">
+                  Select a Journey
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {journeyHistory.map((journey) => (
+                    <Dropdown.Item key={journey.id}>
+                      <Link to={`/journey/${journey.id}`}>
+                        {journey.destination}, {journey.departingDate}
+                      </Link>
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </>
+          ) : (
+            <p>No journey history available.</p>
+          )}
         </Card>
       </Container>
 
       <Footer />
-      </div>
+    </div>
   );
 };
+
 
 export default DashboardPage;
