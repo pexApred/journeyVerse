@@ -51,11 +51,10 @@ const DashboardPage = () => {
         <Row className='profile'>
           <Col sm={1}>
             {profilePicture ? (
-              <img src={profilePicture} alt="Profile" />
+              <img className="rounded-circle" style={{ width: '80px' }} src={profilePicture} alt="Profile" />
             ) : (
               <div>
                 <input type="file" onChange={handleProfilePictureChange} accept="image/*" />
-                <p>{email}</p>
               </div>
             )}
           </Col>
@@ -73,8 +72,10 @@ const DashboardPage = () => {
         {currentJourney && (
           <Card className="current" style={{ width: '60%' }}>
             <h2>Current Journey</h2>
-            <p>Destination: {currentJourney.destination}</p>
-            <p>Departing Date: {currentJourney.departingDate}</p>
+            <p className="formlabel"> Destination: </p>
+            <p>{currentJourney.destination}</p>
+            <p className="formlabel"> Departing Date: </p>
+            <p>{currentJourney.departingDate}</p>
           </Card>
         )}
         <JourneyList journeys={journeyHistory || []} />

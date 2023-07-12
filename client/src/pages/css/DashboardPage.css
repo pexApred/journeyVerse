@@ -25,3 +25,9 @@ h1, h2 {
 .button Button {
     color: #578F6A ;
 }
+
+.formlabel {
+    color: #1c92a9;
+    font-size: large;
+    font-weight: bold;
+}

@@ -13,6 +13,11 @@ const JourneyPages = () => {
   return (
     <>
       <NavBar />
+      <div className="landing-page" style={{
+        backgroundImage: `url('../background.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center' 
+      }}>
       <Container>
       <JourneyForm setJourneyData={setJourneyData} />
       {journeyData && (
@@ -31,6 +36,7 @@ const JourneyPages = () => {
         </>
       )}
       </Container>
+      </div>
       <Footer />
     </>
   );
