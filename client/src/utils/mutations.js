@@ -37,8 +37,8 @@ export const CREATE_JOURNEY = gql`
     $transportationReturn: String!
     $transportationDetails: String!
     $accommodations: String!
-    $creator: ID!
-    $invitedTravelers: [InvitedTravelerInput!]!
+    $creator: ID
+    $invitedTravelers: [InvitedTravelerInput!]
   ) {
     createJourney(
       destinationCity: $destinationCity
@@ -65,12 +65,8 @@ export const CREATE_JOURNEY = gql`
       accommodations
       creator {
         id
-        firstName
-        lastName
-        email
       }
       invitedTravelers {
-        id
         firstName
         lastName
         email
@@ -91,8 +87,8 @@ export const UPDATE_JOURNEY = gql`
     $transportationReturn: String
     $transportationDetails: String
     $accommodations: String
-    $creator: ID!
-    $invitedTravelers: [InvitedTravelerInput!]!
+    $creator: ID
+    $invitedTravelers: [InvitedTravelerInput!]
   ) {
     updateJourney(
       id: $id
@@ -250,31 +246,10 @@ export const REMOVE_TRAVELER = gql`
   }
 `;
 
-export const INVITE_TRAVELER = gql`
-  mutation inviteTraveler($id: ID!, $traveler: InvitedTravelerInput!) {
-    inviteTraveler(id: $id, traveler: $traveler) {
-      id
-      destinationCity
-      destinationState
-      destinationCountry
-      departingDate
-      returningDate
-      transportationOutbound
-      transportationReturn
-      transportationDetails
-      accommodations
-      creator {
-        id
-        firstName
-        lastName
-        email
-      }
-      invitedTravelers {
-        id
-        firstName
-        lastName
-        email
-      }
-    }
-  }
+export const INVITED_TRAVELER_INPUT = gql`
+input InvitedTravelerInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+}
 `;

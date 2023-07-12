@@ -4,10 +4,6 @@ const { Schema, model } = require('mongoose');
 // create a new mongoose schema
 // Journey model 
 const journeySchema = new Schema({
-  id: {
-    type: String,
-    required: true,
-  },
   destinationCity: {
     type: String,
     required: true,
@@ -47,21 +43,20 @@ const journeySchema = new Schema({
   creator: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
   },
   invitedTravelers: [
     {
       email: {
         type: String,
-        required: true,
+        required: false,
       },
       firstName: {
         type: String,
-        required: true,
+        required: false,
       },
       lastName: {
         type: String,
-        required: true,
+        required: false,
       }
     }
   ],

@@ -149,21 +149,24 @@ module.exports = {
       try {
         // Create traveler documents for each invited traveler to grab their ids
         console.log("Invited Travelers: ", invitedTravelers);
-        const invitedTravelerIds = await Promise.all(invitedTravelers.map(async ({ email, firstName, lastName }) => {
-          console.log(`Email: ${email}, First Name: ${firstName}, Last Name: ${lastName}`);
-          let traveler = await User.findOne({ email });
-          if (!traveler) {
-            traveler = await User.create({ 
-              email,
-              firstName, 
-              lastName,
-              // TODO: Setup an email to be sent to the invited traveler with a temporary password || create a "pending" user with a flag indicating they need to set up an account
-              password: 'password12345',
-            });
-          }
-          return traveler._id;
-        }))
-
+        let invitedTravelerIds = [];
+        if (Array.isArray(invitedTravelers)) {
+          invitedTravelerIds = await Promise.all(invitedTravelers.map(async ({ email, firstName, lastName }) => {
+            let traveler = await User.findOne({ email });
+            if (!traveler) {
+              traveler = await User.create({
+                email,
+                firstName,
+                lastName,
+                // TODO: Setup an email to be sent to the invited traveler with a temporary password || create a "pending" user with a flag indicating they need to set up an account
+                password: 'password12345',
+              });
+            }
+            return traveler._id;
+          }))
+        } else {
+          console.log("Invited Travelers is undefined or not an array");
+        }
         const newJourney = new Journey({
           destinationCity,
           destinationState,
@@ -177,17 +180,21 @@ module.exports = {
           creator: new mongoose.Types.ObjectId(creator),
           invitedTravelers: invitedTravelerIds,
         });
+        console.log("Cretaor: ", creator);
+        console.log("NewJourney: ", newJourney);
         const createdJourney = await newJourney.save();
-
-        await User.findByIdAndUpdate(
+        console.log("CreatedJourney: ", createdJourney);
+        const updatedUser = await User.findByIdAndUpdate(
           creator,
-          { $push: { journeys: createdJourney.id } },
+          { $push: { journeys: createdJourney._id } },
           { new: true }
         );
+        console.log("Cretaor: ", creator);
+        console.log("UpdatedUser: ", updatedUser);
         return await Journey.findById(createdJourney.id).populate('creator').populate('invitedTravelers');
       } catch (err) {
         console.error(err);
-        throw new Error(`Something went wrong with creating a journey: ${err.message }`);
+        throw new Error(`Something went wrong with creating a journey: ${err.message}`);
       }
     },
     updateJourney: async (parent, args, context) => {
@@ -218,7 +225,7 @@ module.exports = {
         throw new Error('Something went wrong!');
       }
     },
-    addTraveler: async(parent, args, context) => {
+    addTraveler: async (parent, args, context) => {
       if (!context.user) {
         throw new Error("Something went horribly wrong!");
       }
@@ -234,7 +241,7 @@ module.exports = {
         throw new Error('Something went wrong!');
       }
     },
-    removeTraveler: async(parent, args, context) => {
+    removeTraveler: async (parent, args, context) => {
       if (!context.user) {
         throw new Error("Something went horribly wrong!");
       }
