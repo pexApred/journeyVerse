@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 // import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 
-import './DashboardPage.css';
+import '../css/DashboardPage.css';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 
@@ -38,13 +38,9 @@ const DashboardPage = () => {
       departingDate: '2023-07-15',
     });
 
-    // Simulate fetching journey history from an API
-    setJourneyHistory([
-      { id: 1, destination: 'Paris', departingDate: '2023-06-01' },
-      { id: 2, destination: 'Tokyo', departingDate: '2023-05-15' },
-      // ... more journeys
-    ]);
-  }, []);
+
+  },
+  );
 
   return (
     <div>
@@ -81,7 +77,7 @@ const DashboardPage = () => {
             <p>Departing Date: {currentJourney.departingDate}</p>
           </Card>
         )}
-        <JourneyList />
+        <JourneyList journeys={journeyHistory || []} />
         {/* Display the journey list */}
         <Card className="history" style={{ width: '60%' }}>
           {journeyHistory && journeyHistory.length > 0 ? (
@@ -112,6 +108,5 @@ const DashboardPage = () => {
     </div>
   );
 };
-
 
 export default DashboardPage;
