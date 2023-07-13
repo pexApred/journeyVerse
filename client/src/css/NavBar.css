@@ -5,7 +5,5 @@
 }
 
 .navbar {
-    /* display: inline; */
-    position: sticky;
-    /* margin-bottom: 120px; */
+    z-index: 1000;
 }

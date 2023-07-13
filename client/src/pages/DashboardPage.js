@@ -54,10 +54,10 @@ const DashboardPage = () => {
         <Row className='profile'>
           <Col sm={1}>
             {profilePicture ? (
-              <img src={profilePicture} alt="Profile" />
+              <img className="rounded-circle" style={{ width: '80px' }} src={profilePicture} alt="Profile" />
             ) : (
               <div>
-                <input className="rounded-circle" style={{ width: '80px' }} type="file" onChange={handleProfilePictureChange} accept="image/*" />
+                <input type="file" onChange={handleProfilePictureChange} accept="image/*" />
               </div>
             )}
           </Col>
