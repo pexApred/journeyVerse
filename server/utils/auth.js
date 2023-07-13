@@ -4,7 +4,7 @@ const { AuthenticationError } = require('apollo-server-express');
 // set token secret and expiration date
 dotenv.config();
 const secret = process.env.JWT_SECRET;
-const expiration = '2h';
+const expiration = '24h';
 module.exports = {
   // function for our authenticated routes
   authMiddleware: function ({req}) {

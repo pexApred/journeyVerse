@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import JourneyList from '../components/JourneyList';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import '../css/DashboardPage.css';
@@ -14,6 +14,7 @@ const DashboardPage = () => {
   const email = 'user@example.com';
   const [currentJourney, setCurrentJourney] = useState(null);
   const [journeyHistory, setJourneyHistory] = useState([]);
+  const navigate = useNavigate();
 
   const handleProfilePictureChange = (event) => {
     const file = event.target.files[0];
@@ -31,10 +32,8 @@ const DashboardPage = () => {
   useEffect(() => {
     // Simulate fetching current journey from an API
     setCurrentJourney({
-
+      
     });
-
-
   }, [],
   );
 

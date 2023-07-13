@@ -32,10 +32,13 @@ class AuthService {
     return localStorage.getItem('id_token');
   }
 
-  login(idToken) {
+  login(idToken, callback) {
     // Saves user token to localStorage
     localStorage.setItem('id_token', idToken);
-    window.location.assign('/');
+    if(callback && this.loggedIn()) {
+      callback();
+      window.location.assign('/dashboard');
+    }
   }
 
   logout() {
