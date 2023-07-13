@@ -12,6 +12,7 @@ import DashBoard from './pages/DashboardPage';
 import DetailsPage from './pages/DetailsPage';
 import JourneyPage from './pages/JourneyPage';
 import LandingPage from './pages/LandingPage';
+
 import { JourneyProvider } from './utils/JourneyContext';
 import { useNavigate } from 'react-router-dom';
 // import Profile from './pages/Profile';
@@ -91,7 +92,8 @@ function RoutesComponent() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<DashBoard />} />
         <Route path="/journey" element={<JourneyPage />} />
-        <Route path="/details/:journeyId" element={<DetailsPage />} />
+        <Route path="/edit-journey/:id" element={<DetailsPage />} />
+
       </Routes>
     )
   } else {
