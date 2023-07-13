@@ -1,0 +1,11 @@
+.login {
+    color: #1c92a9;
+    font-size: large;
+    font-weight: bold;
+}
+
+.navbar {
+    /* display: inline; */
+    position: sticky;
+    /* margin-bottom: 120px; */
+}

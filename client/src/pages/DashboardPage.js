@@ -42,21 +42,28 @@ const DashboardPage = () => {
     <div>
       {/* Header */}
       <NavBar />
+      <div className="landing-page" style={{
+        backgroundImage: `url('../background.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center' 
+      }}>
       <Container className="justify-content-center">
         {/* Profile Widget */}
+        <div>
+          <h1>JourneyVerse Dashboard</h1>
+        </div>
         <Row className='profile'>
           <Col sm={1}>
             {profilePicture ? (
               <img src={profilePicture} alt="Profile" />
             ) : (
               <div>
-                <input type="file" onChange={handleProfilePictureChange} accept="image/*" />
-                <p>{email}</p>
+                <input className="rounded-circle" style={{ width: '80px' }} type="file" onChange={handleProfilePictureChange} accept="image/*" />
               </div>
             )}
           </Col>
           <Col sm={11}>
-            <div><h1>First Last</h1><h3>{email}</h3></div>
+            <div><h2>First Last</h2><h4>{email}</h4></div>
           </Col>
         </Row>
 
@@ -69,13 +76,15 @@ const DashboardPage = () => {
         {currentJourney && (
           <Card className="current" style={{ width: '60%' }}>
             <h2>Current Journey</h2>
-            <p>Destination: {currentJourney.destination}</p>
-            <p>Departing Date: {currentJourney.departingDate}</p>
+            <p className="formlabel"> Destination: </p>
+            <p>{currentJourney.destination}</p>
+            <p className="formlabel"> Departing Date: </p>
+            <p>{currentJourney.departingDate}</p>
           </Card>
         )}
         <JourneyList/>
       </Container>
-
+      </div>
       <Footer />
     </div>
   );

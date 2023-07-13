@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { LOGIN_USER } from '../utils/mutations'
 // import { Link } from "react-router-dom";
 import Auth from '../utils/auth';
+import '../css/LoginForm.css';
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
@@ -86,7 +87,10 @@ const LoginForm = () => {
         <Button
           disabled={!(userFormData.email && userFormData.password)}
           type='submit'
-          variant='success'>
+          className="fromlabel btn btn-block btn-info"
+          style={{
+            fontSize: '1.5rem',
+        }}>
           Submit
         </Button>
       </Form>

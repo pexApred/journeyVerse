@@ -1,0 +1,9 @@
+.landing-page {
+    height: 100vh;
+    display: flex;
+    /* margin-top: 120px;
+    margin-bottom: 75px; */
+    align-items: center;
+    justify-content: center;
+    padding-top: 5%;
+  }
