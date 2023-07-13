@@ -9,12 +9,14 @@
 }
 
 .journeyForm {
-    margin-top: 150px;
+    margin-top: 180px;
     @media (max-width: 648px) {
         margin-top: 600px;
+      };
+      @media (max-width: 896px) {
+        margin-top: 400px;
       }
   }
-  
 
 .removet {
     margin-top: 1em;

@@ -8,14 +8,9 @@ const DetailsPage = () => {
 
   return (
     <>
-    <div><NavBar /></div>
-      <div>
-        <Container>
-          <JourneyForm />
-        </Container>
-      </div>
-      <div><Footer /></div>
-      
+       <NavBar />
+      <JourneyForm />
+      <Footer />
     </>
   );
 };
