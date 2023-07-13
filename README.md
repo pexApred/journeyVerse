@@ -1,21 +1,83 @@
-# journeyVerse
+# JourneyVerse
 
-ADD DEPLOYED LINK HERE
+
+## Application Links
+
+* GitHub Repository for Application: https://github.com/pexApred/journeyVerse
+
+* Heroku Deployed Application: https://journeyverse-2c53482d7e17.herokuapp.com/
+
 
 ## Description
 
-Collaboration travel app that facilitates logistics on upcoming trips
+### *The Task*
 
-### Additional key elements:
-- MERN
-- REACT
+For Project #3, we were tasked to work in a group to create a real-world full-stack MERN application from scratch featuring **Apollo GraphQL** and **JWT Authentication**.
+
+### *Our Project*
+
+JourneyVerse is a collaboration travel app that facilitates logistics on upcoming trips and travel companions.
+
+### *Motivation for Development*
+
+To simplify travel with friends!
+
 
 ## Table of Contents 
 
-- [Contributers](#contributers)
-- [Installation](#installation)
+- [User Story](#user-story)
+- [Acceptance Criteria](#acceptance-criteria)
 - [Usage](#usage)
+- [Technologies Used](#technologies-used)
+- [Contributers](#contributers)
 - [License](#license)
+- [Badges](#badges)
+
+
+## User Story
+
+```md
+AS A traveler, 
+I WANT to access a travel planning app for upcoming trips
+SO THAT I can collaborate with travel companions and track all my travel details in one place
+```
+
+## Usage
+
+![An image of the JourneyVerse homepage.](./assets/images/.png)
+![An image of the Journey Form that allows users to create a journey and invite travel companions.](./assets/images/.png)
+![An image that displays the user's dashboard.](./assets/images/.png)
+
+
+## Installation
+
+You can explore JourneyVerse by [clicking here!](https://journeyverse-2c53482d7e17.herokuapp.com/) 
+
+
+## Technologies Used
+
+* [VS Code](https://code.visualstudio.com/)
+* [Node.js](https://nodejs.org/en)
+* [Node Package Manager](https://www.npmjs.com/)
+* [Express](https://expressjs.com/)
+* [React](https://react.dev/)
+* [Apollo Client](https://www.apollographql.com/docs/react/)
+* [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
+* [GraphQL](https://graphql.com/)
+* [MongoDB](https://www.mongodb.com/)
+* [Mongoose](https://www.npmjs.com/package/mongoose)
+* [MongoDB Atlas](https://www.mongodb.com/docs/atlas/)
+* [Heroku](https://www.heroku.com/)
+* [Nodemon](https://www.npmjs.com/package/nodemon)
+* [Concurrently](https://www.npmjs.com/package/concurrently)
+* [Jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+* [JWT Decode](https://jwt.io/)
+* [Bcrypt](https://www.npmjs.com/package/bcrypt)
+* [Babel](https://babeljs.io/docs/)
+* [React Bootstrap](https://www.npmjs.com/package/react-bootstrap)
+* [Bootstrap Framework](https://getbootstrap.com/)
+
+---
 
 ## Contributers
 
@@ -25,31 +87,12 @@ Collaboration travel app that facilitates logistics on upcoming trips
 - Marcies Smith
 - MacKenzie Wentworth
 
-## Installation
-
-Use and download the application by navigating to this link:
-ADD DEPLOYED LINK HERE
 
 ## License
+This project is covered under the [MIT License](./LICENSE). For more details, please click the license icon below under 'Badges'.
 
-MIT License
+---
 
-Copyright (c) [2023] [erynnaffeldt]
+## Badges
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
