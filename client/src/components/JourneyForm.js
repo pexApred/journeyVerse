@@ -4,7 +4,8 @@ import '../css/JourneyForm.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_JOURNEY } from '../utils/mutations';
 import { JourneyContext } from '../utils/JourneyContext';
-
+import Auth from '../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
 const JourneyForm = () => {
     const [journeyData, setJourneyData] = useState({
@@ -22,7 +23,8 @@ const JourneyForm = () => {
     });
     const { setJourneys } = useContext(JourneyContext);
     const [createJourney, { error }] = useMutation(CREATE_JOURNEY);
-
+    const navigate = useNavigate();
+    
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setJourneyData({ ...journeyData, [name]: value });
@@ -60,9 +62,15 @@ const JourneyForm = () => {
         const { data } = await createJourney({ variables: journeyData });
         console.log('Journey data saved:', data.createJourney);
         setJourneys(prevJourneys => [...prevJourneys, data.createJourney]);
+
     };
 
     useEffect(() => {
+        const userData = Auth.getProfile();
+        console.log(Auth.getProfile());
+        console.log(userData.data.id);
+        const userId = userData.data.id;
+        setJourneyData({ ...journeyData, creator: userId })
         const savedJourneyData = localStorage.getItem('journeyData');
         if (savedJourneyData) {
             setJourneyData(JSON.parse(savedJourneyData));

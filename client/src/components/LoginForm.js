@@ -6,7 +6,7 @@ import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { LOGIN_USER } from '../utils/mutations'
 // import { Link } from "react-router-dom";
-import Auth from '../utils/auth';
+import AuthService from '../utils/auth';
 import '../css/LoginForm.css';
 
 const LoginForm = () => {
@@ -14,7 +14,7 @@ const LoginForm = () => {
   const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [loginUser] = useMutation(LOGIN_USER);
-
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
@@ -24,27 +24,26 @@ const LoginForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
     // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
+
     if (form.checkValidity() === false) {
       event.stopPropagation();
-      setValidated(true);
-      return;
     }
+      setValidated(true);
 
     try {
       const { data } = await loginUser({
         variables: { ...userFormData },
       });
 
-      Auth.login(data.login.token);
-      navigate('/dashboard');
+      AuthService.login(data.login.token, () => {
+        navigate('/dashboard')
+      });
     } catch (err) {
       console.error(err);
       setShowAlert(true);
     }
-
     setUserFormData({
       // username: '',
       email: '',
@@ -52,6 +51,12 @@ const LoginForm = () => {
     });
     setValidated(false);
   };
+
+  // useEffect(() => {
+  //   if (AuthService.LoggedIn) {
+  //     navigate('/dashboard');
+  //   }
+  // }, [navigate]);
 
   return (
     <>
@@ -87,6 +92,7 @@ const LoginForm = () => {
         <Button
           disabled={!(userFormData.email && userFormData.password)}
           type='submit'
+          onClick={handleFormSubmit}
           className="fromlabel btn btn-block btn-info"
           style={{
             fontSize: '1.5rem',

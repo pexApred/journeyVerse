@@ -13,6 +13,7 @@ import DetailsPage from './pages/DetailsPage';
 import JourneyPage from './pages/JourneyPage';
 import LandingPage from './pages/LandingPage';
 import { JourneyProvider } from './utils/JourneyContext';
+import { useNavigate } from 'react-router-dom';
 // import Profile from './pages/Profile';
 // MW - Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -46,6 +47,7 @@ const isAuthenticated = () => {
     // Check if token is expired
     if (Date.now() >= exp * 1000) {
       console.log('Token has expired.');
+      localStorage.removeItem('id_token');
       return false;
     } else {
       return true;
@@ -56,63 +58,61 @@ const isAuthenticated = () => {
   }
 };
 
-function App() {
-  // const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('id_token'));
-
-  // useEffect(() => {
-  //   setIsAuthenticated(!!localStorage.getItem('id_token'));
-  // }, []);
-
-  return (
-    <JourneyProvider>
-      <ApolloProvider client={client}>
-
-        <Router>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route
-              path="/dashboard"
-              element={isAuthenticated ? <DashBoard /> : <Navigate to="/dashboard" />}
-            />
-            <Route path="/journey" element={isAuthenticated ? <JourneyPage /> : <Navigate to="/" />} />
-            <Route path="/details/:journeyId" element={isAuthenticated ? <DetailsPage /> : <Navigate to="/" />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </Router>
-
-      </ApolloProvider>  </JourneyProvider>
-
-  );
+const useAuthentication = () => {
+  const [authenticated, setAuthenticated] = React.useState(isAuthenticated());
+  React.useEffect(() => {
+    setAuthenticated(isAuthenticated());
+  }, []);
+  return authenticated;
 };
 
-//   return (
-//     <ApolloProvider client={client}>
-//       <Router>
-//         <>
-//           {/* <Navbar /> */}
-//           <Routes>
-//             <Route
-//               path='/'
-//               element={<LandingPage />}
-//             />
-//             <Route
-//               path='/dashboard'
-//               element={<DashBoard />}
-//             />
-//             <Route
-//               path='/journey'
-//               element={<JourneyPage />}
-//             />
-//             <Route
-//               path='/details/:journeyId'
-//               element={<DetailsPage />}
-//             />
-//             <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
-//           </Routes>
-//         </>
-//       </Router>
-//     </ApolloProvider>
-//   );
-// }
+function usePrevious(value) {
+  const ref = React.useRef();
+  React.useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+};
 
-export default App;
+function RoutesComponent() {
+  const navigate = useNavigate();
+  const isAuthenticated = useAuthentication();
+  const wasAuthenticated = usePrevious(isAuthenticated);
+
+  React.useEffect(() => {
+    if (!isAuthenticated && wasAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, wasAuthenticated, navigate]);
+
+  if (isAuthenticated) {
+    return (
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/journey" element={<JourneyPage />} />
+        <Route path="/details/:journeyId" element={<DetailsPage />} />
+      </Routes>
+    )
+  } else {
+    return (
+      <Routes>
+        <Route path="/*" element={<LandingPage />} />
+      </Routes>
+    )
+  };
+};
+
+  function App() {
+    return (
+      <JourneyProvider>
+        <ApolloProvider client={client}>
+          <Router>
+            <RoutesComponent />
+          </Router>
+        </ApolloProvider>
+      </JourneyProvider>
+    );
+  };
+
+  export default App;
