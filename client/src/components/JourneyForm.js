@@ -6,6 +6,7 @@ import { CREATE_JOURNEY } from '../utils/mutations';
 import { JourneyContext } from '../utils/JourneyContext';
 import Auth from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
+import { LocalState } from '@apollo/client/core/LocalState';
 
 const JourneyForm = () => {
     const [journeyData, setJourneyData] = useState({
@@ -61,15 +62,31 @@ const JourneyForm = () => {
         event.preventDefault();
         const { data } = await createJourney({ variables: journeyData });
         console.log('Journey data saved:', data.createJourney);
-        setJourneys(prevJourneys => [...prevJourneys, data.createJourney]);
+        setJourneys((prevJourneys) => [...prevJourneys, data.createJourney]);
 
+        localStorage.setItem('journeyData', JSON.stringify(journeyData));
+
+        setJourneyData({
+            id: '',
+            destinationCity: '',
+            destinationState: '',
+            destinationCountry: '',
+            departingDate: '',
+            returningDate: '',
+            transportationOutbound: '',
+            transportationReturn: '',
+            transportationDetails: '',
+            accommodations: '',
+            inviteTravelers: [],
+        });
+        navigate('/dashboard');
     };
 
     useEffect(() => {
         const userData = Auth.getProfile();
         console.log(Auth.getProfile());
-        console.log(userData.data.id);
-        const userId = userData.data.id;
+        console.log(userData.id);
+        const userId = userData.id;
         setJourneyData({ ...journeyData, creator: userId })
         const savedJourneyData = localStorage.getItem('journeyData');
         if (savedJourneyData) {

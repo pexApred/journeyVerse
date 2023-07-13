@@ -37,8 +37,10 @@ const LoginForm = () => {
         variables: { ...userFormData },
       });
 
+      const { firstName, lastName, email } = data.login.user;
+
       AuthService.login(data.login.token, () => {
-        navigate('/dashboard')
+        navigate('/dashboard', { state: { firstName, lastName, email } })
       });
     } catch (err) {
       console.error(err);

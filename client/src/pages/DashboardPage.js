@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import JourneyList from '../components/JourneyList';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 // import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import '../css/DashboardPage.css';
@@ -10,11 +10,14 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 
 const DashboardPage = () => {
-  const [profilePicture, setProfilePicture] = useState(null);
-  const email = 'user@example.com';
+  const [profilePicture, setProfilePicture] = useState('');
+  const location = useLocation();
+  // const firstName = location?.state?.firstName;
+  // const lastName = location?.state?.lastName;
+  // const email = location?.state?.email;
+  const [email, setEmail] = useState('');
   const [currentJourney, setCurrentJourney] = useState(null);
   const [journeyHistory, setJourneyHistory] = useState([]);
-  const navigate = useNavigate();
 
   const handleProfilePictureChange = (event) => {
     const file = event.target.files[0];
@@ -30,10 +33,16 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
-    // Simulate fetching current journey from an API
-    setCurrentJourney({
-      
-    });
+    const storedEmail = localStorage.getItem('email');
+    if (storedEmail) {
+      setEmail(storedEmail);
+    } else {
+      const emailFromLocation = location?.state?.email;
+      if (emailFromLocation) {
+        setEmail(emailFromLocation);
+        localStorage.setItem('email', emailFromLocation);
+      }
+    }
   }, [],
   );
 
@@ -44,45 +53,48 @@ const DashboardPage = () => {
       <div className="landing-page" style={{
         backgroundImage: `url('../background.jpg')`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center' 
+        backgroundPosition: 'center'
       }}>
-      <Container className="justify-content-center">
-        {/* Profile Widget */}
-        <div>
-          <h1>JourneyVerse Dashboard</h1>
-        </div>
-        <Row className='profile'>
-          <Col sm={1}>
-            {profilePicture ? (
-              <img className="rounded-circle" style={{ width: '80px' }} src={profilePicture} alt="Profile" />
-            ) : (
+        <Container className="justify-content-center">
+          {/* Profile Widget */}
+          <div>
+            <h1>JourneyVerse Dashboard</h1>
+          </div>
+          <Row className='profile'>
+            <Col sm={1}>
+              {profilePicture ? (
+                <img className="rounded-circle" style={{ width: '80px' }} src={profilePicture} alt="Profile" />
+              ) : (
+                <div>
+                  <input type="file" onChange={handleProfilePictureChange} accept="image/*" />
+                </div>
+              )}
+            </Col>
+            <Col sm={11}>
               <div>
-                <input type="file" onChange={handleProfilePictureChange} accept="image/*" />
+                {/* <h2>{firstName} {lastName}</h2> */}
+                <h4>{email}</h4>
               </div>
-            )}
-          </Col>
-          <Col sm={11}>
-            <div><h2>First Last</h2><h4>{email}</h4></div>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
 
-        {/* Create a journey link */}
-        <Button className="button" as={Link} to="/journey" variant="primary">
-          Create a Journey
-        </Button>
+          {/* Create a journey link */}
+          <Button className="button" as={Link} to="/journey" variant="primary">
+            Create a Journey
+          </Button>
 
-        {/* Display the current in-progress journey */}
-        {currentJourney && (
-          <Card className="current" style={{ width: '60%' }}>
-            <h2>Current Journey</h2>
-            <p className="formlabel"> Destination: </p>
-            <p>{currentJourney.destination}</p>
-            <p className="formlabel"> Departing Date: </p>
-            <p>{currentJourney.departingDate}</p>
-          </Card>
-        )}
-        <JourneyList/>
-      </Container>
+          {/* Display the current in-progress journey */}
+          {currentJourney && (
+            <Card className="current" style={{ width: '60%' }}>
+              <h2>Current Journey</h2>
+              <p className="formlabel"> Destination: </p>
+              <p>{currentJourney.destination}</p>
+              <p className="formlabel"> Departing Date: </p>
+              <p>{currentJourney.departingDate}</p>
+            </Card>
+          )}
+          <JourneyList />
+        </Container>
       </div>
       <Footer />
     </div>

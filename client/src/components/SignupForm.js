@@ -5,6 +5,7 @@ import { CREATE_USER } from "../utils/mutations";
 import { Button } from 'react-bootstrap';
 import Auth from "../utils/auth";
 import "../css/SignupForm.css";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [formState, setFormState] = useState({
@@ -15,7 +16,7 @@ const Signup = () => {
     profilePicture: null,
   });
   const [createUser, { error, data }] = useMutation(CREATE_USER);
-
+  const navigate = useNavigate();
   // update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -46,7 +47,10 @@ const Signup = () => {
         variables: { ...formState },
       });
 
+      const { firstName, lastName, email } = data.createUser.user;
+
       Auth.login(data.createUser.token);
+      navigate("/dashboard", { state: { firstName, lastName, email } })
     } catch (e) {
       console.error(e);
     }
@@ -111,6 +115,7 @@ const Signup = () => {
                 <Button
                   className="btn btn-block btn-info"
                   type="submit"
+                  onClick={handleFormSubmit}
                 >
                   Submit
                 </Button>
