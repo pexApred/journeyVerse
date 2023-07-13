@@ -27,7 +27,6 @@ To simplify travel with friends!
 
 - [User Story](#user-story)
 - [Usage](#usage)
-- [Installation](#installation)
 - [Technologies Used](#technologies-used)
 - [Contributers](#contributers)
 - [License](#license)
@@ -44,14 +43,12 @@ SO THAT I can collaborate with travel companions and track all my travel details
 
 ## Usage
 
-![An image of the JourneyVerse homepage.](./assets/images/.png)
-![An image of the Journey Form that allows users to create a journey and invite travel companions.](./assets/images/.png)
-![An image that displays the user's dashboard.](./assets/images/.png)
+You can explore JourneyVerse by [clicking here!](https://journeyverse-2c53482d7e17.herokuapp.com/)
 
+The screenshots below demonstrate the application's front-end visuals and funcitonality.
 
-## Installation
-
-You can explore JourneyVerse by [clicking here!](https://journeyverse-2c53482d7e17.herokuapp.com/) 
+![An image of the JourneyVerse homepage.](./assets/images/landing-page.png)
+![An image of the Journey Form that allows users to create a journey and invite travel companions.](./assets/images/journey-form.png)
 
 
 ## Technologies Used
