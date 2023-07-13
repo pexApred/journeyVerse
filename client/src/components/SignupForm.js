@@ -54,7 +54,7 @@ const Signup = () => {
 
   return (
     <main className="signup d-flex justify-content-center align-items-center vh-100">
-      <div className="col-4 col-lg-4">
+      <div className="col-8 col-lg-8">
         <div className="card">
           <h4 className="card-header" style={{ background: '#578F6A', color: '#FFFFFF' }}>Sign Up</h4>
           <div className="card-body">

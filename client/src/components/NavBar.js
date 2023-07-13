@@ -4,13 +4,14 @@ import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignupForm from './SignupForm';
 import LoginForm from './LoginForm';
 import Auth from '../utils/auth';
+import '../css/NavBar.css';
 
 const AppNavbar = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar className="navbar" bg="dark" variant="dark" expand="lg">
         <Container fluid>
           <Navbar.Brand as={Link} to="/">JourneyVerse</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbar" />

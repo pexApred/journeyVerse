@@ -1,8 +1,4 @@
-
-
 .profile {
-    margin-top: 1%;
-    margin-bottom: 1%;
     padding: 1%;
 }
 
@@ -18,10 +14,11 @@
     padding: 1%;
 }
 
-h1, h2 {
+h1 {
     color: #578F6A ;
+    font-weight: bolder;
 }
 
-.button Button {
+h2 {
     color: #578F6A ;
 }
