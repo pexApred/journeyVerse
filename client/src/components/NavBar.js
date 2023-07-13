@@ -11,11 +11,11 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar className="navbar" bg="dark" variant="dark" expand="lg">
+      <Navbar className="navbar" fixed="top" bg="dark" variant="dark" expand="lg">
         <Container fluid>
           <Navbar.Brand as={Link} to="/">JourneyVerse</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbar" />
-          <Navbar.Collapse id="navbar" className="d-flex flex-row-reverse">
+          <Navbar.Collapse id="navbar">
 
             <Nav className="ml-auto d-flex">
               <Nav.Link as={Link} to="/"></Nav.Link>{Auth.loggedIn() ? (

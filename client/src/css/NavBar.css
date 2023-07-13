@@ -5,6 +5,5 @@
 }
 
 .navbar {
-    position: sticky;
     z-index: 1000;
 }
