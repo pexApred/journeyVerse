@@ -68,12 +68,12 @@ const JourneyList = () => {
                     Destination City: {journey.destinationCity}, {journey.destinationState},{' '}
                     {journey.destinationCountry}
                   </p>
-                  <Button
-                    className="btn-block btn-danger"
-                    onClick={() => handleDeleteJourney(journey.id)}
-                  >
-                    Delete this Journey!
-                  </Button>
+                  {/* <Button */}
+                    {/* // className="btn-block btn-danger"
+                    // onClick={() => handleDeleteJourney(journey.id)} */}
+                  {/* > */}
+                    {/* Delete this Journey! */}
+                  {/* </Button> */}
                   <Button
                     className="btn-block btn-primary mt-2"
                     onClick={() => handleEditJourney(journey.id)}
