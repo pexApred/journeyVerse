@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import '../css/JourneyForm.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_JOURNEY } from '../utils/mutations';
@@ -71,8 +71,8 @@ const JourneyForm = () => {
 
     return (
 
-        <Container>
-            <div className="journeyForm">
+        <Container className="journeyForm">
+            <div>
                     <div className="journeyForm-container">
                     <   h1 className="journeyForm-title mb-3">Start your Journey!</h1>
                     </div>
