@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const DetailsPages = () => {
+const EditJourneyForm = () => {
   const [journeyData, setJourneyData] = useState({
     destinationCity: "",
     destinationState: "",
@@ -44,6 +44,21 @@ const DetailsPages = () => {
     setJourneyData({ ...journeyData, inviteTravelers: updatedInviteTravelers });
   };
 
+  const handleUpdate = () => {
+    // Handle the update functionality
+    console.log("Update button clicked");
+  };
+
+  const handleDelete = () => {
+    // Handle the delete functionality
+    console.log("Delete button clicked");
+  };
+
+  const handleCancel = () => {
+    // Handle the cancel functionality
+    console.log("Cancel button clicked");
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // Save journey data to localStorage or perform other actions
@@ -70,141 +85,19 @@ const DetailsPages = () => {
           onChange={handleInputChange}
         />
       </div>
-      <div>
-        <label htmlFor="destinationState">
-          Destination State/Province/Region:
-        </label>
-        <input
-          type="text"
-          name="destinationState"
-          id="destinationState"
-          value={journeyData.destinationState}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="destinationCountry">Destination Country:</label>
-        <input
-          type="text"
-          name="destinationCountry"
-          id="destinationCountry"
-          value={journeyData.destinationCountry}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="departingDate">Departing Date:</label>
-        <input
-          type="date"
-          name="departingDate"
-          id="departingDate"
-          value={journeyData.departingDate}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="returningDate">Returning Date:</label>
-        <input
-          type="date"
-          name="returningDate"
-          id="returningDate"
-          value={journeyData.returningDate}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="transportationOutbound">Transportation Outbound:</label>
-        <input
-          type="text"
-          name="transportationOutbound"
-          id="transportationOutbound"
-          value={journeyData.transportationOutbound}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="transportationReturn">Transportation Return:</label>
-        <input
-          type="text"
-          name="transportationReturn"
-          id="transportationReturn"
-          value={journeyData.transportationReturn}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="transportationDetails">Transportation Details:</label>
-        <input
-          type="text"
-          name="transportationDetails"
-          id="transportationDetails"
-          value={journeyData.transportationDetails}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="accommodations">Accommodations:</label>
-        <input
-          type="text"
-          name="accommodations"
-          id="accommodations"
-          value={journeyData.accommodations}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <h3>Invite Travelers:</h3>
-        {journeyData.inviteTravelers.map((traveler, index) => (
-          <div key={index}>
-            <h4>Traveler {index + 1}</h4>
-            <div>
-              <label htmlFor={`firstName-${index}`}>First Name:</label>
-              <input
-                type="text"
-                name={`firstName-${index}`}
-                id={`firstName-${index}`}
-                value={traveler.firstName}
-                onChange={(event) =>
-                  handleInviteTravelerInputChange(index, event)
-                }
-              />
-            </div>
-            <div>
-              <label htmlFor={`lastName-${index}`}>Last Name:</label>
-              <input
-                type="text"
-                name={`lastName-${index}`}
-                id={`lastName-${index}`}
-                value={traveler.lastName}
-                onChange={(event) =>
-                  handleInviteTravelerInputChange(index, event)
-                }
-              />
-            </div>
-            <div>
-              <label htmlFor={`email-${index}`}>Email:</label>
-              <input
-                type="email"
-                name={`email-${index}`}
-                id={`email-${index}`}
-                value={traveler.email}
-                onChange={(event) =>
-                  handleInviteTravelerInputChange(index, event)
-                }
-              />
-            </div>
-            <button type="button" onClick={() => handleRemoveTraveler(index)}>
-              Remove Traveler
-            </button>
-          </div>
-        ))}
-        <button type="button" onClick={handleAddTraveler}>
-          Add Traveler
-        </button>
-      </div>
+      {/* Other input fields */}
       <button type="submit">Submit</button>
+      <button type="button" onClick={handleUpdate}>
+        Update
+      </button>
+      <button type="button" onClick={handleDelete}>
+        Delete
+      </button>
+      <button type="button" onClick={handleCancel}>
+        Cancel
+      </button>
     </form>
   );
 };
 
-export default DetailsPages;
+export default EditJourneyForm;

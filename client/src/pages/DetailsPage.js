@@ -2,15 +2,16 @@
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import JourneyForm from "../components/JourneyForm";
+import EditJourneyForm from "../components/EditJourneyForm"; 
 import { Container } from "react-bootstrap";
 
 const DetailsPage = () => {
 
   return (
     <>
-       <NavBar />
-      <JourneyForm />
-      <Footer />
+       {/* <NavBar /> */}
+      <EditJourneyForm />
+      {/* <Footer /> */}
     </>
   );
 };
