@@ -26,7 +26,6 @@ To simplify travel with friends!
 ## Table of Contents 
 
 - [User Story](#user-story)
-- [Acceptance Criteria](#acceptance-criteria)
 - [Usage](#usage)
 - [Installation](#installation)
 - [Technologies Used](#technologies-used)
