@@ -28,6 +28,7 @@ To simplify travel with friends!
 - [User Story](#user-story)
 - [Acceptance Criteria](#acceptance-criteria)
 - [Usage](#usage)
+- [Installation](#installation)
 - [Technologies Used](#technologies-used)
 - [Contributers](#contributers)
 - [License](#license)
