@@ -45,11 +45,6 @@ const JourneyList = () => {
 
   return (
     <>
-      <div fluid className="text-light bg-dark p-5">
-        <Container>
-          <h1>Viewing saved journeys!</h1>
-        </Container>
-      </div>
       <Container>
         <h2 className="pt-5">
           {journeys?.length
