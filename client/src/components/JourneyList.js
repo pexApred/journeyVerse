@@ -1,26 +1,18 @@
-import React from 'react';
-import {
-  Container,
-  Card,
-  Button,
-  Row,
-  Col
-} from 'react-bootstrap';
+import React, { useContext } from 'react';
+import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
 import { GET_JOURNEY } from '../utils/queries';
 import { DELETE_JOURNEY } from '../utils/mutations';
-
-import { useContext } from 'react';
 import { JourneyContext } from '../utils/JourneyContext';
-
-
+import { format } from 'date-fns';
 
 const JourneyList = () => {
   const { loading, data, refetch } = useQuery(GET_JOURNEY);
   const [deleteJourney, { error }] = useMutation(DELETE_JOURNEY);
-  const userData = data?.me || {};
+  // const userData = data?.me || {};
   const { journeys } = useContext(JourneyContext);
+
   const handleDeleteJourney = async (journeyId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -29,9 +21,12 @@ const JourneyList = () => {
     }
 
     try {
-      const { data } = await deleteJourney({
+      await deleteJourney({
         variables: { journeyId },
       });
+      // const { data } = await deleteJourney({
+      //   variables: { journeyId },
+      // });
       // upon success, refetch journey data
       refetch()
     } catch (err) {
@@ -42,41 +37,41 @@ const JourneyList = () => {
   if (loading) {
     return <h2>LOADING...</h2>;
   }
-  journeys?.map((journey) => {
+  // journeys?.map((journey) => {
     return (
       <>
-        <div fluid className="text-light bg-dark p-5">
-          <Container>
-            <h1>Viewing saved journeys!</h1>
-          </Container>
-        </div>
+      <div fluid className="text-light bg-dark p-5">
         <Container>
-          <h2 className='pt-5'>
-            {userData.JourneyList?.length
-              ? `Viewing ${userData.JourneyList.length} saved ${userData.JourneyList.length === 1 ? 'journey' : 'journeys'}:`
-              : 'You have no saved journeys!'}
-          </h2>
-          <Row>
-            {userData.JourneyList?.map((journey) => {
-              return (
-                <Col md="4" key={journey.journey.id}>
-                  <Card key={journey.journey.id} border='dark'>
-                    <Card.Body>
-                      <Card.Title>{journey.destination}</Card.Title>
-                      <p className='small'>Departure Date: {journey.departingDate}</p>
-                      <Button className='btn-block btn-danger' onClick={() => handleDeleteJourney(journey.journey.id)}>
-                        Delete this Journey!
-                      </Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              );
-            })}
-          </Row>
+          <h1>Viewing saved journeys!</h1>
         </Container>
-      </>
-    );
-  });
+      </div>
+      <Container>
+        <h2 className="pt-5">
+          {journeys?.length
+            ? `Viewing ${journeys.length} saved ${journeys.length === 1 ? 'journey' : 'journeys'}:`
+            : 'You have no saved journeys!'}
+        </h2>
+        <Row>
+          {journeys?.map((journey) => (
+            <Col md="4" key={journey.id}>
+              <Card key={journey.id} border="dark">
+                <Card.Body>
+                  <Card.Title>{journey.destination}</Card.Title>
+                  <p className="small">Destination City: {journey.destinationCity}, {journey.destinationState}, {journey.destinationCountry}</p>
+                  <p className="small">Departure Date: {''}{format(new Date(journey.departingDate), 'yyyy-MM-dd')}</p>
+                  <Button
+                    className="btn-block btn-danger"
+                    onClick={() => handleDeleteJourney(journey.id)}
+                  >
+                    Delete this Journey!
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
+    </>
+  );
 };
-
 export default JourneyList;
