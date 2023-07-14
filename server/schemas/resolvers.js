@@ -74,11 +74,14 @@ module.exports = {
     },
     createUser: async (parent, args) => {
       console.log(args);
+    
       const user = await User.create(args);
+      console.log(user);
       if (!user) {
         throw new Error("Something is wrong!");
       }
       const token = signToken(user);
+      console.log(token);
       return { token, user };
     },
     // createJourney: async (parent, args, context) => {
