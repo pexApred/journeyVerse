@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignupForm from './SignupForm';
 import LoginForm from './LoginForm';
-import Auth from '../utils/auth';
+import AuthService from '../utils/auth';
 import '../css/NavBar.css';
 
 const AppNavbar = () => {
@@ -18,10 +18,10 @@ const AppNavbar = () => {
           <Navbar.Collapse id="navbar">
 
             <Nav className="ml-auto d-flex">
-              <Nav.Link as={Link} to="/"></Nav.Link>{Auth.loggedIn() ? (
+              <Nav.Link as={Link} to="/"></Nav.Link>{AuthService.loggedIn() ? (
                 <>
                   <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                  <Nav.Link onClick={AuthService.logout}>Logout</Nav.Link>
                 </>
               ) : (
                 <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>

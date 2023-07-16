@@ -4,7 +4,7 @@ import '../css/JourneyForm.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_JOURNEY } from '../utils/mutations';
 import { JourneyContext } from '../utils/JourneyContext';
-import Auth from '../utils/auth';
+import AuthService from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { LocalState } from '@apollo/client/core/LocalState';
 
@@ -83,8 +83,8 @@ const JourneyForm = () => {
     };
 
     useEffect(() => {
-        const userData = Auth.getProfile();
-        console.log(Auth.getProfile());
+        const userData = AuthService.getProfile();
+        console.log(AuthService.getProfile());
         console.log(userData.id);
         const userId = userData.id;
         setJourneyData({ ...journeyData, creator: userId })

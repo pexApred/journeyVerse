@@ -84,52 +84,6 @@ module.exports = {
       console.log(token);
       return { token, user };
     },
-    // createJourney: async (parent, args, context) => {
-    //   if (!context.user) {
-    //     throw new AuthenticationError('Not logged in');
-    //   }
-    //   try {
-    //     const { creator, invitedTravelers } = args;
-
-    //     const invitedTravelerIds = await Promise.all(
-    //       invitedTravelers.map(async (traveler) => {
-    //         let existingUser = await User.findOne({ email: traveler.email });
-
-    //         if (!existingUser) {
-    //           existingUser = await User.create({
-    //             email: traveler.email,
-    //             firstName: traveler.firstName,
-    //             lastName: traveler.lastName,
-    //             password: 'password12345',
-    //           });
-    //         }
-
-    //         return existingUser._id;
-    //       })
-    //     );
-
-    //     const newJourney = new Journey({
-    //       ...args,
-    //       creator: mongoose.Types.ObjectId(creator),
-    //       invitedTravelers: invitedTravelerIds,
-    //     });
-    //     console.log("InvitedTravelerIds: ", invitedTravelerIds);
-    //     const createdJourney = await newJourney.save();
-
-    //     await User.findByIdAndUpdate(
-    //       creator,
-    //       { $push: { journeys: createdJourney._id } },
-    //       { new: true }
-    //     );
-
-    //     return await Journey.findById(createdJourney._id)
-    //       .populate('creator')
-    //       .populate('invitedTravelers');
-    //   } catch (err) {
-    //     console.error(err);
-    //     throw new Error(`Something went wrong with creating a journey ${err}!`);
-    //   }
-    // },
     createJourney: async (parent,
       {
         destinationCity,

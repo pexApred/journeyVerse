@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { CREATE_USER } from "../utils/mutations";
 import { Button } from 'react-bootstrap';
-import Auth from "../utils/auth";
+import AuthService from "../utils/auth";
 import "../css/SignupForm.css";
 import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
+const SignupForm = () => {
   const [formState, setFormState] = useState({
     firstName: "",
     lastName: "",
@@ -49,7 +49,7 @@ const Signup = () => {
 
       const { firstName, lastName, email } = data.createUser.user;
 
-      Auth.login(data.createUser.token);
+      AuthService.login(data.createUser.token);
       navigate("/dashboard", { state: { firstName, lastName, email } })
     } catch (e) {
       console.error(e);
@@ -134,4 +134,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignupForm;
