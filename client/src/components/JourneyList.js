@@ -2,20 +2,20 @@ import React, { useContext } from 'react';
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-import Auth from '../utils/auth';
+import AuthService from '../utils/auth';
 import { GET_JOURNEY } from '../utils/queries';
 import { DELETE_JOURNEY } from '../utils/mutations';
-import { JourneyContext } from '../utils/JourneyContext';
+import { Context } from '../utils/context';
 import { format } from 'date-fns';
 
 const JourneyList = () => {
   const { loading, data, refetch } = useQuery(GET_JOURNEY);
   const [deleteJourney, { error }] = useMutation(DELETE_JOURNEY);
-  const { journeys } = useContext(JourneyContext);
+  const { journeys } = useContext(Context);
   const navigate = useNavigate();
 
   const handleDeleteJourney = async (journeyId) => {
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    const token = AuthService.loggedIn() ? AuthService.getToken() : null;
 
     if (!token) {
       return false;

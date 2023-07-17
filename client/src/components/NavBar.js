@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignupForm from './SignupForm';
 import LoginForm from './LoginForm';
-import Auth from '../utils/auth';
+import AuthService from '../utils/auth';
 import '../css/NavBar.css';
+import { Context } from '../utils/context';
 
 const AppNavbar = () => {
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+  const { loggedIn, setLoggedIn } = useContext(Context);
+
+  const handleLogout = () => {
+    console.log('logout clicked');
+    AuthService.logout();
+    setLoggedIn(false);
+    navigate('/');
+    setShowModal(false);
+  };
 
   return (
     <>
@@ -18,10 +29,10 @@ const AppNavbar = () => {
           <Navbar.Collapse id="navbar">
 
             <Nav className="ml-auto d-flex">
-              <Nav.Link as={Link} to="/"></Nav.Link>{Auth.loggedIn() ? (
+              <Nav.Link as={Link} to="/"></Nav.Link>{AuthService.loggedIn() ? (
                 <>
                   <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                  <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                 </>
               ) : (
                 <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
@@ -50,10 +61,10 @@ const AppNavbar = () => {
           <Modal.Body>
             <Tab.Content>
               <Tab.Pane eventKey="login">
-                <LoginForm handleLoginFormSubmit={() => setShowModal(false)} />
+                <LoginForm setShowModal={setShowModal} />
               </Tab.Pane>
               <Tab.Pane eventKey="signup">
-                <SignupForm handleModalClose={() => setShowModal(false)} />
+                <SignupForm setShowModal={setShowModal} />
               </Tab.Pane>
             </Tab.Content>
           </Modal.Body>

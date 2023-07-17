@@ -53,10 +53,8 @@ class AuthService {
     return localStorage.getItem('id_token');
     
   }
-
   
-
-  login(idToken, firstName, lastName, email, callback) {
+  login(idToken, callback) {
     // Saves user token to localStorage
     localStorage.setItem('id_token', idToken);
     const profile = this.getProfile();
@@ -66,15 +64,16 @@ class AuthService {
       callback();
       
     }
-    window.location.assign('/dashboard');
+    // window.location.assign('/dashboard');
   }
 
   logout() {
     // Clear user token and profile data from localStorage
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
+    localStorage.removeItem('journeyData');
     // this will reload the page and reset the state of the application
-    window.location.assign('/');
+    // window.location.assign('/');
   }
 }
 

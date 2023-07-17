@@ -13,34 +13,34 @@ const JourneyPages = () => {
 
   return (
     <>
-    <div>
-      <NavBar />
+      <div>
+        <NavBar />
       </div>
       <div className="landing-page" style={{
         backgroundImage: `url('../background.jpg')`,
         backgroundSize: '100% 100%',
-        backgroundPosition: 'center' 
+        backgroundPosition: 'center'
       }}>
-      <Container>
-      <JourneyForm setJourneyData={setJourneyData} />
-      {journeyData && (
-        <>
-          <WeatherWidget
-            destinationCity={journeyData.destinationCity}
-            destinationState={journeyData.destinationState}
-            destinationCountry={journeyData.destinationCountry}
-          />
-          <MapWidget
-            destinationCity={journeyData.destinationCity}
-            destinationState={journeyData.destinationState}
-            destinationCountry={journeyData.destinationCountry}
-          />
-          <CountdownWidget departingDate={journeyData.departingDate} />
-        </>
-      )}
-      <Footer />
-      </Container>
+        <Container>
+          <JourneyForm setJourneyData={setJourneyData} />
+          {journeyData && (
+            <>
+              <WeatherWidget
+                destinationCity={journeyData.destinationCity}
+                destinationState={journeyData.destinationState}
+                destinationCountry={journeyData.destinationCountry}
+              />
+              <MapWidget
+                destinationCity={journeyData.destinationCity}
+                destinationState={journeyData.destinationState}
+                destinationCountry={journeyData.destinationCountry}
+              />
+              <CountdownWidget departingDate={journeyData.departingDate} />
+            </>
+          )}
+        </Container>
       </div>
+      <Footer />
     </>
   );
 };

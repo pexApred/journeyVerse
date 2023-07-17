@@ -1,5 +1,5 @@
 // see SignupForm.js for comments
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 // useNavigate is a hook provided by react-router-dom to redirect the user programmatically
@@ -8,14 +8,16 @@ import { LOGIN_USER } from '../utils/mutations'
 // import { Link } from "react-router-dom";
 import AuthService from '../utils/auth';
 import '../css/LoginForm.css';
+import { Context } from '../utils/context';
 
-const LoginForm = () => {
+const LoginForm = ({ setShowModal }) => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [loginUser] = useMutation(LOGIN_USER);
+  const [loginUser, { error }] = useMutation(LOGIN_USER);
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const { loggedIn, setLoggedIn } = useContext(Context);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -26,84 +28,87 @@ const LoginForm = () => {
     event.preventDefault();
     // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
-
     if (form.checkValidity() === false) {
       event.stopPropagation();
-    }
-      setValidated(true);
+    } else {
+      // setValidated(true);
 
-    try {
-      const { data } = await loginUser({
-        variables: { ...userFormData },
+      try {
+        const { data } = await loginUser({
+          variables: { ...userFormData },
+        });
+        AuthService.login(data.login.token);
+        setLoggedIn(true);
+        setShowModal(false);
+        // const { firstName, lastName, email } = data.login.user;
+
+        // AuthService.login(data.login.token, () => {
+        //   navigate('/dashboard', { state: { firstName, lastName, email } })
+        // });
+        navigate('/dashboard');
+      } catch (err) {
+        console.error(err);
+        setShowAlert(true);
+      }
+      setUserFormData({
+        // username: '',
+        email: '',
+        password: '',
       });
-
-      const { firstName, lastName, email } = data.login.user;
-
-      AuthService.login(data.login.token, () => {
-        navigate('/dashboard', { state: { firstName, lastName, email } })
-      });
-    } catch (err) {
-      console.error(err);
-      setShowAlert(true);
-    }
-    setUserFormData({
-      // username: '',
-      email: '',
-      password: '',
-    });
-    setValidated(false);
+      // setValidated(false);
+    };
   };
 
-  // useEffect(() => {
-  //   if (AuthService.LoggedIn) {
-  //     navigate('/dashboard');
-  //   }
-  // }, [navigate]);
+    // useEffect(() => {
+    //   if (AuthService.LoggedIn) {
+    //     navigate('/dashboard');
+    //   }
+    // }, [navigate]);
 
-  return (
-    <>
-      <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
-          Something went wrong with your login credentials!
-        </Alert>
-        <Form.Group className='mb-3'>
-          <Form.Label htmlFor='email'>Email</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Your email'
-            name='email'
-            onChange={handleInputChange}
-            value={userFormData.email}
-            required
-          />
-          <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
-        </Form.Group>
+    return (
+      <>
+        <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
+          <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
+            Something went wrong with your login credentials!
+          </Alert>
+          <Form.Group className='mb-3'>
+            <Form.Label htmlFor='email'>Email</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Your email'
+              name='email'
+              onChange={handleInputChange}
+              value={userFormData.email}
+              required
+            />
+            <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
+          </Form.Group>
 
-        <Form.Group className='mb-3'>
-          <Form.Label htmlFor='password'>Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Your password'
-            name='password'
-            onChange={handleInputChange}
-            value={userFormData.password}
-            required
-          />
-          <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
-        </Form.Group>
-        <Button
-          disabled={!(userFormData.email && userFormData.password)}
-          type='submit'
-          onClick={handleFormSubmit}
-          className="fromlabel btn btn-block btn-info"
-          style={{
-            fontSize: '1.5rem',
-        }}>
-          Submit
-        </Button>
-      </Form>
-    </>
-  );
-};
+          <Form.Group className='mb-3'>
+            <Form.Label htmlFor='password'>Password</Form.Label>
+            <Form.Control
+              type='password'
+              placeholder='Your password'
+              name='password'
+              onChange={handleInputChange}
+              value={userFormData.password}
+              required
+            />
+            <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
+          </Form.Group>
+          <Button
+            disabled={!(userFormData.email && userFormData.password)}
+            type='submit'
+            onClick={handleFormSubmit}
+            className="fromlabel btn btn-block btn-info"
+            style={{
+              fontSize: '1.5rem',
+            }}>
+            Submit
+          </Button>
+        </Form>
+      </>
+    );
+  };
 
-export default LoginForm;
+  export default LoginForm;
