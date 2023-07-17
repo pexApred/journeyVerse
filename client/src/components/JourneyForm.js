@@ -3,7 +3,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import '../css/JourneyForm.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_JOURNEY } from '../utils/mutations';
-import { JourneyContext } from '../utils/JourneyContext';
+import { Context } from '../utils/context';
 import AuthService from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { LocalState } from '@apollo/client/core/LocalState';
@@ -22,7 +22,7 @@ const JourneyForm = () => {
         accommodations: '',
         inviteTravelers: [],
     });
-    const { setJourneys } = useContext(JourneyContext);
+    const { setJourneys } = useContext(Context);
     const [createJourney, { error }] = useMutation(CREATE_JOURNEY);
     const navigate = useNavigate();
     

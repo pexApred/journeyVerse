@@ -7,20 +7,27 @@ import { Link, useLocation } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import '../css/DashboardPage.css';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import jwtDecode from 'jwt-decode';
 
 
 const DashboardPage = () => {
   const [profilePicture, setProfilePicture] = useState('');
-  const location = useLocation();
-  // const firstName = location?.state?.firstName;
-  // const lastName = location?.state?.lastName;
-  // const email = location?.state?.email;
   const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [currentJourney, setCurrentJourney] = useState(null);
-  const [journeyHistory, setJourneyHistory] = useState([]);
+  // const [journeyHistory, setJourneyHistory] = useState([]);
+  // const location = useLocation();
 
   const handleProfilePictureChange = (event) => {
     const file = event.target.files[0];
+    const maxSize = 2097152; // 2MB
+
+    if (file && file.size > maxSize) {
+      alert('File is too large! Please select an image under 2MB.');
+      return;
+    }
+
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -33,18 +40,14 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
-    const storedEmail = localStorage.getItem('email');
-    if (storedEmail) {
-      setEmail(storedEmail);
-    } else {
-      const emailFromLocation = location?.state?.email;
-      if (emailFromLocation) {
-        setEmail(emailFromLocation);
-        localStorage.setItem('email', emailFromLocation);
-      }
+    const token = localStorage.getItem('id_token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setEmail(decodedToken.data.email);
+      setFirstName(decodedToken.data.firstName);
+      setLastName(decodedToken.data.lastName);
     }
-  }, [],
-  );
+  }, []);
 
   return (
     <div>
@@ -72,7 +75,7 @@ const DashboardPage = () => {
             </Col>
             <Col sm={11}>
               <div>
-                {/* <h2>{firstName} {lastName}</h2> */}
+                <h2>{firstName} {lastName}</h2>
                 <h4>{email}</h4>
               </div>
             </Col>

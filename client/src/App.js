@@ -1,31 +1,29 @@
-import React from 'react';
-// MW - Import ApolloClient, ApolloProvider, InMemoryCache, createHttpLink
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, } from '@apollo/client';
-// MW - Import setContext
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  ApolloClient, 
+  ApolloProvider, 
+  InMemoryCache, 
+  createHttpLink, 
+} from '@apollo/client';
+
 import { setContext } from '@apollo/client/link/context';
 import jwtDecode from 'jwt-decode';
-// import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-// TODO: Import pages here
-// import Navbar from './components/NavBar';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import DashBoard from './pages/DashboardPage';
 import DetailsPage from './pages/DetailsPage';
 import JourneyPage from './pages/JourneyPage';
 import LandingPage from './pages/LandingPage';
-
-import { JourneyProvider } from './utils/JourneyContext';
+import './App.css';
+import { Provider } from './utils/context';
 import { useNavigate } from 'react-router-dom';
 // import Profile from './pages/Profile';
 // MW - Construct our main GraphQL API endpoint
-const httpLink = createHttpLink({
-  uri: '/graphql',
+const httpLink = createHttpLink({ 
+  uri: '/graphql' 
 });
-
-// MW - Construct request middleware that will attach the JWT token to every request as an `authorization` header
 const authLink = setContext((_, { headers }) => {
-  // MW - get the authentication token from local storage if it exists
   const token = localStorage.getItem('id_token');
-  // MW - return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
@@ -40,13 +38,18 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const getTokenFromStorage = () => {
+  return localStorage.getItem('id_token');
+};
+
 const isAuthenticated = () => {
-  const token = localStorage.getItem('id_token');
+  const token = getTokenFromStorage();
   if (!token) return false;
   try {
     const { exp } = jwtDecode(token);
     // Check if token is expired
-    if (Date.now() >= exp * 1000) {
+    const tokenExpired = Date.now() >= exp * 1000;
+    if (tokenExpired) {
       console.log('Token has expired.');
       localStorage.removeItem('id_token');
       return false;
@@ -60,27 +63,31 @@ const isAuthenticated = () => {
 };
 
 const useAuthentication = () => {
-  const [authenticated, setAuthenticated] = React.useState(isAuthenticated());
-  React.useEffect(() => {
+  const [authenticated, setAuthenticated] = useState(isAuthenticated());
+
+  useEffect(() => {
     setAuthenticated(isAuthenticated());
   }, []);
+
   return authenticated;
 };
 
 function usePrevious(value) {
-  const ref = React.useRef();
-  React.useEffect(() => {
+  const ref = useRef();
+
+  useEffect(() => {
     ref.current = value;
   });
+
   return ref.current;
 };
 
-function RoutesComponent() {
+const RoutesComponent= () => {
   const navigate = useNavigate();
   const isAuthenticated = useAuthentication();
   const wasAuthenticated = usePrevious(isAuthenticated);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isAuthenticated && wasAuthenticated) {
       navigate('/');
     }
@@ -107,13 +114,13 @@ function RoutesComponent() {
 
   function App() {
     return (
-      <JourneyProvider>
+      <Provider>
         <ApolloProvider client={client}>
           <Router>
             <RoutesComponent />
           </Router>
         </ApolloProvider>
-      </JourneyProvider>
+      </Provider>
     );
   };
 

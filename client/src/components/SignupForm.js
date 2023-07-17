@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { CREATE_USER } from "../utils/mutations";
@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 import AuthService from "../utils/auth";
 import "../css/SignupForm.css";
 import { useNavigate } from "react-router-dom";
+import { Context } from "../utils/context";
 
 const SignupForm = () => {
   const [formState, setFormState] = useState({
@@ -16,7 +17,9 @@ const SignupForm = () => {
     profilePicture: null,
   });
   const [createUser, { error, data }] = useMutation(CREATE_USER);
+  const { loggedIn, setLoggedIn } = useContext(Context);
   const navigate = useNavigate();
+
   // update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -40,20 +43,25 @@ const SignupForm = () => {
   // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
 
     try {
       const { data } = await createUser({
         variables: { ...formState },
       });
-
-      const { firstName, lastName, email } = data.createUser.user;
-
       AuthService.login(data.createUser.token);
-      navigate("/dashboard", { state: { firstName, lastName, email } })
+      setLoggedIn(true);
+      navigate("/dashboard");
     } catch (e) {
       console.error(e);
     }
+
+    setFormState({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      profilePicture: null,
+    });
   };
 
   return (

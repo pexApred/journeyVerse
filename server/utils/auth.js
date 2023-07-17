@@ -36,8 +36,8 @@ module.exports = {
     return req;
   },
   // Add firstName, lastName to add to token
-  signToken: function ({ username, email, id }) {
-    const payload = { username, email, id };
+  signToken: function ({ id, firstName, lastName, email }) {
+    const payload = { id, firstName, lastName, email };
     const token = jwt.sign({ data: payload }, secret, { expiresIn: expiration });
     console.log("signed token; ", token);
     return token;
