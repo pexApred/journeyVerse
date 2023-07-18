@@ -20,6 +20,7 @@ const JourneyForm = () => {
         transportationReturn: '',
         transportationDetails: '',
         accommodations: '',
+        creator: '',
         inviteTravelers: [],
     });
     const { setJourneys } = useContext(Context);

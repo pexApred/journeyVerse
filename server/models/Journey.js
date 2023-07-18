@@ -46,18 +46,8 @@ const journeySchema = new Schema({
   },
   invitedTravelers: [
     {
-      email: {
-        type: String,
-        required: false,
-      },
-      firstName: {
-        type: String,
-        required: false,
-      },
-      lastName: {
-        type: String,
-        required: false,
-      }
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     }
   ],
 });

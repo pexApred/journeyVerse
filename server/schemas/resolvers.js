@@ -40,7 +40,7 @@ module.exports = {
     },
     journeys: async () => {
       try {
-        const journeys = await Journey.find().populate('creator').populate('invitedTravelers');
+        const journeys = await Journey.find({ creator: context.user._id }).populate('creator').populate('invitedTravelers');
         return journeys;
       } catch (err) {
         console.error(err);
@@ -74,7 +74,7 @@ module.exports = {
     },
     createUser: async (parent, args) => {
       console.log(args);
-    
+
       const user = await User.create(args);
       console.log(user);
       if (!user) {
@@ -134,7 +134,7 @@ module.exports = {
           transportationReturn,
           transportationDetails,
           accommodations,
-          creator: new mongoose.Types.ObjectId(creator),
+          creator: new mongoose.Types.ObjectId(context.user._id),
           invitedTravelers: invitedTravelerIds,
         });
         console.log("Cretaor: ", creator);
@@ -143,7 +143,7 @@ module.exports = {
         console.log("CreatedJourney: ", createdJourney);
         const updatedUser = await User.findByIdAndUpdate(
           creator,
-          { $push: { journeys: createdJourney._id } },
+          { $push: { savedJourneys: createdJourney._id } },
           { new: true }
         );
         console.log("Cretaor: ", creator);
@@ -175,6 +175,12 @@ module.exports = {
         throw new Error("Something went horribly wrong!");
       }
       try {
+        const journeyToDelete = await Journey.findById(args.id);
+        const updatedUser = await User.findByIdAndUpdate(
+          journeyToDelete.creator,
+          { $pull: { savedJourneys: journeyToDelete._id } },
+          { new: true }
+        );
         const deletedJourney = await Journey.findByIdAndDelete(args.id);
         return deletedJourney;
       } catch (err) {

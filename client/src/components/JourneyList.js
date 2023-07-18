@@ -7,6 +7,7 @@ import { GET_JOURNEY } from '../utils/queries';
 import { DELETE_JOURNEY } from '../utils/mutations';
 import { Context } from '../utils/context';
 import { format } from 'date-fns';
+import '../css/JourneyList.css';
 
 const JourneyList = () => {
   const { loading, data, refetch } = useQuery(GET_JOURNEY);
@@ -69,12 +70,12 @@ const JourneyList = () => {
                   {/* > */}
                     {/* Delete this Journey! */}
                   {/* </Button> */}
-                  <Button
+                  <button
                     className="btn-block btn-primary mt-2"
                     onClick={() => handleEditJourney(journey.id)}
                   >
                     Edit this Journey
-                  </Button>
+                  </button>
                 </Card.Body>
               </Card>
             </Col>
