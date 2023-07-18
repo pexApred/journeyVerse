@@ -2,18 +2,6 @@
     padding: 1%;
 }
 
-.current {
-    margin-top: 1%;
-    margin-bottom: 1%;
-    padding: 1%;
-}
-
-.history {
-    margin-top: 1%;
-    margin-bottom: 1%;
-    padding: 1%;
-}
-
 h1 {
     color: #578F6A ;
     font-weight: bolder;
@@ -21,4 +9,12 @@ h1 {
 
 h2 {
     color: #578F6A ;
+}
+
+.button {
+    background-color: gray
+}
+
+.button:hover {
+    background-color: #578F6A ;
 }

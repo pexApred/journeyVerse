@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+
+// Add the required icon(s) to the library
+library.add(faPencilAlt);
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

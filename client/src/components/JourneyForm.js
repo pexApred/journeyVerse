@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Dropdown } from 'react-bootstrap';
 import '../css/JourneyForm.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_JOURNEY } from '../utils/mutations';
@@ -109,6 +109,7 @@ const JourneyForm = () => {
                     <label className="formlabel" htmlFor="destinationCity">Destination City:</label>
                     <input
                         className="form-input mb-3"
+                        placeholder='City'
                         type="text"
                         name="destinationCity"
                         id="destinationCity"
@@ -120,6 +121,7 @@ const JourneyForm = () => {
                     <label className="formlabel" htmlFor="destinationState">Destination State/Province/Region:</label>
                     <input
                         className="form-input mb-3"
+                        placeholder='State/Province/Region'
                         type="text"
                         name="destinationState"
                         id="destinationState"
@@ -131,6 +133,7 @@ const JourneyForm = () => {
                     <label className="formlabel" htmlFor="destinationCountry">Destination Country:</label>
                     <input
                         className="form-input mb-3"
+                        placeholder='Country'
                         type="text"
                         name="destinationCountry"
                         id="destinationCountry"
@@ -139,7 +142,7 @@ const JourneyForm = () => {
                     />
                 </div>
                 <div>
-                    <label className="formlabel" htmlFor="departingDate">Departing Date:</label>
+                    <label className="formlabel" htmlFor="departingDate">Departing:</label>
                     <input
                         className="form-input mb-3"
                         type="date"
@@ -150,7 +153,7 @@ const JourneyForm = () => {
                     />
                 </div>
                 <div>
-                    <label className="formlabel" htmlFor="returningDate">Returning Date:</label>
+                    <label className="formlabel" htmlFor="returningDate">Returning:</label>
                     <input
                         className="form-input mb-3"
                         type="date"
@@ -163,9 +166,10 @@ const JourneyForm = () => {
                 </Col>
                 <Col md={6}>
                 <div>
-                    <label className="formlabel" htmlFor="transportationOutbound">Transportation Outbound:</label>
+                    <label className="formlabel" htmlFor="transportationOutbound">Departing Mode of Transportation:</label>
                     <input
                         className="form-input mb-3"
+                        placeholder='ex. Flight, Train, etc.'
                         type="text"
                         name="transportationOutbound"
                         id="transportationOutbound"
@@ -174,9 +178,10 @@ const JourneyForm = () => {
                     />
                 </div>
                 <div>
-                    <label className="formlabel" htmlFor="transportationReturn">Transportation Return:</label>
+                    <label className="formlabel" htmlFor="transportationReturn">Return Mode of Transportation:</label>
                     <input
                         className="form-input mb-3"
+                        placeholder='ex. Flight, Train, etc.'
                         type="text"
                         name="transportationReturn"
                         id="transportationReturn"
@@ -188,6 +193,7 @@ const JourneyForm = () => {
                     <label className="formlabel" htmlFor="transportationDetails">Transportation Details:</label>
                     <input
                         className="form-input mb-3"
+                        placeholder='ex. Flight #, Train #, etc.'
                         type="text"
                         name="transportationDetails"
                         id="transportationDetails"
@@ -199,6 +205,7 @@ const JourneyForm = () => {
                     <label className="formlabel" htmlFor="accommodations">Accommodations:</label>
                     <input
                         className="form-input mb-3"
+                        placeholder='ex. Hotel, Airbnb, etc.'
                         type="text"
                         name="accommodations"
                         id="accommodations"
