@@ -60,11 +60,12 @@ class AuthService {
     const profile = this.getProfile();
     localStorage.setItem('profile', JSON.stringify(profile));
 
+    const journeys = localStorage.getItem('journeys');
+    localStorage.setItem('journeyData', journeys);
+
     if(callback && this.loggedIn()) {
       callback();
-      
     }
-    // window.location.assign('/dashboard');
   }
 
   logout() {
@@ -72,8 +73,6 @@ class AuthService {
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
     localStorage.removeItem('journeyData');
-    // this will reload the page and reset the state of the application
-    // window.location.assign('/');
   }
 }
 

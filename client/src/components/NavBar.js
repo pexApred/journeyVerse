@@ -27,9 +27,9 @@ const AppNavbar = () => {
           <Navbar.Brand as={Link} to="/">JourneyVerse</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbar" />
           <Navbar.Collapse id="navbar">
-
             <Nav className="ml-auto d-flex">
-              <Nav.Link as={Link} to="/"></Nav.Link>{AuthService.loggedIn() ? (
+              <Nav.Link as={Link} to="/"></Nav.Link>
+              {loggedIn ? (
                 <>
                   <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
                   <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
@@ -42,11 +42,10 @@ const AppNavbar = () => {
         </Container>
       </Navbar>
 
-
       <Modal size="lg" show={showModal} onHide={() => setShowModal(false)} aria-labelledby="signup-modal">
         <Tab.Container defaultActiveKey="login">
           <Modal.Header closeButton>
-            <Modal.Title id="signup-modal">
+            <Modal.Title id="signup-modal" className='tab'>
               <Nav variant="pills">
                 <Nav.Item>
                   <Nav.Link eventKey="login">Login</Nav.Link>

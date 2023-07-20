@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
@@ -6,13 +6,13 @@ import AuthService from '../utils/auth';
 import { GET_JOURNEY } from '../utils/queries';
 import { DELETE_JOURNEY } from '../utils/mutations';
 import { Context } from '../utils/context';
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 import '../css/JourneyList.css';
 
 const JourneyList = () => {
-  const { loading, data, refetch } = useQuery(GET_JOURNEY);
-  const [deleteJourney, { error }] = useMutation(DELETE_JOURNEY);
-  const { journeys } = useContext(Context);
+  const { loading, data, error, refetch } = useQuery(GET_JOURNEY);
+  const [deleteJourney] = useMutation(DELETE_JOURNEY);
+  const { journeys, setJourneys, deleteContextJourney } = useContext(Context);
   const navigate = useNavigate();
 
   const handleDeleteJourney = async (journeyId) => {
@@ -26,11 +26,7 @@ const JourneyList = () => {
       await deleteJourney({
         variables: { journeyId },
       });
-      refetch();
-      // const { data } = await deleteJourney({
-      //   variables: { journeyId },
-      // });
-      // upon success, refetch journey data
+      deleteContextJourney(journeyId);
     } catch (err) {
       console.error(err);
     }
@@ -40,9 +36,18 @@ const JourneyList = () => {
     navigate(`/edit-journey/${journeyId}`);
   };
 
-  if (loading) {
-    return <h2>LOADING...</h2>;
-  }
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    if(data) {
+      setJourneys(data.journeys);
+    } else {
+      refetch();
+    }
+  }, [data, setJourneys, refetch]);
+
 
   return (
     <>
@@ -64,12 +69,12 @@ const JourneyList = () => {
                     Destination City: {journey.destinationCity}, {journey.destinationState},{' '}
                     {journey.destinationCountry}
                   </p>
-                  {/* <Button */}
-                    {/* // className="btn-block btn-danger"
-                    // onClick={() => handleDeleteJourney(journey.id)} */}
-                  {/* > */}
-                    {/* Delete this Journey! */}
-                  {/* </Button> */}
+                  <Button
+                    className="btn-block btn-danger"
+                    onClick={() => handleDeleteJourney(journey.id)}
+                   > 
+                    Delete this Journey!
+                  </Button> 
                   <button
                     className="btn-block btn-primary mt-2"
                     onClick={() => handleEditJourney(journey.id)}

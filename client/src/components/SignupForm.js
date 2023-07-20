@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { CREATE_USER } from "../utils/mutations";
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import AuthService from "../utils/auth";
 import "../css/SignupForm.css";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +18,18 @@ const SignupForm = () => {
   const [createUser, { error, data }] = useMutation(CREATE_USER);
   const { loggedIn, setLoggedIn } = useContext(Context);
   const navigate = useNavigate();
+  const [showMessage, setShowMessage] = useState(false);
+
+  useEffect(() => {
+    if (data?.createUser) {
+      AuthService.login(data.createUser.token);
+      setLoggedIn(true);
+      setShowMessage(true)
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 2000);
+    }
+  }, [data, setLoggedIn, navigate]);
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -48,9 +59,6 @@ const SignupForm = () => {
       const { data } = await createUser({
         variables: { ...formState },
       });
-      AuthService.login(data.createUser.token);
-      setLoggedIn(true);
-      navigate("/dashboard");
     } catch (e) {
       console.error(e);
     }
@@ -65,18 +73,18 @@ const SignupForm = () => {
   };
 
   return (
-    <main className="signup d-flex justify-content-center align-items-center vh-100">
+    <main className="signup d-flex justify-content-center align-items-center vh-50">
       <div className="col-8 col-lg-8">
         <div className="card">
-          <h4 className="card-header" style={{ background: '#578F6A', color: '#FFFFFF' }}>Sign Up</h4>
+          {/* <h4 className="card-header" style={{ background: '#578F6A', color: '#FFFFFF' }}>Sign Up</h4> */}
           <div className="card-body">
-            {data ? (
+            {showMessage ? (
               <p>
-                Success! You may now head{" "}
-                <Link to="/">back to the homepage.</Link>
+                Successfully Signed Up! You are being redirected to your JourneyVerse Dashboard.
               </p>
             ) : (
-              <form onSubmit={handleFormSubmit}>
+              <Form onSubmit={handleFormSubmit}>
+                <Form.Label htmlFor="firstName">First Name</Form.Label>
                 <input
                   className="form-input mb-3"
                   placeholder="Your First Name"
@@ -85,6 +93,7 @@ const SignupForm = () => {
                   value={formState.firstName}
                   onChange={handleChange}
                 />
+                <Form.Label htmlFor="lastName">Last Name</Form.Label>
                 <input
                   className="form-input mb-3"
                   placeholder="Your Last Name"
@@ -93,6 +102,7 @@ const SignupForm = () => {
                   value={formState.lastName}
                   onChange={handleChange}
                 />
+                <Form.Label htmlFor="email">Email</Form.Label>
                 <input
                   className="form-input mb-3"
                   placeholder="Your email"
@@ -101,6 +111,7 @@ const SignupForm = () => {
                   value={formState.email}
                   onChange={handleChange}
                 />
+                <Form.Label htmlFor="pwd">Password</Form.Label>
                 <input
                   className="form-input mb-3"
                   placeholder="******"
@@ -127,7 +138,7 @@ const SignupForm = () => {
                 >
                   Submit
                 </Button>
-              </form>
+              </Form>
             )}
 
             {error && (

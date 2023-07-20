@@ -14,49 +14,53 @@ module.exports = {
       const userId = context.user._id;
       try {
         const user = await User.findById(userId);
+        console.log(user, userId);
         return user;
       } catch (err) {
         console.error(err);
         throw new AuthenticationError('Something went wrong with finding myself!');
       }
     },
-    users: async () => {
-      try {
-        const users = await User.find();
-        return users;
-      } catch (err) {
-        console.error(err);
-        throw new AuthenticationError('Something went wrong with finding a user !');
-      }
-    },
     user: async (parent, { id }) => {
       try {
         const user = await User.findById(id);
+        console.log(user, user.id, id);
         return user;
       } catch (err) {
         console.error(err);
         throw new AuthenticationError('Something went wrong with finding a user by id!');
       }
     },
-    journeys: async () => {
+    users: async () => {
       try {
-        const journeys = await Journey.find({ creator: context.user._id }).populate('creator').populate('invitedTravelers');
-        return journeys;
+        const users = await User.find();
+        console.log(users);
+        return users;
       } catch (err) {
         console.error(err);
-        throw new AuthenticationError('Something went wrong with finding and populating the creator with the invited travelers!');
+        throw new AuthenticationError('Something went wrong with finding a user !');
       }
     },
-    // Check id  parameter if problematic
     journey: async (parent, { id }) => {
       try {
-        const journey = await Journey.findById(id).populate('creator').populate('invitedTravelers');
+        const journey = await Journey.findById(id).populate('creator').populate('invitedTravelers').execPopulate();
         return journey;
       } catch (err) {
         console.error(err);
         throw new AuthenticationError('Something went wrong with finding and populating the creator with the invited travelers!');
       }
+    },
+    journeys: async (parent, args, context) => {
+      try {
+        const journeys = await Journey.find({ creator: context.user._id }).populate('creator').populate('invitedTravelers').exec();
+        return journeys;
+      } catch (err) {
+        console.error(err);
+        throw new AuthenticationError('Something went wrong with finding and populating the creator with the invited travelers!');
+      }
     }
+    // Check id  parameter if problematic
+
   },
   Mutation: {
     login: async (parent, { email, password }) => {
@@ -84,8 +88,8 @@ module.exports = {
       console.log(token);
       return { token, user };
     },
-    createJourney: async (parent,
-      {
+    createJourney: async (parent, { input }, context) => {
+      const {
         destinationCity,
         destinationState,
         destinationCountry,
@@ -97,8 +101,7 @@ module.exports = {
         accommodations,
         creator,
         invitedTravelers,
-      }, context
-    ) => {
+      } = input;
       console.log("Invited Travelers: ", invitedTravelers);
       if (!context.user) {
         throw new Error("Something went horribly wrong!");
@@ -124,7 +127,7 @@ module.exports = {
         } else {
           console.log("Invited Travelers is undefined or not an array");
         }
-        const newJourney = new Journey({
+        const createdJourney = await Journey.create({
           destinationCity,
           destinationState,
           destinationCountry,
@@ -134,21 +137,29 @@ module.exports = {
           transportationReturn,
           transportationDetails,
           accommodations,
-          creator: new mongoose.Types.ObjectId(context.user._id),
+          creator: context.user._id,
           invitedTravelers: invitedTravelerIds,
         });
-        console.log("Cretaor: ", creator);
-        console.log("NewJourney: ", newJourney);
-        const createdJourney = await newJourney.save();
+
+        if (!createdJourney) {
+          throw new Error("Something went wrong with creating a journey!");
+        }
+        console.log("Invited Travelers: ", invitedTravelers);
+        console.log("Creator: ", creator);
         console.log("CreatedJourney: ", createdJourney);
         const updatedUser = await User.findByIdAndUpdate(
-          creator,
+          context.user._id,
           { $push: { savedJourneys: createdJourney._id } },
           { new: true }
         );
-        console.log("Cretaor: ", creator);
+        console.log("Creator: ", creator);
         console.log("UpdatedUser: ", updatedUser);
-        return await Journey.findById(createdJourney.id).populate('creator').populate('invitedTravelers');
+
+        const populatedJourney = createdJourney
+          ? await Journey.findById(createdJourney._id).populate('creator').populate('invitedTravelers')
+          : null;
+
+        return populatedJourney;
       } catch (err) {
         console.error(err);
         throw new Error(`Something went wrong with creating a journey: ${err.message}`);

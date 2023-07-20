@@ -1,10 +1,11 @@
 // see SignupForm.js for comments
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 // useNavigate is a hook provided by react-router-dom to redirect the user programmatically
 import { useNavigate } from 'react-router-dom';
 import { LOGIN_USER } from '../utils/mutations'
+import { GET_JOURNEYS } from '../utils/queries';
 // import { Link } from "react-router-dom";
 import AuthService from '../utils/auth';
 import '../css/LoginForm.css';
@@ -14,10 +15,12 @@ const LoginForm = ({ setShowModal }) => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [loginUser, { error }] = useMutation(LOGIN_USER);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loginUser] = useMutation(LOGIN_USER);
   const navigate = useNavigate();
   const { loggedIn, setLoggedIn } = useContext(Context);
+  const { loading, error, data } = useQuery(GET_JOURNEYS, {
+    skip: !loggedIn,
+  });
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -59,56 +62,56 @@ const LoginForm = ({ setShowModal }) => {
     };
   };
 
-    // useEffect(() => {
-    //   if (AuthService.LoggedIn) {
-    //     navigate('/dashboard');
-    //   }
-    // }, [navigate]);
+  useEffect(() => {
+    if (loggedIn && data && !loading && !error) {
+      localStorage.setItem('journeys', JSON.stringify(data.journeys));
+    }
+  }, [loggedIn, loading, error, data]);
 
-    return (
-      <>
-        <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-          <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
-            Something went wrong with your login credentials!
-          </Alert>
-          <Form.Group className='mb-3'>
-            <Form.Label htmlFor='email'>Email</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Your email'
-              name='email'
-              onChange={handleInputChange}
-              value={userFormData.email}
-              required
-            />
-            <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
-          </Form.Group>
+  return (
+    <>
+      <Form noValidate validated={validated} onSubmit={handleFormSubmit} >
+        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
+          Something went wrong with your login credentials!
+        </Alert>
+        <Form.Group className='mb-3'>
+          <Form.Label htmlFor='email'>Email</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Your email'
+            name='email'
+            onChange={handleInputChange}
+            value={userFormData.email}
+            required
+          />
+          <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
+        </Form.Group>
 
-          <Form.Group className='mb-3'>
-            <Form.Label htmlFor='password'>Password</Form.Label>
-            <Form.Control
-              type='password'
-              placeholder='Your password'
-              name='password'
-              onChange={handleInputChange}
-              value={userFormData.password}
-              required
-            />
-            <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
-          </Form.Group>
-          <Button
-            disabled={!(userFormData.email && userFormData.password)}
-            type='submit'
-            onClick={handleFormSubmit}
-            className="fromlabel btn btn-block btn-info"
-            style={{
-              fontSize: '1.5rem',
-            }}>
-            Submit
-          </Button>
-        </Form>
-      </>
-    );
-  };
+        <Form.Group className='mb-3'>
+          <Form.Label htmlFor='password'>Password</Form.Label>
+          <Form.Control
+            type='password'
+            placeholder='*******'
+            name='password'
+            onChange={handleInputChange}
+            value={userFormData.password}
+            required
+          />
+          <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
+        </Form.Group>
+        <Button
+          disabled={!(userFormData.email && userFormData.password)}
+          type='submit'
+          onClick={handleFormSubmit}
+          className="fromlabel btn btn-block btn-info"
+          style={{
+            fontSize: '1.5rem',
+          }}>
+          Submit
+        </Button>
+      </Form>
+    </>
+  );
+};
 
-  export default LoginForm;
+export default LoginForm;
