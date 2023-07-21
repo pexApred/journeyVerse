@@ -5,12 +5,11 @@ import SignupForm from './SignupForm';
 import LoginForm from './LoginForm';
 import AuthService from '../utils/auth';
 import '../css/NavBar.css';
-import { Context } from '../utils/context';
 
 const AppNavbar = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { loggedIn, setLoggedIn } = useContext(Context);
+  const [loggedIn, setLoggedIn] = useState(AuthService.loggedIn());
 
   const handleLogout = () => {
     console.log('logout clicked');

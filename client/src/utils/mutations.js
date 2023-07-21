@@ -7,6 +7,30 @@ mutation login($email: String!, $password: String!) {
       user {
         id
         email
+        savedJourneys {
+          id
+          destinationCity
+          destinationState
+          destinationCountry
+          departingDate
+          returningDate
+          transportationOutbound
+          transportationReturn
+          transportationDetails
+          accommodations
+          creator {
+            id
+            firstName
+            lastName
+            email
+          }
+          invitedTravelers {
+            id
+            firstName
+            lastName
+            email
+          }
+        }
       }
     }
   }

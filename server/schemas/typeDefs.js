@@ -42,7 +42,7 @@ const typeDefs = gql`
     email: String!
     profilePicture: String
     journeyCount: Int!
-    savedJourneys: [Journey!]
+    savedJourneys: [Journey!]!
   }
 
   type Journey {

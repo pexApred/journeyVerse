@@ -1,25 +1,19 @@
-.app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+.footer {
+  position: sticky;
+  /* margin-top: 20px;
+    width: 100%; */
+  /* max-height: 80px; */
+  background-color: #578F6A;
+  color: white;
+  /* z-index: 999; */
 }
 
-.footer {
-    position: relative;
-    /* margin-top: 20px;
-    width: 100%; */
-    max-height: 80px;
-    background-color: #578F6A;
-    color: white;
-    z-index: 999;
-  }
+.footer-link {
+  color: #FFFFFF;
+  font-weight: bold;
+  text-decoration: none;
+}
 
-  .footer-link {
-    color: #FFFFFF;
-    font-weight: bold;
-    text-decoration: none;
-  }
-
-  .footer-link:hover {
-    text-decoration: underline;
-  }
+.footer-link:hover {
+  text-decoration: underline;
+}

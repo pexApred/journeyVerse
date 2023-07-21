@@ -15,7 +15,7 @@ export const Provider = (props) => {
     };
 
     return (
-        <Context.Provider value={{ loggedIn, setLoggedIn, journeys, updateJourneys, deleteContextJourney }}>
+        <Context.Provider value={{ loggedIn, setLoggedIn, journeys, setJourneys, updateJourneys, deleteContextJourney }}>
             {props.children}
         </Context.Provider>
     );

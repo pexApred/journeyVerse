@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from "../utils/localStorage";
 
 const EditJourneyForm = () => {
   const navigate = useNavigate();
 
-  const savedJourneyData = localStorage.getItem("journeyData");
+  const savedJourneyData = getFromLocalStorage("journeyData");
   const parsedJourneyData = savedJourneyData ? JSON.parse(savedJourneyData) : {};
   const [journeyData, setJourneyData] = useState({
     destinationCity: parsedJourneyData.destinationCity || "",
@@ -53,7 +54,7 @@ const EditJourneyForm = () => {
   const handleUpdate = (event) => {
     event.preventDefault();
     // Save journey data to localStorage or perform other actions
-    localStorage.setItem("journeyData", JSON.stringify(journeyData));
+    saveToLocalStorage("journeyData", JSON.stringify(journeyData));
     console.log("Journey data saved:", journeyData);
     navigate("/dashboard");
   };
@@ -64,7 +65,7 @@ const EditJourneyForm = () => {
     console.log("Delete button clicked");
     
     // Remove the journeyData from localStorage
-    localStorage.removeItem("journeyData");
+    removeFromLocalStorage("journeyData");
     
     // Navigate back to '/dashboard'
     navigate("/dashboard");
@@ -82,13 +83,13 @@ const EditJourneyForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Save journey data to localStorage or perform other actions
-    localStorage.setItem("journeyData", JSON.stringify(journeyData));
+    saveToLocalStorage("journeyData", JSON.stringify(journeyData));
     console.log("Journey data saved:", journeyData);
     navigate("/dashboard");
   };
 
   useEffect(() => {
-    const savedJourneyData = localStorage.getItem("journeyData");
+    const savedJourneyData = getFromLocalStorage("journeyData");
     if (savedJourneyData) {
       setJourneyData(JSON.parse(savedJourneyData));
     }

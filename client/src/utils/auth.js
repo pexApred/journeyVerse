@@ -1,10 +1,11 @@
 // use this to decode a token and get the user's information out of it
 import decode from 'jwt-decode';
+import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage, clearLocalStorage } from './localStorage';
 
 class AuthService {
   // get user data
   getProfile() {
-    const token = localStorage.getItem('id_token');
+    const token = getFromLocalStorage('id_token');
     if (token) {
       try {
         const decodedToken = decode(token);
@@ -20,7 +21,7 @@ class AuthService {
   // check if user's logged in
   loggedIn() {
     // Checks if there is a saved token and it's still valid
-    const token = this.getToken();
+    const token = this.getTokenFromStorage();
     return !!token && !this.isTokenExpired(token);
   }
 
@@ -38,19 +39,20 @@ class AuthService {
 
   getTokenFromStorage() {
     // Retrieves the user token from localStorage
-    return localStorage.getItem('id_token');
+    return getFromLocalStorage('id_token');
   }
   
   login(idToken, callback) {
     // Saves user token to localStorage
-    localStorage.setItem('id_token', idToken);
+    saveToLocalStorage('id_token', idToken);
     const profile = this.getProfile();
     
     if (profile) {
-      localStorage.setItem('profile', JSON.stringify(profile));
+      saveToLocalStorage('profile', JSON.stringify(profile));
+      if (profile.savedJourneys) {
+        saveToLocalStorage('journeys', JSON.stringify(profile.savedJourneys));
+      }
     }
-    const journeys = localStorage.getItem('journeys');
-    localStorage.setItem('journeyData', journeys);
 
     if(callback && this.loggedIn()) {
       callback();
@@ -59,9 +61,10 @@ class AuthService {
 
   logout() {
     // Clear user token and profile data from localStorage
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('profile');
-    localStorage.removeItem('journeyData');
+    // removeFromLocalStorage('id_token');
+    // removeFromLocalStorage('profile');
+    // removeFromLocalStorage('journeyData');
+    clearLocalStorage();
   }
 
   isAuthenticated() {

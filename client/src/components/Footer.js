@@ -4,7 +4,7 @@ import '../css/Footer.css';
 
 const Footer = () => {
   return (
-    <footer className='footer fixed-bottom mt-auto py-3' style={{ backgroundColor: '#578F6A' }}>
+    <footer className='footer mt-auto py-3' style={{ backgroundColor: '#578F6A' }}>
       <Container className="flex-grow-1">
         <Row>
           <Col className='text-center text-sm-left'>

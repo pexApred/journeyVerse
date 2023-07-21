@@ -5,7 +5,7 @@ import { Button, Form } from 'react-bootstrap';
 import AuthService from "../utils/auth";
 import "../css/SignupForm.css";
 import { useNavigate } from "react-router-dom";
-import { Context } from "../utils/context";
+import { Context } from "../utils/Context";
 
 const SignupForm = () => {
   const [formState, setFormState] = useState({

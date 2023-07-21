@@ -9,7 +9,8 @@ import { GET_JOURNEYS } from '../utils/queries';
 // import { Link } from "react-router-dom";
 import AuthService from '../utils/auth';
 import '../css/LoginForm.css';
-import { Context } from '../utils/context';
+import { Context } from '../utils/Context';
+import { saveToLocalStorage } from '../utils/localStorage';
 
 const LoginForm = ({ setShowModal }) => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
@@ -64,7 +65,7 @@ const LoginForm = ({ setShowModal }) => {
 
   useEffect(() => {
     if (loggedIn && data && !loading && !error) {
-      localStorage.setItem('journeys', JSON.stringify(data.journeys));
+      saveToLocalStorage('journeys', data.journeys);
     }
   }, [loggedIn, loading, error, data]);
 

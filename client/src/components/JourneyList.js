@@ -5,14 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import AuthService from '../utils/auth';
 import { GET_JOURNEY } from '../utils/queries';
 import { DELETE_JOURNEY } from '../utils/mutations';
-import { Context } from '../utils/context';
+import { Context } from '../utils/Context';
 // import { format } from 'date-fns';
 import '../css/JourneyList.css';
+import { saveToLocalStorage, getFromLocalStorage, } from '../utils/localStorage';
 
 const JourneyList = () => {
   const { loading, data, error, refetch } = useQuery(GET_JOURNEY);
   const [deleteJourney] = useMutation(DELETE_JOURNEY);
   const { journeys, setJourneys, deleteContextJourney } = useContext(Context);
+  console.log('journeys: ', journeys, 'setJourneys: ', setJourneys, 'deleteContextJourney: ', deleteContextJourney);
   const navigate = useNavigate();
 
   const handleDeleteJourney = async (journeyId) => {
@@ -27,6 +29,9 @@ const JourneyList = () => {
         variables: { journeyId },
       });
       deleteContextJourney(journeyId);
+      const storedJourneys = getFromLocalStorage('journeys') || [];
+      const updatedJourneys = storedJourneys.filter((journey) => journey.id !== journeyId);
+      saveToLocalStorage('journeys', updatedJourneys);
     } catch (err) {
       console.error(err);
     }
@@ -37,26 +42,35 @@ const JourneyList = () => {
   };
 
   useEffect(() => {
+    const storedJourneys = getFromLocalStorage('journeys');
+    console.log('Stored Journeys',storedJourneys);
+    if (storedJourneys) {
+      setJourneys(storedJourneys);
+    }
+  }, [setJourneys]);
+
+  useEffect(() => {
     refetch();
   }, [refetch]);
 
   useEffect(() => {
-    if(data) {
+    if (data) {
       setJourneys(data.journeys);
+      saveToLocalStorage('journeys', data.journeys);
+    } else if (error) {
+      console.error(error);
     } else {
       refetch();
     }
-  }, [data, setJourneys, refetch]);
-
+  }, [data, setJourneys, refetch, error]);
 
   return (
     <>
       <Container>
         <h2 className="pt-5">
           {journeys?.length
-            ? `Viewing ${journeys.length} saved ${
-                journeys.length === 1 ? 'journey' : 'journeys'
-              }:`
+            ? `Viewing ${journeys.length} saved ${journeys.length === 1 ? 'journey' : 'journeys'
+            }:`
             : 'You have no saved journeys!'}
         </h2>
         <Row>
@@ -72,9 +86,9 @@ const JourneyList = () => {
                   <Button
                     className="btn-block btn-danger"
                     onClick={() => handleDeleteJourney(journey.id)}
-                   > 
+                  >
                     Delete this Journey!
-                  </Button> 
+                  </Button>
                   <button
                     className="btn-block btn-primary mt-2"
                     onClick={() => handleEditJourney(journey.id)}

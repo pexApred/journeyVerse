@@ -14,9 +14,10 @@ import DetailsPage from './pages/DetailsPage';
 import JourneyPage from './pages/JourneyPage';
 import LandingPage from './pages/LandingPage';
 import './App.css';
-import { Provider } from './utils/context';
+import { Provider } from './utils/Context';
 import { useNavigate } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
+import Footer from './components/Footer';
+// import jwtDecode from 'jwt-decode';
 
 // import Profile from './pages/Profile';
 // MW - Construct our main GraphQL API endpoint
@@ -116,13 +117,16 @@ const RoutesComponent= () => {
 
   function App() {
     return (
+      <div className="app">
       <Provider>
         <ApolloProvider client={client}>
           <Router>
             <RoutesComponent />
+            {/* <Footer /> */}
           </Router>
         </ApolloProvider>
       </Provider>
+      </div>
     );
   };
 

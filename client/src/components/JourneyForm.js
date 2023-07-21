@@ -3,9 +3,10 @@ import { Container, Row, Col, Button, Dropdown } from 'react-bootstrap';
 import '../css/JourneyForm.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_JOURNEY } from '../utils/mutations';
-import { Context } from '../utils/context';
+import { Context } from '../utils/Context';
 import AuthService from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
+import { saveToLocalStorage, getFromLocalStorage } from '../utils/localStorage';
 
 const JourneyForm = () => {
     const initialState = {
@@ -38,11 +39,19 @@ const JourneyForm = () => {
         setJourneyData(prevData => ({ ...prevData, inviteTravelers: updatedInviteTravelers }));
     };
 
-    const handleAddTraveler = () =>
+    const handleAddTraveler = () => {
+        if (journeyData.inviteTravelers.length > 0) {
+            const lastTraveler = journeyData.inviteTravelers[journeyData.inviteTravelers.length - 1];
+            if (!lastTraveler.firstName || !lastTraveler.lastName || !lastTraveler.email) {
+                return alert('Please fill out all fields for the current traveler!');
+            }
+        }
+
         setJourneyData(prevData => ({
             ...prevData,
             inviteTravelers: [...prevData.inviteTravelers, { firstName: '', lastName: '', email: '' }]
         }));
+    };
 
     const handleRemoveTraveler = (index) => {
         const updatedInviteTravelers = [...journeyData.inviteTravelers];
@@ -52,35 +61,50 @@ const JourneyForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        if (!journeyData.creator) return alert('Please log in to create a journey!');
-        if (Object.values(journeyData).some(([key, value]) => {
-            if (key !== 'creator') {
-                if (typeof value === 'string') {
-                  return value === '';
-                } else if (Array.isArray(value)) {
-                  return value.some(traveler => Object.values(traveler).some(field => field === ''));
-                }
-              }
-            })) return alert('Missing required fields!');
+    
+        if (!journeyData.creator) {
+            return alert('Please log in to create a journey!');
+        }
         
+        for (const key in journeyData) {
+            if (key !== 'creator' && key !== 'id' && key !== 'inviteTravelers') {
+                if (!journeyData[key]) {
+                    return alert(`Missing required field: ${key}`);
+                }
+            }
+        }
+    
+        if (journeyData.inviteTravelers.some(traveler => {
+            return !traveler.firstName || !traveler.lastName || !traveler.email;
+        })) {
+            return alert('All fields for each traveler are required!');
+        }
+    
         const { id, inviteTravelers, ...otherJourneyData } = journeyData;
+        
         console.log('Journey data:', otherJourneyData);
-        const { data } = await createJourney({
-            variables: {
-                input: {
-                    ...otherJourneyData,
-                    invitedTravelers: inviteTravelers,
+    
+        try {
+            const { data } = await createJourney({
+                variables: {
+                    input: {
+                        ...otherJourneyData,
+                        invitedTravelers: inviteTravelers,
+                    },
                 },
-            },
-        });
-
-        console.log('Journey data saved:', data.createJourney);
-        updateJourneys(data.createJourney);
-        localStorage.setItem('journeyData', JSON.stringify(otherJourneyData));
-        setJourneyData(initialState);
-        navigate('/dashboard');
+            });
+    
+            console.log('Journey data saved:', data.createJourney);
+            updateJourneys(data.createJourney);
+            saveToLocalStorage('journeyData', otherJourneyData);
+            setJourneyData(initialState);
+            navigate('/dashboard');
+        } catch (err) {
+            console.error(err);
+            alert('There was an error creating your journey. Please try again.');
+        }
     };
+    
 
     useEffect(() => {
         const userData = AuthService.getProfile();
@@ -93,7 +117,7 @@ const JourneyForm = () => {
       
         const userId = userData.id;
         console.log('User ID',userId);
-        const savedJourneyData = localStorage.getItem('journeyData');
+        const savedJourneyData = getFromLocalStorage('journeyData');
         let parsedData = {};
       
         if (savedJourneyData) {

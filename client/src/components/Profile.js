@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import '../css/DashboardPage.css';
 import '../css/Profile.css';
+import { getFromLocalStorage } from '../utils/localStorage';
 
 const Profile = () => {
     const [profilePicture, setProfilePicture] = useState('');
@@ -44,7 +45,7 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem('id_token');
+        const token = getFromLocalStorage('id_token');
         if (token) {
             const decodedToken = jwtDecode(token);
             setEmail(decodedToken.data.email);
