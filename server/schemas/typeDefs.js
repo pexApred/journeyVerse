@@ -14,17 +14,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     createUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
     createJourney(
-      destinationCity: String!
-      destinationState: String!
-      destinationCountry: String!
-      departingDate: String!
-      returningDate: String!
-      transportationOutbound: String!
-      transportationReturn: String!
-      transportationDetails: String!
-      accommodations: String!
-      creator: ID
-      invitedTravelers: [InvitedTravelerInput!]
+      input: CreateJourneyInput!
     ): Journey!
     updateJourney(
       id: ID!
@@ -70,10 +60,24 @@ const typeDefs = gql`
     invitedTravelers: [User!]
   }
 
+  input CreateJourneyInput {
+    destinationCity: String!
+    destinationState: String!
+    destinationCountry: String!
+    departingDate: String!
+    returningDate: String!
+    transportationOutbound: String!
+    transportationReturn: String!
+    transportationDetails: String!
+    accommodations: String!
+    creator: ID
+    invitedTravelers: [InvitedTravelerInput!]
+  }
+
   input InvitedTravelerInput {
-    firstName: String
-    lastName: String
-    email: String
+    firstName: String!
+    lastName: String!
+    email: String!
   }
 
 type Auth {

@@ -8,7 +8,7 @@ import AuthService from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 
 const JourneyForm = () => {
-    const [journeyData, setJourneyData] = useState({
+    const initialState = {
         id: '',
         destinationCity: '',
         destinationState: '',
@@ -21,118 +21,93 @@ const JourneyForm = () => {
         accommodations: '',
         creator: '',
         inviteTravelers: [],
-    });
+    };
+    const [journeyData, setJourneyData] = useState(initialState);
     const { updateJourneys } = useContext(Context);
-    const [createJourney, { error }] = useMutation(CREATE_JOURNEY);
     const navigate = useNavigate();
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setJourneyData({ ...journeyData, [name]: value });
-    };
+    const [createJourney, { loading, error, data }] = useMutation(CREATE_JOURNEY);
 
-    const handleInviteTravelerInputChange = (index, name, event) => {
-        const value = event.target.value;
+    const handleInputChange = ({ target: { name, value } }) =>
+        setJourneyData(prevData => ({ ...prevData, [name]: value }));
+
+
+    const handleInviteTravelerInputChange = (index, name, { target: { value } }) => {
         const updatedInviteTravelers = [...journeyData.inviteTravelers];
         updatedInviteTravelers[index][name] = value;
-        setJourneyData({ ...journeyData, inviteTravelers: updatedInviteTravelers });
+        setJourneyData(prevData => ({ ...prevData, inviteTravelers: updatedInviteTravelers }));
     };
 
-    const handleAddTraveler = () => {
-        const newInviteTraveler = {
-            firstName: '',
-            lastName: '',
-            email: '',
-
-        }; console.log('newInviteTraveler:', newInviteTraveler);
-        setJourneyData({
-            ...journeyData,
-            inviteTravelers: [...journeyData.inviteTravelers, newInviteTraveler],
-        });
-    };
+    const handleAddTraveler = () =>
+        setJourneyData(prevData => ({
+            ...prevData,
+            inviteTravelers: [...prevData.inviteTravelers, { firstName: '', lastName: '', email: '' }]
+        }));
 
     const handleRemoveTraveler = (index) => {
         const updatedInviteTravelers = [...journeyData.inviteTravelers];
         updatedInviteTravelers.splice(index, 1);
-        setJourneyData({ ...journeyData, inviteTravelers: updatedInviteTravelers });
+        setJourneyData(prevData => ({ ...prevData, inviteTravelers: updatedInviteTravelers }));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!journeyData.destinationCity || !journeyData.destinationState || 
-            !journeyData.destinationCountry || !journeyData.departingDate || 
-            !journeyData.returningDate || !journeyData.transportationOutbound ||
-            !journeyData.transportationReturn || !journeyData.transportationDetails ||
-            !journeyData.accommodations || !journeyData.creator) {
-            alert('Missing required fields!');
-            return;
-        }
-
-        if (typeof journeyData.creator !== 'string') {
-            alert('Please log in to create a journey!');
-            return;
-        }
-
-        const invitedTravelers = journeyData.inviteTravelers.map(traveler => ({
-            firstName: traveler.firstName,
-            lastName: traveler.lastName,
-            email: traveler.email,
-        }));
-
-        const { data } = await createJourney({ 
-            variables: { 
-                destinationCity: journeyData.destinationCity,
-                destinationState: journeyData.destinationState,
-                destinationCountry: journeyData.destinationCountry,
-                departingDate: journeyData.departingDate,
-                returningDate: journeyData.returningDate,
-                transportationOutbound: journeyData.transportationOutbound,
-                transportationReturn: journeyData.transportationReturn,
-                transportationDetails: journeyData.transportationDetails,
-                accommodations: journeyData.accommodations,
-                creator: journeyData.creator,
-                invitedTravelers
-            } 
+        if (!journeyData.creator) return alert('Please log in to create a journey!');
+        if (Object.values(journeyData).some(([key, value]) => {
+            if (key !== 'creator') {
+                if (typeof value === 'string') {
+                  return value === '';
+                } else if (Array.isArray(value)) {
+                  return value.some(traveler => Object.values(traveler).some(field => field === ''));
+                }
+              }
+            })) return alert('Missing required fields!');
+        
+        const { id, inviteTravelers, ...otherJourneyData } = journeyData;
+        console.log('Journey data:', otherJourneyData);
+        const { data } = await createJourney({
+            variables: {
+                input: {
+                    ...otherJourneyData,
+                    invitedTravelers: inviteTravelers,
+                },
+            },
         });
 
         console.log('Journey data saved:', data.createJourney);
         updateJourneys(data.createJourney);
-
-        localStorage.setItem('journeyData', JSON.stringify(journeyData));
-
-        setJourneyData({
-            id: '',
-            destinationCity: '',
-            destinationState: '',
-            destinationCountry: '',
-            departingDate: '',
-            returningDate: '',
-            transportationOutbound: '',
-            transportationReturn: '',
-            transportationDetails: '',
-            accommodations: '',
-            creator: '',
-            inviteTravelers: [],
-        });
+        localStorage.setItem('journeyData', JSON.stringify(otherJourneyData));
+        setJourneyData(initialState);
         navigate('/dashboard');
     };
 
     useEffect(() => {
         const userData = AuthService.getProfile();
-        console.log(AuthService.getProfile());
-        if (userData) {        
-            console.log(userData.data.id);
-            const userId = userData.data.id;        
-
+        console.log('UserData',userData);
+      
+        if (!userData || !userData.id) {
+          console.log('User not logged in');
+          return;
+        }
+      
+        const userId = userData.id;
+        console.log('User ID',userId);
         const savedJourneyData = localStorage.getItem('journeyData');
         let parsedData = {};
+      
         if (savedJourneyData) {
-            parsedData = JSON.parse(savedJourneyData);
+          parsedData = JSON.parse(savedJourneyData);
         }
-        setJourneyData({ ...journeyData, ...parsedData, creator: userId })
-        }
-    }, []);
+      
+        setJourneyData({
+          ...journeyData,
+          ...parsedData,
+          creator: userId
+        });
+      }, []);
+      
+    
 
     return (
 

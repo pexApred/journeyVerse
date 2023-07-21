@@ -1,28 +1,16 @@
 // use this to decode a token and get the user's information out of it
 import decode from 'jwt-decode';
 
-// create a new class to instantiate for a user
-class User {
-  constructor(id, firstName, lastName, email) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-  }
-}
-
 class AuthService {
   // get user data
   getProfile() {
-    const token = this.getToken();
+    const token = localStorage.getItem('id_token');
     if (token) {
       try {
-        const decoded = decode(token);
-        console.log(decoded);
-        const { id, firstName, lastName, email } = decoded;
-        return new User(id, firstName, lastName, email);
+        const decodedToken = decode(token);
+        return decodedToken.data;
       } catch (err) {
-        console.log(err);
+        console.log('Error decoding token', err);
         return null;
       }
     }
@@ -33,7 +21,7 @@ class AuthService {
   loggedIn() {
     // Checks if there is a saved token and it's still valid
     const token = this.getToken();
-    return !!token && !this.isTokenExpired(token); // handwaiving here
+    return !!token && !this.isTokenExpired(token);
   }
 
   // check if token is expired
@@ -44,22 +32,23 @@ class AuthService {
         return true;
       } else return false;
     } catch (err) {
-      return false;
+      return true;
     }
   }
 
-  getToken() {
+  getTokenFromStorage() {
     // Retrieves the user token from localStorage
     return localStorage.getItem('id_token');
-    
   }
   
   login(idToken, callback) {
     // Saves user token to localStorage
     localStorage.setItem('id_token', idToken);
     const profile = this.getProfile();
-    localStorage.setItem('profile', JSON.stringify(profile));
-
+    
+    if (profile) {
+      localStorage.setItem('profile', JSON.stringify(profile));
+    }
     const journeys = localStorage.getItem('journeys');
     localStorage.setItem('journeyData', journeys);
 
@@ -73,6 +62,26 @@ class AuthService {
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
     localStorage.removeItem('journeyData');
+  }
+
+  isAuthenticated() {
+    const token = this.getTokenFromStorage();
+    if (!token) return false;
+    try {
+      const { exp } = decode(token);
+      // Check if token is expired
+      const tokenExpired = Date.now() >= exp * 1000;
+      if (tokenExpired) {
+        console.log('Token has expired.');
+        this.logout(); // this will remove the expired token from localStorage
+        return false;
+      } else {
+        return true;
+      }
+    } catch (err) {
+      console.log('Error in isAuthenticated(): ', err);
+      return false;
+    }
   }
 }
 

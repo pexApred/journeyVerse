@@ -27,32 +27,8 @@ export const CREATE_USER = gql`
 `;
 
 export const CREATE_JOURNEY = gql`
-  mutation createJourney(
-    $destinationCity: String!
-    $destinationState: String!
-    $destinationCountry: String!
-    $departingDate: String!
-    $returningDate: String!
-    $transportationOutbound: String!
-    $transportationReturn: String!
-    $transportationDetails: String!
-    $accommodations: String!
-    $creator: ID
-    $invitedTravelers: [InvitedTravelerInput!]
-  ) {
-    createJourney(
-      destinationCity: $destinationCity
-      destinationState: $destinationState
-      destinationCountry: $destinationCountry
-      departingDate: $departingDate
-      returningDate: $returningDate
-      transportationOutbound: $transportationOutbound
-      transportationReturn: $transportationReturn
-      transportationDetails: $transportationDetails
-      accommodations: $accommodations
-      creator: $creator
-      invitedTravelers: $invitedTravelers
-    ) {
+  mutation createJourney($input: CreateJourneyInput!) {
+    createJourney(input: $input) {
       id
       destinationCity
       destinationState
@@ -244,12 +220,4 @@ export const REMOVE_TRAVELER = gql`
       }
     }
   }
-`;
-
-export const INVITED_TRAVELER_INPUT = gql`
-input InvitedTravelerInput {
-  firstName: String!
-  lastName: String!
-  email: String!
-}
 `;

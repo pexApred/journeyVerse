@@ -7,9 +7,8 @@ import {
 } from '@apollo/client';
 
 import { setContext } from '@apollo/client/link/context';
-import jwtDecode from 'jwt-decode';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+import AuthService from './utils/auth';
 import DashBoard from './pages/DashboardPage';
 import DetailsPage from './pages/DetailsPage';
 import JourneyPage from './pages/JourneyPage';
@@ -17,13 +16,16 @@ import LandingPage from './pages/LandingPage';
 import './App.css';
 import { Provider } from './utils/context';
 import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
+
 // import Profile from './pages/Profile';
 // MW - Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({ 
   uri: '/graphql' 
 });
+
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('id_token');
+  const token = AuthService.getTokenFromStorage();
   return {
     headers: {
       ...headers,
@@ -38,35 +40,35 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const getTokenFromStorage = () => {
-  return localStorage.getItem('id_token');
-};
+// const getTokenFromStorage = () => {
+//   return localStorage.getItem('id_token');
+// };
 
-const isAuthenticated = () => {
-  const token = getTokenFromStorage();
-  if (!token) return false;
-  try {
-    const { exp } = jwtDecode(token);
-    // Check if token is expired
-    const tokenExpired = Date.now() >= exp * 1000;
-    if (tokenExpired) {
-      console.log('Token has expired.');
-      localStorage.removeItem('id_token');
-      return false;
-    } else {
-      return true;
-    }
-  } catch (err) {
-    console.log('Error in isAuthenticated(): ', err);
-    return false;
-  }
-};
+// const isAuthenticated = () => {
+//   const token = getTokenFromStorage();
+//   if (!token) return false;
+//   try {
+//     const { exp } = jwtDecode(token);
+//     // Check if token is expired
+//     const tokenExpired = Date.now() >= exp * 1000;
+//     if (tokenExpired) {
+//       console.log('Token has expired.');
+//       localStorage.removeItem('id_token');
+//       return false;
+//     } else {
+//       return true;
+//     }
+//   } catch (err) {
+//     console.log('Error in isAuthenticated(): ', err);
+//     return false;
+//   }
+// };
 
 const useAuthentication = () => {
-  const [authenticated, setAuthenticated] = useState(isAuthenticated());
+  const [authenticated, setAuthenticated] = useState(AuthService.isAuthenticated());
 
   useEffect(() => {
-    setAuthenticated(isAuthenticated());
+    setAuthenticated(AuthService.isAuthenticated());
   }, []);
 
   return authenticated;
