@@ -6,7 +6,7 @@ import {
   createHttpLink,
 } from '@apollo/client';
 
-import { setContext } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AuthService from './utils/auth';
 import DashBoard from './pages/DashboardPage';
