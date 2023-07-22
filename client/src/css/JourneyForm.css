@@ -1,5 +1,5 @@
 .formlabel {
-  color: #1c92a9;
+  color: #578F6A;
   font-size: large;
   font-weight: bold;
 }
@@ -9,15 +9,12 @@
 }
 
 .journeyForm {
-  max-height: calc(100vh - 180px);
-  overflow-y: auto;
-  padding-bottom: 180px;
+  overflow: auto;
+  padding-top: 20px;
 
   @media (max-width: 648px) {
     margin-top: 600px;
   }
-
-  ;
 
   @media (max-width: 896px) {
     margin-top: 400px;
@@ -37,16 +34,49 @@
   font-size: large;
 }
 
-.form-input {
-  width: 100%;
-}
-
 .invite {
-  color: #4579fb;
+  color: #578F6A;
+  font-weight: bold;
 }
 
 .traveler {
   font-size: larger;
   font-weight: bold;
   color: #578F6A;
+}
+
+.traveler-container {
+  margin-bottom: 20px;
+}
+
+.form-input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 10px 12px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #f9f9f9;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: #578F6A;
+}
+
+.traveler-input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 10px 12px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #f9f9f9;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.traveler-input:focus {
+  border-color: #578F6A;
 }

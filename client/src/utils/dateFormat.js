@@ -18,7 +18,7 @@ const addDateSuffix = (date) => {
 };
 
 // function to format a timestamp, accepts the timestamp and an `options` object as parameters
-module.exports = (
+const dateFormat = (
   timestamp,
   { monthLength = 'short', dateSuffix = true } = {}
 ) => {
@@ -38,8 +38,8 @@ module.exports = (
     11: monthLength === 'short' ? 'Dec' : 'December',
   };
 
-  const dateObj = new Date(timestamp);
-  
+  const dateObj = new Date(Number(timestamp)); // convert Unix timestamp to JavaScript Date
+
   const formattedMonth = months[dateObj.getMonth()];
 
   const dayOfMonth = dateSuffix
@@ -47,6 +47,12 @@ module.exports = (
     : dateObj.getDate();
 
   const year = dateObj.getFullYear();
+  
+  if (year < 1970 || year > 3000) {
+    console.error('Invalid timestamp:', timestamp);
+    return 'Invalid date';
+  }
+
   let hour =
     dateObj.getHours() > 12
       ? Math.floor(dateObj.getHours() - 12)
@@ -62,7 +68,9 @@ module.exports = (
   // set `am` or `pm`
   const periodOfDay = dateObj.getHours() >= 12 ? 'pm' : 'am';
 
-  const formattedTimeStamp = `${formattedMonth} ${dayOfMonth}, ${year} at ${hour}:${minutes} ${periodOfDay}`;
+  const formattedTimeStamp = `${formattedMonth} ${dayOfMonth}, ${year}`;
 
   return formattedTimeStamp;
 };
+
+export default dateFormat;

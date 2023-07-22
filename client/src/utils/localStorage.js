@@ -1,5 +1,6 @@
 export function saveToLocalStorage(key, value) {
     try {
+        console.log('Saving to localStorage: ', value, key)
         const serializedValue = JSON.stringify(value);
         localStorage.setItem(key, serializedValue);
     } catch (err) {
@@ -9,6 +10,7 @@ export function saveToLocalStorage(key, value) {
 
 export function getFromLocalStorage(key) {
     try {
+        console.log('Getting from localStorage: ', key)
         const serializedValue = localStorage.getItem(key);
         if (serializedValue === null) return undefined;
         return JSON.parse(serializedValue);

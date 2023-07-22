@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
 const { User, Journey } = require('../models');
 const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
+const dateFormat = require('../utils/dateFormat');
 
 // TODO:
 // Go through and make more generic error messages after complete for security reasons
@@ -14,7 +14,6 @@ module.exports = {
       const userId = context.user._id;
       try {
         const user = await User.findById(userId);
-        console.log(user, userId);
         return user;
       } catch (err) {
         console.error(err);
@@ -24,7 +23,6 @@ module.exports = {
     user: async (parent, { id }) => {
       try {
         const user = await User.findById(id);
-        console.log(user, user.id, id);
         return user;
       } catch (err) {
         console.error(err);
@@ -34,7 +32,6 @@ module.exports = {
     users: async () => {
       try {
         const users = await User.find();
-        console.log(users);
         return users;
       } catch (err) {
         console.error(err);
@@ -44,19 +41,29 @@ module.exports = {
     journey: async (parent, { id }) => {
       try {
         const journey = await Journey.findById(id).populate('creator').populate('invitedTravelers').execPopulate();
+
+        journey.departingDate = dateFormat(journey.departingDate);
+        journey.returningDate = dateFormat(journey.returningDate);
+
         return journey;
       } catch (err) {
         console.error(err);
-        throw new AuthenticationError('Something went wrong with finding and populating the creator with the invited travelers!');
+        throw new AuthenticationError('Something went wrong with finding and populating the Journey!');
       }
     },
     journeys: async (parent, args, context) => {
       try {
         const journeys = await Journey.find({ creator: context.user._id }).populate('creator').populate('invitedTravelers').exec();
+
+        journeys.forEach((journey) => {
+          journey.departingDate = dateFormat(journey.departingDate);
+          journey.returningDate = dateFormat(journey.returningDate);
+        });
+
         return journeys;
       } catch (err) {
         console.error(err);
-        throw new AuthenticationError('Something went wrong with finding and populating the creator with the invited travelers!');
+        throw new AuthenticationError('Something went wrong with finding and populating the Journeys!');
       }
     }
     // Check id  parameter if problematic
@@ -77,15 +84,12 @@ module.exports = {
       return { token, user };
     },
     createUser: async (parent, args) => {
-      console.log(args);
 
       const user = await User.create(args);
-      console.log(user);
       if (!user) {
         throw new Error("Something is wrong!");
       }
       const token = signToken(user);
-      console.log(token);
       return { token, user };
     },
     createJourney: async (parent, { input }, context) => {
@@ -102,13 +106,11 @@ module.exports = {
         creator,
         invitedTravelers,
       } = input;
-      console.log("Invited Travelers: ", invitedTravelers);
       if (!context.user) {
         throw new Error("Something went horribly wrong!");
       }
       try {
         // Create traveler documents for each invited traveler to grab their ids
-        console.log("Invited Travelers: ", invitedTravelers);
         let invitedTravelerIds = [];
         if (Array.isArray(invitedTravelers)) {
           invitedTravelerIds = await Promise.all(invitedTravelers.map(async ({ email, firstName, lastName }) => {
@@ -125,7 +127,6 @@ module.exports = {
             return traveler._id;
           }))
         } else {
-          console.log("Invited Travelers is undefined or not an array");
         }
         const createdJourney = await Journey.create({
           destinationCity,
@@ -144,16 +145,11 @@ module.exports = {
         if (!createdJourney) {
           throw new Error("Something went wrong with creating a journey!");
         }
-        console.log("Invited Travelers: ", invitedTravelers);
-        console.log("Creator: ", creator);
-        console.log("CreatedJourney: ", createdJourney);
         const updatedUser = await User.findByIdAndUpdate(
           context.user._id,
           { $push: { savedJourneys: createdJourney._id } },
           { new: true }
         );
-        console.log("Creator: ", creator);
-        console.log("UpdatedUser: ", updatedUser);
 
         const populatedJourney = createdJourney
           ? await Journey.findById(createdJourney._id).populate('creator').populate('invitedTravelers')
@@ -181,21 +177,25 @@ module.exports = {
         throw new Error('Something went wrong with finding and updating Journey details!');
       }
     },
-    deleteJourney: async (parent, args, context) => {
+    deleteJourney: async (parent, { id }, context) => {
       if (!context.user) {
         throw new Error("Something went horribly wrong!");
       }
       try {
-        const journeyToDelete = await Journey.findById(args.id);
-        const updatedUser = await User.findByIdAndUpdate(
+        const journeyToDelete = await Journey.findById(id);
+        // const updatedUser = await User.findByIdAndUpdate(
+          if (!journeyToDelete) {
+            throw new Error("Something went wrong with finding the journey to delete!");
+          }
+          await User.findByIdAndUpdate(
           journeyToDelete.creator,
-          { $pull: { savedJourneys: journeyToDelete._id } },
+          { $pull: { savedJourneys: journeyToDelete.id } },
           { new: true }
         );
-        const deletedJourney = await Journey.findByIdAndDelete(args.id);
+        const deletedJourney = await Journey.findByIdAndDelete(id);
         return deletedJourney;
       } catch (err) {
-        console.error(err);
+        console.error('original', err);
         throw new Error('Something went wrong!');
       }
     },

@@ -32,7 +32,7 @@ const LandingPage = () => {
         </div>
       </Container>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

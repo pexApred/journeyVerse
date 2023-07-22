@@ -5,3 +5,8 @@
 .button:hover {
     background-color: #578F6A ;
 }
+
+h3 {
+    color: #578F6A;
+    margin: 1em 0 1em 0;
+}

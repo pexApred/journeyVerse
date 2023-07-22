@@ -5,5 +5,16 @@
 }
 
 .navbar {
-    z-index: 1000;
+    position: relative;
+    background-color: #578F6A;
+}
+
+/* .logo {
+    filter: invert(1) grayscale(1) brightness(2);
+} */
+
+.title {
+    color: #578F6A;
+    /* font-weight: bold; */
+    margin-left: 1em;
 }

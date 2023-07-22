@@ -17,7 +17,7 @@ const DetailsPage = () => {
         }}>
           <EditJourneyForm />
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
   );
 };

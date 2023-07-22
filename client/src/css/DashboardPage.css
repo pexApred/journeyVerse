@@ -1,3 +1,10 @@
+.scrollable {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 2em 0 2em 0;
+}
+
 .profile {
     padding: 1%;
 }
@@ -12,7 +19,8 @@ h2 {
 }
 
 .button {
-    background-color: gray
+    background-color: gray;
+    font-size: 24px;
 }
 
 .button:hover {

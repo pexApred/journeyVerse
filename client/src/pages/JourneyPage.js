@@ -21,7 +21,7 @@ const JourneyPages = () => {
         backgroundSize: '100% 100%',
         backgroundPosition: 'center'
       }}>
-        <Container>
+        <Container className='container'>
           <JourneyForm setJourneyData={setJourneyData} />
           {journeyData && (
             <>
@@ -40,7 +40,7 @@ const JourneyPages = () => {
           )}
         </Container>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

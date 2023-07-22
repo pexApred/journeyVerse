@@ -1,7 +1,7 @@
 .footer {
-  position: sticky;
-  /* margin-top: 20px;
-    width: 100%; */
+  position: relative;
+  margin-top: 20px;
+  width: 100%;
   /* max-height: 80px; */
   background-color: #578F6A;
   color: white;
@@ -16,4 +16,8 @@
 
 .footer-link:hover {
   text-decoration: underline;
+}
+
+.logo {
+  filter: invert(1) grayscale(1) brightness(2);
 }

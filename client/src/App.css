@@ -1,8 +1,15 @@
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  justify-content: space-between;
+  min-height: 100%;
+}
+
+.content {
+  flex: 1 0 auto;
+}
+
+.footer {
+  flex-shrink: 0;
 }
 /* 
 .App {

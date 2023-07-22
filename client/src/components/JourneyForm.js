@@ -61,11 +61,11 @@ const JourneyForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+
         if (!journeyData.creator) {
             return alert('Please log in to create a journey!');
         }
-        
+
         for (const key in journeyData) {
             if (key !== 'creator' && key !== 'id' && key !== 'inviteTravelers') {
                 if (!journeyData[key]) {
@@ -73,17 +73,17 @@ const JourneyForm = () => {
                 }
             }
         }
-    
+
         if (journeyData.inviteTravelers.some(traveler => {
             return !traveler.firstName || !traveler.lastName || !traveler.email;
         })) {
             return alert('All fields for each traveler are required!');
         }
-    
+
         const { id, inviteTravelers, ...otherJourneyData } = journeyData;
-        
-        console.log('Journey data:', otherJourneyData);
-    
+
+        // console.log('Journey data:', otherJourneyData);
+
         try {
             const { data } = await createJourney({
                 variables: {
@@ -93,8 +93,8 @@ const JourneyForm = () => {
                     },
                 },
             });
-    
-            console.log('Journey data saved:', data.createJourney);
+
+            // console.log('Journey data saved:', data.createJourney);
             updateJourneys(data.createJourney);
             saveToLocalStorage('journeyData', otherJourneyData);
             setJourneyData(initialState);
@@ -104,34 +104,29 @@ const JourneyForm = () => {
             alert('There was an error creating your journey. Please try again.');
         }
     };
-    
+
 
     useEffect(() => {
         const userData = AuthService.getProfile();
-        console.log('UserData',userData);
-      
+        // console.log('UserData', userData);
+
         if (!userData || !userData.id) {
-          console.log('User not logged in');
-          return;
+            // console.log('User not logged in');
+            return;
         }
-      
+
         const userId = userData.id;
-        console.log('User ID',userId);
-        const savedJourneyData = getFromLocalStorage('journeyData');
-        let parsedData = {};
-      
-        if (savedJourneyData) {
-          parsedData = JSON.parse(savedJourneyData);
-        }
-      
-        setJourneyData({
-          ...journeyData,
-          ...parsedData,
-          creator: userId
-        });
-      }, []);
-      
-    
+        // console.log('User ID', userId);
+        const savedJourneyData = getFromLocalStorage('journeyData') || {};
+
+        // console.log('Saved Journey Data: ', savedJourneyData, 'User Data: ', userData, 'User Id: ', userId);
+
+        setJourneyData(prevState => ({
+            ...prevState,
+            ...savedJourneyData,
+            creator: userId
+        }));
+    }, []);
 
     return (
 
@@ -259,40 +254,44 @@ const JourneyForm = () => {
                         <div>
                             <h3 className='invite' >Invite Travelers:</h3>
                             {journeyData.inviteTravelers.map((traveler, index) => (
-                                <div key={index}>
-                                    <Row>
-                                        <Col md={6}>
-                                            <h4 className='traveler'>Traveler {index + 1}</h4>
-                                            <div>
-                                                <label htmlFor={`firstName-${index}`}>First Name:</label>
-                                                <input
-                                                    type="text"
-                                                    name={`firstName`}
-                                                    id={`firstName-${index}`}
-                                                    value={traveler.firstName}
-                                                    onChange={(event) => handleInviteTravelerInputChange(index, 'firstName', event)}
-                                                />
-                                            </div>
-                                            <div>
-                                                <label htmlFor={`lastName-${index}`}>Last Name:</label>
-                                                <input
-                                                    type="text"
-                                                    name={`lastName`}
-                                                    id={`lastName-${index}`}
-                                                    value={traveler.lastName}
-                                                    onChange={(event) => handleInviteTravelerInputChange(index, 'lastName', event)}
-                                                />
-                                            </div>
-                                            <div>
-                                                <label htmlFor={`email-${index}`}>Email:</label>
-                                                <input
-                                                    type="email"
-                                                    name={`email`}
-                                                    id={`email-${index}`}
-                                                    value={traveler.email}
-                                                    onChange={(event) => handleInviteTravelerInputChange(index, 'email', event)}
-                                                />
-                                            </div>
+                                <div key={index} className='traveler-container'>
+                                    <h4 className='traveler'>Traveler {index + 1}</h4>
+                                    <Row className='traveler-row'>
+                                        <Col md={4}>
+                                            <label htmlFor={`firstName-${index}`}>First Name:</label>
+                                            <input
+                                                type="text"
+                                                name={`firstName`}
+                                                id={`firstName-${index}`}
+                                                value={traveler.firstName}
+                                                onChange={(event) => handleInviteTravelerInputChange(index, 'firstName', event)}
+                                                className='traveler-input'
+                                                placeholder='First Name'
+                                            />
+                                        </Col>
+                                        <Col md={4}>
+                                            <label htmlFor={`lastName-${index}`}>Last Name:</label>
+                                            <input
+                                                type="text"
+                                                name={`lastName`}
+                                                id={`lastName-${index}`}
+                                                value={traveler.lastName}
+                                                onChange={(event) => handleInviteTravelerInputChange(index, 'lastName', event)}
+                                                className='traveler-input'
+                                                placeholder='Last Name'
+                                            />
+                                        </Col>
+                                        <Col md={4}>
+                                            <label htmlFor={`email-${index}`}>Email:</label>
+                                            <input
+                                                type="email"
+                                                name={`email`}
+                                                id={`email-${index}`}
+                                                value={traveler.email}
+                                                onChange={(event) => handleInviteTravelerInputChange(index, 'email', event)}
+                                                className='traveler-input'
+                                                placeholder='Email'
+                                            />
                                         </Col>
                                     </Row>
                                     <Button className='removet mb-3' type="button" variant="danger" onClick={() => handleRemoveTraveler(index)}>
@@ -300,6 +299,7 @@ const JourneyForm = () => {
                                     </Button>
                                 </div>
                             ))}
+
                             <Button type="button" onClick={handleAddTraveler}>
                                 Add Traveler
                             </Button>

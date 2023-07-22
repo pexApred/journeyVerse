@@ -5,7 +5,7 @@ import { useMutation, useQuery } from '@apollo/client';
 // useNavigate is a hook provided by react-router-dom to redirect the user programmatically
 import { useNavigate } from 'react-router-dom';
 import { LOGIN_USER } from '../utils/mutations'
-import { GET_JOURNEYS } from '../utils/queries';
+import { GET_JOURNEY } from '../utils/queries';
 // import { Link } from "react-router-dom";
 import AuthService from '../utils/auth';
 import '../css/LoginForm.css';
@@ -19,7 +19,7 @@ const LoginForm = ({ setShowModal }) => {
   const [loginUser] = useMutation(LOGIN_USER);
   const navigate = useNavigate();
   const { loggedIn, setLoggedIn } = useContext(Context);
-  const { loading, error, data } = useQuery(GET_JOURNEYS, {
+  const { loading, error, data } = useQuery(GET_JOURNEY, {
     skip: !loggedIn,
   });
 

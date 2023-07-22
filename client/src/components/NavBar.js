@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
+import { Navbar, Nav, Container, Modal, Tab, Image, Col } from 'react-bootstrap';
 import SignupForm from './SignupForm';
 import LoginForm from './LoginForm';
 import AuthService from '../utils/auth';
@@ -21,9 +21,12 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar className="navbar" fixed="top" bg="dark" variant="dark" expand="lg">
+      <Navbar className="navbar" variant="dark" expand="lg">
         <Container fluid>
-          <Navbar.Brand as={Link} to="/">JourneyVerse</Navbar.Brand>
+          {/* <Col className='text-center text-sm-left'>
+            <Image src="./journeyverse-logo.png" alt="Logo" className="logo" fluid />           */}
+            <Navbar.Brand className='title' as={Link} to="/">JourneyVerse</Navbar.Brand>
+          {/* </Col> */}
           <Navbar.Toggle aria-controls="navbar" />
           <Navbar.Collapse id="navbar">
             <Nav className="ml-auto d-flex">

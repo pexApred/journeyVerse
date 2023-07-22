@@ -1,9 +1,11 @@
 .landing-page {
-    height: 100vh;
-    display: flex;
-    /* margin-top: 120px;
-    margin-bottom: 75px; */
-    align-items: center;
-    justify-content: center;
-    padding-top: 5%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2em 0;
+  }
+
+  .container {
+    overflow: auto;
   }

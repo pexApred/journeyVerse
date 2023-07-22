@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  ApolloClient, 
-  ApolloProvider, 
-  InMemoryCache, 
-  createHttpLink, 
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
 } from '@apollo/client';
 
 import { setContext } from '@apollo/client/link/context';
@@ -21,8 +21,8 @@ import Footer from './components/Footer';
 
 // import Profile from './pages/Profile';
 // MW - Construct our main GraphQL API endpoint
-const httpLink = createHttpLink({ 
-  uri: '/graphql' 
+const httpLink = createHttpLink({
+  uri: '/graphql'
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -40,30 +40,6 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
-
-// const getTokenFromStorage = () => {
-//   return localStorage.getItem('id_token');
-// };
-
-// const isAuthenticated = () => {
-//   const token = getTokenFromStorage();
-//   if (!token) return false;
-//   try {
-//     const { exp } = jwtDecode(token);
-//     // Check if token is expired
-//     const tokenExpired = Date.now() >= exp * 1000;
-//     if (tokenExpired) {
-//       console.log('Token has expired.');
-//       localStorage.removeItem('id_token');
-//       return false;
-//     } else {
-//       return true;
-//     }
-//   } catch (err) {
-//     console.log('Error in isAuthenticated(): ', err);
-//     return false;
-//   }
-// };
 
 const useAuthentication = () => {
   const [authenticated, setAuthenticated] = useState(AuthService.isAuthenticated());
@@ -85,7 +61,7 @@ function usePrevious(value) {
   return ref.current;
 };
 
-const RoutesComponent= () => {
+const RoutesComponent = () => {
   const navigate = useNavigate();
   const isAuthenticated = useAuthentication();
   const wasAuthenticated = usePrevious(isAuthenticated);
@@ -115,19 +91,21 @@ const RoutesComponent= () => {
   };
 };
 
-  function App() {
-    return (
-      <div className="app">
+function App() {
+  return (
+    <div className="app">
       <Provider>
         <ApolloProvider client={client}>
           <Router>
-            <RoutesComponent />
-            {/* <Footer /> */}
+            <div className="content">
+              <RoutesComponent />
+            </div>
+            <Footer />
           </Router>
         </ApolloProvider>
       </Provider>
-      </div>
-    );
-  };
+    </div >
+  );
+};
 
-  export default App;
+export default App;

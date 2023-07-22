@@ -16,7 +16,7 @@ const DashboardPage = () => {
     <div>
       {/* Header */}
       <NavBar />
-      <div className="landing-page" style={{
+      <div className="scrollable" style={{
         backgroundImage: `url('../background.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
@@ -28,11 +28,10 @@ const DashboardPage = () => {
           </div>
           <Profile />
           {/* Create a journey link */}
-          <JourneyList />
           <Button className="button" as={Link} to="/journey" variant="primary">
             Create a Journey
           </Button>
-
+          <JourneyList />
           {/* Display the current in-progress journey
           {currentJourney && (
             <Card className="current" style={{ width: '60%' }}>
@@ -45,7 +44,7 @@ const DashboardPage = () => {
           )} */}
         </Container>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
