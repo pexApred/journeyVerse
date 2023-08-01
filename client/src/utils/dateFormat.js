@@ -38,7 +38,7 @@ const dateFormat = (
     11: monthLength === 'short' ? 'Dec' : 'December',
   };
 
-  const dateObj = new Date(Number(timestamp)); // convert Unix timestamp to JavaScript Date
+  const dateObj = new Date(timestamp); // convert Unix timestamp to JavaScript Date
 
   const formattedMonth = months[dateObj.getMonth()];
 

@@ -64,16 +64,24 @@ const JourneyList = () => {
   }, [refetch]);
 
   useEffect(() => {
-    if (data) {
-      let sortedJourneys = [...data.journeys].sort((a, b) => new Date(a.departingDate) - new Date(b.departingDate));
-      setJourneys(sortedJourneys);
-      saveToLocalStorage('journeys', sortedJourneys);
-    } else if (error) {
-      console.error('ERROR WITH DATA', error);
-    } else {
-      refetch();
+    if (loading) return;
+    if (error) {
+        console.error('ERROR WITH DATA', error);
+        return;
     }
-  }, [data, setJourneys, refetch, error]);
+    if (data && data.journeys) {
+        let sortedJourneys = [...data.journeys].sort((a, b) => new Date(a.departingDate) - new Date(b.departingDate));
+        setJourneys(sortedJourneys);
+        saveToLocalStorage('journeys', sortedJourneys);
+    } else {
+        setJourneys([]);
+        saveToLocalStorage('journeys', []);
+    }
+}, [data, setJourneys, refetch, error, loading]);
+
+if (loading) {
+    return <h2>Loading...</h2>;
+}
 
   return (
     <>
@@ -99,7 +107,7 @@ const JourneyList = () => {
                       Destination: {upcomingJourney.destinationCity}, {upcomingJourney.destinationState},{' '}
                       {upcomingJourney.destinationCountry}
                     </p>
-                    <p className="small">Departing Date: {dateFormat(Number(upcomingJourney.departingDate))}</p>
+                    <p className="small">Departing Date: {upcomingJourney.departingDate}</p>
                     <Button
                       className="btn-block btn-danger"
                       onClick={() => handleDeleteJourney(upcomingJourney.id)}
@@ -130,7 +138,7 @@ const JourneyList = () => {
                     Destination: {journey.destinationCity}, {journey.destinationState},{' '}
                     {journey.destinationCountry}
                   </p>
-                  <p className="small">Departing Date: {dateFormat(Number(journey.departingDate))}</p>
+                  <p className="small">Departing Date: {journey.departingDate}</p>
                   {journey.invitedTravelers && journey.invitedTravelers.length > 0 && (
                     <p className="small">Invited Travelers:
                       {journey.invitedTravelers.map((traveler, index) => (

@@ -44,10 +44,11 @@ module.exports = {
         const journey = await Journey.findById(id).populate('creator').populate('invitedTravelers').execPopulate();
     
         // Convert the ObjectId fields to strings
-        journey._id = journey._id.toString();
-        journey.creator._id = journey.creator._id.toString();
+        journey = journey.toObject();
+        journey.id = journey._id.toString();
+        journey.creator.id = journey.creator._id.toString();
         journey.invitedTravelers.forEach((traveler, index) => {
-          journey.invitedTravelers[index]._id = traveler._id.toString();
+          journey.invitedTravelers[index].id = traveler._id.toString();
         });
     
         journey.departingDate = dateFormat(journey.departingDate);
@@ -62,19 +63,21 @@ module.exports = {
     journeys: async (parent, args, context) => {
       console.log('contextFetching journeys for user', context.user.id);
       try {
-        const journeys = await Journey.find({ creator: context.user.id }).populate('creator').populate('invitedTravelers').exec();
+        let journeys = await Journey.find({ creator: context.user.id }).populate('creator').populate('invitedTravelers').exec();
         console.log('journeys', journeys);
     
-        journeys.forEach((journey) => {
-          // Convert the ObjectId fields to strings
-          journey._id = journey._id.toString();
-          journey.creator._id = journey.creator._id.toString();
+        journeys = journeys.map(journey => {
+          journey = journey.toObject();
+          journey.id = journey._id.toString();
+          console.log('journey', journey._id);
+          journey.creator.id = journey.creator._id.toString();
           journey.invitedTravelers.forEach((traveler, index) => {
-            journey.invitedTravelers[index]._id = traveler._id.toString();
+            journey.invitedTravelers[index].id = traveler._id.toString();
           });
     
           journey.departingDate = dateFormat(journey.departingDate);
           journey.returningDate = dateFormat(journey.returningDate);
+          return journey;
         });
     
         return journeys;
