@@ -66,6 +66,7 @@ class AuthService {
     removeFromLocalStorage('id_token');
     removeFromLocalStorage('profile');
     removeFromLocalStorage('journeys');
+    removeFromLocalStorage('journeyData');
     // clearLocalStorage();
   }
 
