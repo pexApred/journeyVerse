@@ -1,5 +1,6 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
+const { InMemoryLRUCache } = require('apollo-server-caching');
 const path = require('path');
 
 const { typeDefs, resolvers } = require('./schemas');
@@ -12,6 +13,9 @@ const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  persistedQueries: {
+    cache: new InMemoryLRUCache({ maxSize: 1000 })
+  },
   context: ({ req }) => {
     // add the user to the context
     const userReq = authMiddleware({ req });
