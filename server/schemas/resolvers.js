@@ -42,10 +42,17 @@ module.exports = {
     journey: async (parent, { id }) => {
       try {
         const journey = await Journey.findById(id).populate('creator').populate('invitedTravelers').execPopulate();
-
+    
+        // Convert the ObjectId fields to strings
+        journey._id = journey._id.toString();
+        journey.creator._id = journey.creator._id.toString();
+        journey.invitedTravelers.forEach((traveler, index) => {
+          journey.invitedTravelers[index]._id = traveler._id.toString();
+        });
+    
         journey.departingDate = dateFormat(journey.departingDate);
         journey.returningDate = dateFormat(journey.returningDate);
-
+    
         return journey;
       } catch (err) {
         console.error(err);
@@ -57,17 +64,26 @@ module.exports = {
       try {
         const journeys = await Journey.find({ creator: context.user.id }).populate('creator').populate('invitedTravelers').exec();
         console.log('journeys', journeys);
+    
         journeys.forEach((journey) => {
+          // Convert the ObjectId fields to strings
+          journey._id = journey._id.toString();
+          journey.creator._id = journey.creator._id.toString();
+          journey.invitedTravelers.forEach((traveler, index) => {
+            journey.invitedTravelers[index]._id = traveler._id.toString();
+          });
+    
           journey.departingDate = dateFormat(journey.departingDate);
           journey.returningDate = dateFormat(journey.returningDate);
         });
-
+    
         return journeys;
       } catch (err) {
         console.error(err);
         throw new AuthenticationError('Something went wrong with finding and populating the Journeys!');
       }
     }
+    
     // Check id  parameter if problematic
 
   },
