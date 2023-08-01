@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import '../css/DashboardPage.css';
 import '../css/Profile.css';
+import { GET_ME } from '../utils/queries';
+import { useQuery } from '@apollo/client';
 import { getFromLocalStorage } from '../utils/localStorage';
 
 const Profile = () => {
@@ -12,9 +14,31 @@ const Profile = () => {
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    // const [editingPicture, setEditingPicture] = useState(false);
-    // const [showUploadButton, setShowUploadButton] = useState(true);
     const fileInputRef = useRef(null);
+    const token = getFromLocalStorage('id_token');
+    let userId = null;
+    
+    try {
+        userId = jwtDecode(token).data.id;
+    } catch(e) {
+        console.log("Error decoding token: ", e);
+    }
+
+    const { loading, data, error } = useQuery(GET_ME, {
+        variables: { id: userId },
+        fetchPolicy: 'network-only',
+        skip: !userId,
+    });
+
+    const user = data?.user;    
+    
+    useEffect(() => {
+        if (user) {
+            setEmail(user.email);
+            setFirstName(user.firstName);
+            setLastName(user.lastName);
+        }
+    }, [user]);
 
     const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
@@ -29,8 +53,6 @@ const Profile = () => {
 
         reader.onloadend = () => {
             setProfilePicture(reader.result);
-            // setEditingPicture(false);
-            // setShowUploadButton(false);
         };
 
         if (file) {
@@ -40,19 +62,14 @@ const Profile = () => {
 
     const handleEditButtonClick = () => {
         fileInputRef.current.click();
-        // setEditingPicture(true);
-        // setShowUploadButton(true);
     };
 
-    useEffect(() => {
-        const token = getFromLocalStorage('id_token');
-        if (token) {
-            const decodedToken = jwtDecode(token);
-            setEmail(decodedToken.data.email);
-            setFirstName(decodedToken.data.firstName);
-            setLastName(decodedToken.data.lastName);
-        }
-    }, []);
+    if (loading)
+        return <div>Loading...</div>;
+
+
+    if (error)
+        return <div>Error!</div>;
 
     return (
         <Row className='profile'>

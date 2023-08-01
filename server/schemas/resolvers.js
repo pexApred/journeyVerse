@@ -11,7 +11,8 @@ module.exports = {
   // set up a query resolver to get all users
   Query: {
     me: async (parent, args, context) => {
-      const userId = context.user._id;
+      const userId = context.user.id;
+      console.log('contextFetching me for user', userId);
       try {
         const user = await User.findById(userId);
         return user;
@@ -125,7 +126,7 @@ module.exports = {
                 password: 'password12345',
               });
             }
-            return traveler._id;
+            return traveler.id;
           }))
         } else {
         }
@@ -139,7 +140,7 @@ module.exports = {
           transportationReturn,
           transportationDetails,
           accommodations,
-          creator: context.user._id,
+          creator: context.user.id,
           invitedTravelers: invitedTravelerIds,
         });
 
@@ -147,13 +148,13 @@ module.exports = {
           throw new Error("Something went wrong with creating a journey!");
         }
         const updatedUser = await User.findByIdAndUpdate(
-          context.user._id,
-          { $push: { savedJourneys: createdJourney._id } },
+          context.user.id,
+          { $push: { savedJourneys: createdJourney.id } },
           { new: true }
         );
 
         const populatedJourney = createdJourney
-          ? await Journey.findById(createdJourney._id).populate('creator').populate('invitedTravelers')
+          ? await Journey.findById(createdJourney.id).populate('creator').populate('invitedTravelers')
           : null;
 
         return populatedJourney;
