@@ -52,9 +52,10 @@ module.exports = {
       }
     },
     journeys: async (parent, args, context) => {
+      console.log('contextFetching journeys for user', context.user.id);
       try {
-        const journeys = await Journey.find({ creator: context.user._id }).populate('creator').populate('invitedTravelers').exec();
-
+        const journeys = await Journey.find({ creator: context.user.id }).populate('creator').populate('invitedTravelers').exec();
+        console.log('journeys', journeys);
         journeys.forEach((journey) => {
           journey.departingDate = dateFormat(journey.departingDate);
           journey.returningDate = dateFormat(journey.returningDate);
