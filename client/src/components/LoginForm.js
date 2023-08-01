@@ -16,7 +16,7 @@ const LoginForm = ({ setShowModal }) => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [loginUser] = useMutation(LOGIN_USER);
+  const [login] = useMutation(LOGIN_USER);
   const navigate = useNavigate();
   const { loggedIn, setLoggedIn } = useContext(Context);
   const { loading, error, data } = useQuery(GET_JOURNEY, {
@@ -38,7 +38,7 @@ const LoginForm = ({ setShowModal }) => {
       // setValidated(true);
 
       try {
-        const { data } = await loginUser({
+        const { data } = await login({
           variables: { ...userFormData },
         });
         AuthService.login(data.login.token);

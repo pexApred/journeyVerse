@@ -7,25 +7,32 @@ dotenv.config();
 const secret = process.env.JWT_SECRET;
 const expiration = '24h';
 
+if (!secret) {
+  throw new Error('JWT secret is missing!');
+}
+
 module.exports = {
   // function for our authenticated routes
   authMiddleware: function ({ req }) {
     // allows token to be sent via  req.query or headers
     let token = req.body.token || req.headers.authorization;
-    // ["Bearer", "<tokenvalue>"]
+
     if (req.headers.authorization) {
-      token = token.split(' ').pop().trim();
+          // ["Bearer", "<tokenvalue>"]
+      token = req.headers.authorization.split(' ').pop().trim();
+    } else if (req.body.token) {
+      token = req.body.token;
     }
+
     if (!token) {
       return req;
     }
-
     // verify token and get user data out of it
     try {
-      const { data } = jwt.verify(token, secret, { expiresIn: expiration });
+      const { data } = jwt.verify(token, secret);
       req.user = data;
     } catch (err) {
-      throw new AuthenticationError('invalid token!');
+      throw new AuthenticationError('Error with authentication!');
     }
     // send to next endpoint
     return req;

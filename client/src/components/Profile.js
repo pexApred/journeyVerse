@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import '../css/DashboardPage.css';
 import '../css/Profile.css';
-import { GET_ME } from '../utils/queries';
+import { GET_USER } from '../utils/queries';
 import { useQuery } from '@apollo/client';
 import { getFromLocalStorage } from '../utils/localStorage';
 
@@ -24,7 +24,7 @@ const Profile = () => {
         console.log("Error decoding token: ", e);
     }
 
-    const { loading, data, error } = useQuery(GET_ME, {
+    const { loading, data, error } = useQuery(GET_USER, {
         variables: { id: userId },
         fetchPolicy: 'network-only',
         skip: !userId,

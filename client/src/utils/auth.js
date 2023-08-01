@@ -1,6 +1,6 @@
 // use this to decode a token and get the user's information out of it
 import decode from 'jwt-decode';
-import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage, clearLocalStorage } from './localStorage';
+import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from './localStorage';
 
 class AuthService {
   // get user data
@@ -31,8 +31,10 @@ class AuthService {
       const decoded = decode(token);
       if (decoded.exp < Date.now() / 1000) {
         return true;
-      } else return false;
+      }
+      return false;
     } catch (err) {
+      console.log('Error decoding token', err);
       return true;
     }
   }
@@ -61,10 +63,10 @@ class AuthService {
 
   logout() {
     // Clear user token and profile data from localStorage
-    // removeFromLocalStorage('id_token');
-    // removeFromLocalStorage('profile');
-    // removeFromLocalStorage('journeyData');
-    clearLocalStorage();
+    removeFromLocalStorage('id_token');
+    removeFromLocalStorage('profile');
+    removeFromLocalStorage('journeys');
+    // clearLocalStorage();
   }
 
   isAuthenticated() {
@@ -73,8 +75,7 @@ class AuthService {
     try {
       const { exp } = decode(token);
       // Check if token is expired
-      const tokenExpired = Date.now() >= exp * 1000;
-      if (tokenExpired) {
+      if (Date.now() >= exp * 1000) {
         console.log('Token has expired.');
         this.logout(); // this will remove the expired token from localStorage
         return false;
