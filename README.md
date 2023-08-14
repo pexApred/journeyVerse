@@ -12,7 +12,7 @@
 
 ### *The Task*
 
-For Project #3, we were tasked to work in a group to create a real-world full-stack MERN application from scratch featuring **Apollo GraphQL** and **JWT Authentication**.
+For Project #3 of the *Coding Full Stack Boot Camp*, we were tasked to work in a group to create a real-world full-stack MERN application from scratch featuring **Apollo GraphQL** and **JWT Authentication**.
 
 ### *Our Project*
 
@@ -47,8 +47,8 @@ You can explore JourneyVerse by [clicking here!](https://journeyverse-2c53482d7e
 
 The screenshots below demonstrate the application's front-end visuals and funcitonality.
 
-![An image of the JourneyVerse homepage.](./assets/images/landing-page.png)
-![An image of the Journey Form that allows users to create a journey and invite travel companions.](./assets/images/journey-form.png)
+![An image of the JourneyVerse homepage.](./assets/images/jv-landing-page.png)
+![An image of the Journey Form that allows users to create a journey and invite travel companions.](./assets/images/jv-journey-form.png)
 
 
 ## Technologies Used
