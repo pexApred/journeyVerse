@@ -6,16 +6,20 @@ export const Provider = (props) => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [journeys, setJourneys] = useState([]);
 
-    const updateJourneys = (newJourney) => {
-        setJourneys((prevJourneys) => [...prevJourneys, newJourney]);
+    const updateContextJourneys = (updatedJourney, journeyId) => {
+        setJourneys((prevJourneys) => 
+            prevJourneys.map((journey) =>
+                journey.id === journeyId ? updatedJourney : journey
+            )
+        );
     };
 
-    const deleteContextJourney = (journeyId) => {
-        setJourneys((prevJourneys) => prevJourneys.filter((journey) => journey.id !== journeyId));
+    const deleteContextJourney = (id) => {
+        setJourneys((prevJourneys) => prevJourneys.filter((journey) => journey.id !== id));
     };
 
     return (
-        <Context.Provider value={{ loggedIn, setLoggedIn, journeys, setJourneys, updateJourneys, deleteContextJourney }}>
+        <Context.Provider value={{ loggedIn, setLoggedIn, journeys, setJourneys, updateContextJourneys, deleteContextJourney }}>
             {props.children}
         </Context.Provider>
     );

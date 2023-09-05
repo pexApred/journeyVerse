@@ -45,8 +45,8 @@ module.exports = {
     
         // Convert the ObjectId fields to strings
         journey = journey.toObject();
-        journey.id = journey._id.toString();
-        journey.creator.id = journey.creator._id.toString();
+                journey.id = journey._id.toString();
+                journey.creator.id = journey.creator._id.toString();
         journey.invitedTravelers.forEach((traveler, index) => {
           journey.invitedTravelers[index].id = traveler._id.toString();
         });
@@ -68,9 +68,9 @@ module.exports = {
     
         journeys = journeys.map(journey => {
           journey = journey.toObject();
-          journey.id = journey._id.toString();
+                    journey.id = journey._id.toString();
           console.log('journey', journey._id);
-          journey.creator.id = journey.creator._id.toString();
+                    journey.creator.id = journey.creator._id.toString();
           journey.invitedTravelers.forEach((traveler, index) => {
             journey.invitedTravelers[index].id = traveler._id.toString();
           });
@@ -186,14 +186,14 @@ module.exports = {
       if (!context.user) {
         throw new Error("Something went horribly wrong!");
       }
-      try {
+            try {
         const updatedJourney = await Journey.findByIdAndUpdate(
           args.id,
           args,
           { new: true }
         );
         return await Journey.findById(updatedJourney.id).populate('creator').populate('invitedTravelers');
-      } catch (err) {
+          } catch (err) {
         console.error(err);
         throw new Error('Something went wrong with finding and updating Journey details!');
       }

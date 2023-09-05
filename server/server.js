@@ -35,10 +35,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-// Catch-all route handler
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
+// // Catch-all route handler
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../client/build/index.html'));
+// });
 
 // app.use(routes);
 // Create a new instance of an Apollo server with the GraphQL schema

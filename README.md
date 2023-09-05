@@ -28,7 +28,7 @@ To simplify travel with friends!
 - [User Story](#user-story)
 - [Usage](#usage)
 - [Technologies Used](#technologies-used)
-- [Contributers](#contributers)
+- [Contributors](#contributers)
 - [License](#license)
 - [Badges](#badges)
 
@@ -76,7 +76,7 @@ The screenshots below demonstrate the application's front-end visuals and funcit
 
 ---
 
-## Contributers
+## Contributors
 
 - Erynn M. Affeldt
 - Virginia Butler

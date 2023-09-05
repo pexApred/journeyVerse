@@ -28,7 +28,7 @@ const typeDefs = gql`
       transportationDetails: String
       accommodations: String
       creator: ID
-      invitedTravelers: [ID!]
+      invitedTravelers: [InvitedTravelerInput!]
     ): Journey!
     deleteJourney(id: ID!): Journey
     addTraveler(id: ID!, travelerId: ID!): Journey
