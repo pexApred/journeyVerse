@@ -40,11 +40,15 @@ module.exports = (
 
   const dateObj = new Date(timestamp);
   
-  const formattedMonth = months[dateObj.getMonth()];
+  // const formattedMonth = months[dateObj.getMonth()];
 
-  const dayOfMonth = dateSuffix
-    ? addDateSuffix(dateObj.getDate())
-    : dateObj.getDate();
+  const dayOfMonth = dateObj.getDate() < 10 ? `0${dateObj.getDate()}` : dateObj.getDate().toString();
+  // dateSuffix
+  //   ? addDateSuffix(dateObj.getDate())
+  //   : dateObj.getDate();
+
+  const monthNumber = dateObj.getMonth() + 1;
+  const formattedMonth = monthNumber < 10 ? `0${monthNumber}` : monthNumber.toString();
 
   const year = dateObj.getFullYear();
   let hour =
@@ -62,7 +66,7 @@ module.exports = (
   // set `am` or `pm`
   const periodOfDay = dateObj.getHours() >= 12 ? 'pm' : 'am';
 
-  const formattedTimeStamp = `${formattedMonth} ${dayOfMonth}, ${year}`;
+  const formattedTimeStamp = `${year}-${formattedMonth}-${dayOfMonth}`;
 
   return formattedTimeStamp;
 };

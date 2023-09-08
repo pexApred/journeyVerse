@@ -15,12 +15,8 @@ const LandingPage = () => {
         backgroundSize: 'cover',
         backgroundPosition: 'center' 
       }}>
-      <Container 
-          style={{ 
-            marginTop: '3em', 
-            maxWidth: '600px',
-            }}>
-        <div className="landing-page custom-container d-flex flex-column align-items-center">
+      <Container>
+        <div className="landing-page custom-container d-flex flex-column align-items-center ">
           <div>
             <h1  className="display-4 text-center" style={{
               fontWeight: 'bold'

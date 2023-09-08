@@ -20,7 +20,7 @@ const addDateSuffix = (date) => {
 // function to format a timestamp, accepts the timestamp and an `options` object as parameters
 const dateFormat = (
   timestamp,
-  { monthLength = 'short', dateSuffix = true } = {}
+  { monthLength = 'short', dateSuffix = true, isoFormat = false } = {}
 ) => {
   // create month object
   const months = {
@@ -38,7 +38,12 @@ const dateFormat = (
     11: monthLength === 'short' ? 'Dec' : 'December',
   };
 
-  const dateObj = new Date(timestamp); // convert Unix timestamp to JavaScript Date
+  const parseLocalDate = (dateString) => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  const dateObj = parseLocalDate(timestamp); // convert Unix timestamp to JavaScript Date
 
   const formattedMonth = months[dateObj.getMonth()];
 
@@ -47,6 +52,12 @@ const dateFormat = (
     : dateObj.getDate();
 
   const year = dateObj.getFullYear();
+
+  if (isoFormat) {
+    const formattedDay = String(dateObj.getDate()).padStart(2, '0');
+    const formattedMonthNumber = String(dateObj.getMonth() + 1).padStart(2, '0');
+    return `${year}-${formattedMonthNumber}-${formattedDay}`;
+  }
   
   if (year < 1970 || year > 3000) {
     console.error('Invalid timestamp:', timestamp);
@@ -71,6 +82,8 @@ const dateFormat = (
   const formattedTimeStamp = `${formattedMonth} ${dayOfMonth}, ${year}`;
 
   return formattedTimeStamp;
+
+  
 };
 
 export default dateFormat;

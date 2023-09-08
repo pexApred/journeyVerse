@@ -24,7 +24,7 @@ const JourneyForm = () => {
         inviteTravelers: [],
     };
     const [journeyData, setJourneyData] = useState(initialState);
-    const { updateJourneys } = useContext(Context);
+    const { updateContextJourneys } = useContext(Context);
     const navigate = useNavigate();
 
     const [createJourney, { loading, error, data }] = useMutation(CREATE_JOURNEY);
@@ -95,7 +95,7 @@ const JourneyForm = () => {
             });
 
             // console.log('Journey data saved:', data.createJourney);
-            updateJourneys(data.createJourney);
+            updateContextJourneys(data.createJourney);
             saveToLocalStorage('journeyData', otherJourneyData);
             setJourneyData(initialState);
             navigate('/dashboard');

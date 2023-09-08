@@ -13,7 +13,7 @@ import { saveToLocalStorage, getFromLocalStorage, } from '../utils/localStorage'
 const JourneyList = () => {
   const { loading, data, error, refetch } = useQuery(GET_JOURNEYS);
   const [deleteJourney] = useMutation(DELETE_JOURNEY);
-  const { journeys, setJourneys, deleteContextJourney, updateJourneys } = useContext(Context);
+  const { journeys, setJourneys, deleteContextJourney, updateContextJourneys } = useContext(Context);
   // console.log('journeys: ', journeys, 'setJourneys: ', setJourneys, 'deleteContextJourney: ', deleteContextJourney);
   const navigate = useNavigate();
 
@@ -107,7 +107,16 @@ if (loading) {
                       Destination: {upcomingJourney.destinationCity}, {upcomingJourney.destinationState},{' '}
                       {upcomingJourney.destinationCountry}
                     </p>
-                    <p className="small">Departing Date: {upcomingJourney.departingDate}</p>
+                    <p className="small">Departing Date: {dateFormat(upcomingJourney.departingDate)}</p>
+                    {journeys.invitedTravelers && journeys.invitedTravelers.length > 0 && (
+                    <p className="small">Invited Travelers:
+                      {journeys.invitedTravelers.map((traveler, index) => (
+                        <span key={index}>
+                          {traveler.firstName} {traveler.lastName}{index !== journeys.invitedTravelers.length - 1 ? ', ' : ''}
+                        </span>
+                      ))}
+                    </p>
+                  )}
                     <Button
                       className="btn-block btn-danger"
                       onClick={() => handleDeleteJourney(upcomingJourney.id)}
@@ -138,7 +147,7 @@ if (loading) {
                     Destination: {journey.destinationCity}, {journey.destinationState},{' '}
                     {journey.destinationCountry}
                   </p>
-                  <p className="small">Departing Date: {journey.departingDate}</p>
+                  <p className="small">Departing Date: {dateFormat(journey.departingDate)}</p>
                   {journey.invitedTravelers && journey.invitedTravelers.length > 0 && (
                     <p className="small">Invited Travelers:
                       {journey.invitedTravelers.map((traveler, index) => (
