@@ -34,9 +34,12 @@ const JourneyList = () => {
 
       // console.log('RESPONSE', response);
       deleteContextJourney(id);
-      const storedJourneyData = getFromLocalStorage('journeyData') || [];
+      const storedJourneyData = getFromLocalStorage('journeyData');
+      if (Array.isArray(storedJourneyData)) {
+        setJourneys(storedJourneyData);
+      }
       const updatedJourneyData = storedJourneyData.filter((journey) => journey.id !== id);
-      saveToLocalStorage('journeyData', updatedJourneyData);
+      // saveToLocalStorage('journeyData', updatedJourneyData);
     } catch (err) {
       console.error(err);
     }
@@ -46,6 +49,7 @@ const JourneyList = () => {
   const handleEditJourney = (journeyId) => {
     navigate(`/edit-journey/${journeyId}`);
   };
+  console.log('JOURNEYS', journeys);
 
   const sortedJourneys = journeys?.sort((a, b) => new Date(a.departureDate) - new Date(b.departureDate));
   const upcomingJourney = sortedJourneys?.[0];
@@ -59,9 +63,9 @@ const JourneyList = () => {
     }
   }, [setJourneys]);
 
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [refetch]);
 
   useEffect(() => {
     if (loading) return;
@@ -69,7 +73,7 @@ const JourneyList = () => {
         console.error('ERROR WITH DATA', error);
         return;
     }
-    if (data && data.journeys) {
+    if (data && Array.isArray(data.journeys)) {
         let sortedJourneys = [...data.journeys].sort((a, b) => new Date(a.departingDate) - new Date(b.departingDate));
         setJourneys(sortedJourneys);
         saveToLocalStorage('journeys', sortedJourneys);
@@ -77,7 +81,7 @@ const JourneyList = () => {
         setJourneys([]);
         saveToLocalStorage('journeys', []);
     }
-}, [data, setJourneys, refetch, error, loading]);
+}, [data, setJourneys, error, loading]);
 
 if (loading) {
     return <h2>Loading...</h2>;
@@ -108,11 +112,11 @@ if (loading) {
                       {upcomingJourney.destinationCountry}
                     </p>
                     <p className="small">Departing Date: {dateFormat(upcomingJourney.departingDate)}</p>
-                    {journeys.invitedTravelers && journeys.invitedTravelers.length > 0 && (
+                    {upcomingJourney.invitedTravelers && upcomingJourney.invitedTravelers.length > 0 && (
                     <p className="small">Invited Travelers:
-                      {journeys.invitedTravelers.map((traveler, index) => (
+                      {upcomingJourney.invitedTravelers.map((traveler, index) => (
                         <span key={index}>
-                          {traveler.firstName} {traveler.lastName}{index !== journeys.invitedTravelers.length - 1 ? ', ' : ''}
+                          {traveler.firstName} {traveler.lastName}{index !== upcomingJourney.invitedTravelers.length - 1 ? ', ' : ''}
                         </span>
                       ))}
                     </p>

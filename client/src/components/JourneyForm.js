@@ -23,81 +23,83 @@ const JourneyForm = () => {
         creator: '',
         inviteTravelers: [],
     };
-    const [journeyData, setJourneyData] = useState(initialState);
+    const [journeys, setjourneys] = useState(initialState);
     const { updateContextJourneys } = useContext(Context);
     const navigate = useNavigate();
 
     const [createJourney, { loading, error, data }] = useMutation(CREATE_JOURNEY);
 
     const handleInputChange = ({ target: { name, value } }) =>
-        setJourneyData(prevData => ({ ...prevData, [name]: value }));
+        setjourneys(prevData => ({ ...prevData, [name]: value }));
 
 
     const handleInviteTravelerInputChange = (index, name, { target: { value } }) => {
-        const updatedInviteTravelers = [...journeyData.inviteTravelers];
+        const updatedInviteTravelers = [...journeys.inviteTravelers];
         updatedInviteTravelers[index][name] = value;
-        setJourneyData(prevData => ({ ...prevData, inviteTravelers: updatedInviteTravelers }));
+        setjourneys(prevData => ({ ...prevData, inviteTravelers: updatedInviteTravelers }));
     };
 
     const handleAddTraveler = () => {
-        if (journeyData.inviteTravelers.length > 0) {
-            const lastTraveler = journeyData.inviteTravelers[journeyData.inviteTravelers.length - 1];
+        if (journeys.inviteTravelers.length > 0) {
+            const lastTraveler = journeys.inviteTravelers[journeys.inviteTravelers.length - 1];
             if (!lastTraveler.firstName || !lastTraveler.lastName || !lastTraveler.email) {
                 return alert('Please fill out all fields for the current traveler!');
             }
         }
 
-        setJourneyData(prevData => ({
+        setjourneys(prevData => ({
             ...prevData,
             inviteTravelers: [...prevData.inviteTravelers, { firstName: '', lastName: '', email: '' }]
         }));
     };
 
     const handleRemoveTraveler = (index) => {
-        const updatedInviteTravelers = [...journeyData.inviteTravelers];
+        const updatedInviteTravelers = [...journeys.inviteTravelers];
         updatedInviteTravelers.splice(index, 1);
-        setJourneyData(prevData => ({ ...prevData, inviteTravelers: updatedInviteTravelers }));
+        setjourneys(prevData => ({ ...prevData, inviteTravelers: updatedInviteTravelers }));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!journeyData.creator) {
+        if (!journeys.creator) {
             return alert('Please log in to create a journey!');
         }
 
-        for (const key in journeyData) {
+        for (const key in journeys) {
             if (key !== 'creator' && key !== 'id' && key !== 'inviteTravelers') {
-                if (!journeyData[key]) {
+                if (!journeys[key]) {
                     return alert(`Missing required field: ${key}`);
                 }
             }
         }
 
-        if (journeyData.inviteTravelers.some(traveler => {
+        if (journeys.inviteTravelers.some(traveler => {
             return !traveler.firstName || !traveler.lastName || !traveler.email;
         })) {
             return alert('All fields for each traveler are required!');
         }
 
-        const { id, inviteTravelers, ...otherJourneyData } = journeyData;
+        const { id, inviteTravelers, ...otherjourneys } = journeys;
 
-        // console.log('Journey data:', otherJourneyData);
+        // console.log('Journey data:', otherjourneys);
 
         try {
             const { data } = await createJourney({
                 variables: {
                     input: {
-                        ...otherJourneyData,
+                        ...otherjourneys,
                         invitedTravelers: inviteTravelers,
                     },
                 },
             });
 
+            const storedJourneys = getFromLocalStorage('journeys') || [];
+            const updatedStoredJourneys = [...storedJourneys, data.createJourney];
             // console.log('Journey data saved:', data.createJourney);
+            saveToLocalStorage('journeys', updatedStoredJourneys);
             updateContextJourneys(data.createJourney);
-            saveToLocalStorage('journeyData', otherJourneyData);
-            setJourneyData(initialState);
+            setjourneys(initialState);
             navigate('/dashboard');
         } catch (err) {
             console.error(err);
@@ -117,15 +119,33 @@ const JourneyForm = () => {
 
         const userId = userData.id;
         // console.log('User ID', userId);
-        const savedJourneyData = getFromLocalStorage('journeyData') || {};
+        const savedjourneys = getFromLocalStorage('journeys') || {};
 
-        // console.log('Saved Journey Data: ', savedJourneyData, 'User Data: ', userData, 'User Id: ', userId);
-
-        setJourneyData(prevState => ({
-            ...prevState,
-            ...savedJourneyData,
-            creator: userId
-        }));
+        // Define a simple validation function to ensure essential keys are present
+        const isValidJourneyData = (data) => {
+            return data &&
+                typeof data === 'object' &&
+                data.hasOwnProperty('destinationCity') &&
+                data.hasOwnProperty('destinationState') &&
+                // ... you can add more keys to check if necessary
+                data.hasOwnProperty('inviteTravelers') &&
+                Array.isArray(data.inviteTravelers);
+        };
+        
+        if (isValidJourneyData(savedjourneys)) {
+            setjourneys(prevState => ({
+                ...prevState,
+                ...savedjourneys,
+                creator: userId
+            }));
+        } else {
+            console.warn("Saved journey data from local storage is not valid!");
+            // Handle this scenario as required, for example:
+            // - Use only the default state values
+            // - Alert the user
+            // - Clear the invalid data from local storage
+        }
+        
     }, []);
 
     return (
@@ -147,7 +167,7 @@ const JourneyForm = () => {
                                 type="text"
                                 name="destinationCity"
                                 id="destinationCity"
-                                value={journeyData.destinationCity}
+                                value={journeys.destinationCity}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -159,7 +179,7 @@ const JourneyForm = () => {
                                 type="text"
                                 name="destinationState"
                                 id="destinationState"
-                                value={journeyData.destinationState}
+                                value={journeys.destinationState}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -171,7 +191,7 @@ const JourneyForm = () => {
                                 type="text"
                                 name="destinationCountry"
                                 id="destinationCountry"
-                                value={journeyData.destinationCountry}
+                                value={journeys.destinationCountry}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -182,7 +202,7 @@ const JourneyForm = () => {
                                 type="date"
                                 name="departingDate"
                                 id="departingDate"
-                                value={journeyData.departingDate}
+                                value={journeys.departingDate}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -193,7 +213,7 @@ const JourneyForm = () => {
                                 type="date"
                                 name="returningDate"
                                 id="returningDate"
-                                value={journeyData.returningDate}
+                                value={journeys.returningDate}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -207,7 +227,7 @@ const JourneyForm = () => {
                                 type="text"
                                 name="transportationOutbound"
                                 id="transportationOutbound"
-                                value={journeyData.transportationOutbound}
+                                value={journeys.transportationOutbound}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -219,7 +239,7 @@ const JourneyForm = () => {
                                 type="text"
                                 name="transportationReturn"
                                 id="transportationReturn"
-                                value={journeyData.transportationReturn}
+                                value={journeys.transportationReturn}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -231,7 +251,7 @@ const JourneyForm = () => {
                                 type="text"
                                 name="transportationDetails"
                                 id="transportationDetails"
-                                value={journeyData.transportationDetails}
+                                value={journeys.transportationDetails}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -243,7 +263,7 @@ const JourneyForm = () => {
                                 type="text"
                                 name="accommodations"
                                 id="accommodations"
-                                value={journeyData.accommodations}
+                                value={journeys.accommodations}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -253,7 +273,7 @@ const JourneyForm = () => {
                     <Col className="d-flex">
                         <div>
                             <h3 className='invite' >Invite Travelers:</h3>
-                            {journeyData.inviteTravelers.map((traveler, index) => (
+                            {journeys.inviteTravelers.map((traveler, index) => (
                                 <div key={index} className='traveler-container'>
                                     <h4 className='traveler'>Traveler {index + 1}</h4>
                                     <Row className='traveler-row'>

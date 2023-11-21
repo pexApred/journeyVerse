@@ -9,6 +9,7 @@ import { UPDATE_JOURNEY } from "../utils/mutations";
 
 const EditJourneyForm = () => {
   const { id } = useParams();
+  // console.log("ID", id);
   const navigate = useNavigate();
   const { updateContextJourneys } = useContext(Context);
   const [updateJourney] = useMutation(UPDATE_JOURNEY);
@@ -57,11 +58,19 @@ const EditJourneyForm = () => {
 
   const handleUpdate = (event) => {
     event.preventDefault();
-          // Save journey data to localStorage or perform other actions
-      saveToLocalStorage("journeyData", JSON.stringify(journeyData));
-      console.log("Journey data saved:", journeyData);
-      navigate("/dashboard");
-      };
+    // Save journey data to localStorage or perform other actions
+    const storedJourneys = getFromLocalStorage("journeys") || [];
+    const journeyIndex = storedJourneys.findIndex((journey) => journey.id === id);
+
+    if (journeyIndex > -1) {
+      storedJourneys[journeyIndex] = journeyData;
+      saveToLocalStorage("journeys", JSON.stringify(storedJourneys));
+      console.log("Journey data updated:", journeyData);
+    } else {
+      console.error("Journey not found");
+    }
+    navigate("/dashboard");
+  };
 
   const handleDelete = () => {
     // Handle the delete functionality
@@ -94,6 +103,7 @@ const EditJourneyForm = () => {
 
   useEffect(() => {
     const allJourneys = getFromLocalStorage("journeys");
+    console.log("All journeys:", allJourneys);
     const journeyToEdit = allJourneys.find((journey) => journey.id === id);
     console.log("Journey to edit:", journeyToEdit);
     console.log("ID", id);

@@ -1,7 +1,6 @@
-export function saveToLocalStorage(key, value) {
+export function saveToLocalStorage(key, data) {
     try {
-        console.log('Saving to localStorage: ', value, key)
-        const serializedValue = JSON.stringify(value);
+        const serializedValue = JSON.stringify(data);
         localStorage.setItem(key, serializedValue);
     } catch (err) {
         console.log('Error saving data to localStorage: ', err);
@@ -11,12 +10,11 @@ export function saveToLocalStorage(key, value) {
 export function getFromLocalStorage(key) {
     try {
         console.log('Getting from localStorage: ', key)
-        const serializedValue = localStorage.getItem(key);
-        if (serializedValue === null) return undefined;
-        return JSON.parse(serializedValue);
+        const serializedData = localStorage.getItem(key);
+        return serializedData ? JSON.parse(serializedData) : null;
     } catch (err) {
         console.log('Error getting data from localStorage: ', err);
-        return undefined;
+        return null;
     }
 }
 
