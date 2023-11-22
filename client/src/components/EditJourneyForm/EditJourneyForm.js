@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from "../utils/localStorage";
+import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from "../../utils/localStorage";
 import { useParams } from "react-router-dom";
-import { Context } from "../utils/Context";
+import { Context } from "../../utils/Context";
 import { useMutation } from "@apollo/client";
-import { UPDATE_JOURNEY } from "../utils/mutations";
+import { UPDATE_JOURNEY } from "../../utils/mutations";
 
 const EditJourneyForm = () => {
   const { id } = useParams();

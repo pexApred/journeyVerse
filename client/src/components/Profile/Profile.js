@@ -3,11 +3,11 @@ import { Container, Row, Col, Card, Button, Dropdown } from 'react-bootstrap';
 import jwtDecode from 'jwt-decode';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import '../css/DashboardPage.css';
-import '../css/Profile.css';
-import { GET_USER } from '../utils/queries';
+// import '../css/DashboardPage.css';
+import './Profile.css';
+import { GET_USER } from '../../utils/queries';
 import { useQuery } from '@apollo/client';
-import { getFromLocalStorage } from '../utils/localStorage';
+import { getFromLocalStorage } from '../../utils/localStorage';
 
 const Profile = () => {
     const [profilePicture, setProfilePicture] = useState('');

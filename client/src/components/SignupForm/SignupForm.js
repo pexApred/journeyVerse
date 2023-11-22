@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { CREATE_USER } from "../utils/mutations";
+import { CREATE_USER } from "../../utils/mutations";
 import { Button, Form } from 'react-bootstrap';
-import AuthService from "../utils/auth";
-import "../css/SignupForm.css";
+import AuthService from "../../utils/auth";
+import "./SignupForm.css";
 import { useNavigate } from "react-router-dom";
-import { Context } from "../utils/Context";
+import { Context } from "../../utils/Context";
 
 const SignupForm = () => {
   const [formState, setFormState] = useState({
