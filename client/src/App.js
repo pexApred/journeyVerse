@@ -9,14 +9,14 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AuthService from './utils/auth';
-import DashBoard from './pages/DashboardPage';
-import DetailsPage from './pages/DetailsPage';
-import JourneyPage from './pages/JourneyPage';
-import LandingPage from './pages/LandingPage';
+import DashBoard from './pages/DashboardPage/DashboardPage';
+import DetailsPage from './pages/DetailsPage/DetailsPage';
+import JourneyPage from './pages/JourneyPage/JourneyPage';
+import LandingPage from './pages/LandingPage/LandingPage';
 import './App.css';
 import { Provider } from './utils/Context';
 import { useNavigate } from 'react-router-dom';
-import Footer from './components/Footer';
+import Footer from './components/Footer/Footer';
 // import jwtDecode from 'jwt-decode';
 
 // import Profile from './pages/Profile';

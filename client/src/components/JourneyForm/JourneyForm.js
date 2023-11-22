@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Dropdown } from 'react-bootstrap';
-import '../css/JourneyForm.css';
+import './JourneyForm.css';
 import { useMutation } from '@apollo/client';
-import { CREATE_JOURNEY } from '../utils/mutations';
-import { Context } from '../utils/Context';
-import AuthService from '../utils/auth';
+import { CREATE_JOURNEY } from '../../utils/mutations';
+import { Context } from '../../utils/Context';
+import AuthService from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
-import { saveToLocalStorage, getFromLocalStorage } from '../utils/localStorage';
+import { saveToLocalStorage, getFromLocalStorage } from '../../utils/localStorage';
 
 const JourneyForm = () => {
     const initialState = {

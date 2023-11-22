@@ -1,8 +1,8 @@
 import React from 'react';
-import AppNavbar from '../components/NavBar';
+import AppNavbar from '../../components/NavBar/NavBar';
 import { Container } from 'react-bootstrap';
-import Footer from '../components/Footer';
-import "../css/LandingPage.css"
+import Footer from '../../components/Footer/Footer';
+import "./LandingPage.css"
 
 const LandingPage = () => {
   return (

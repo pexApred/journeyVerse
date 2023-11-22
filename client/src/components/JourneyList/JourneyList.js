@@ -2,13 +2,13 @@ import React, { useContext, useEffect } from 'react';
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-import AuthService from '../utils/auth';
-import { GET_JOURNEYS } from '../utils/queries';
-import { DELETE_JOURNEY } from '../utils/mutations';
-import { Context } from '../utils/Context';
-import dateFormat from '../utils/dateFormat';
-import '../css/JourneyList.css';
-import { saveToLocalStorage, getFromLocalStorage, } from '../utils/localStorage';
+import AuthService from '../../utils/auth';
+import { GET_JOURNEYS } from '../../utils/queries';
+import { DELETE_JOURNEY } from '../../utils/mutations';
+import { Context } from '../../utils/Context';
+import dateFormat from '../../utils/dateFormat';
+import './JourneyList.css';
+import { saveToLocalStorage, getFromLocalStorage, } from '../../utils/localStorage';
 
 const JourneyList = () => {
   const { loading, data, error, refetch } = useQuery(GET_JOURNEYS);

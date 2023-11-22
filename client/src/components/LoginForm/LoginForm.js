@@ -4,13 +4,13 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
 // useNavigate is a hook provided by react-router-dom to redirect the user programmatically
 import { useNavigate } from 'react-router-dom';
-import { LOGIN_USER } from '../utils/mutations'
-import { GET_JOURNEY } from '../utils/queries';
+import { LOGIN_USER } from '../../utils/mutations'
+import { GET_JOURNEY } from '../../utils/queries';
 // import { Link } from "react-router-dom";
-import AuthService from '../utils/auth';
-import '../css/LoginForm.css';
-import { Context } from '../utils/Context';
-import { saveToLocalStorage } from '../utils/localStorage';
+import AuthService from '../../utils/auth';
+import './LoginForm.css';
+import { Context } from '../../utils/Context';
+import { saveToLocalStorage } from '../../utils/localStorage';
 
 const LoginForm = ({ setShowModal }) => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });

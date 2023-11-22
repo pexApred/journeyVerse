@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
-import JourneyForm from '../components/JourneyForm';
-import WeatherWidget from '../components/WeatherWidget';
-import MapWidget from '../components/MapWidget';
-import CountdownWidget from '../components/CountdownWidget';
+import NavBar from '../../components/NavBar/NavBar';
+import Footer from '../../components/Footer/Footer';
+import JourneyForm from '../../components/JourneyForm/JourneyForm';
+import WeatherWidget from '../../components/WeatherWidget/WeatherWidget';
+import MapWidget from '../../components/MapWidget/MapWidget';
+import CountdownWidget from '../../components/CountdownWidget/CountdownWidget';
 import { Container } from 'react-bootstrap';
-import '../css/JourneyPage.css';
+import './JourneyPage.css';
 
 const JourneyPages = () => {
   const [journeyData, setJourneyData] = useState(null);
