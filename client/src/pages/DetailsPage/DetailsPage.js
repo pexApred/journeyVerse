@@ -4,22 +4,15 @@ import Footer from "../../components/Footer/Footer";
 import JourneyForm from "../../components/JourneyForm/JourneyForm";
 import EditJourneyForm from "../../components/EditJourneyForm/EditJourneyForm";
 import { Container } from "react-bootstrap";
-// import './DashboardPage.css';
 import './DetailsPage.css';
 const DetailsPage = () => {
   return (
-      <div>
-        {/* Header */}
-        <NavBar />
-        <div className="landing-page" style={{
-          backgroundImage: `url('../background.jpg')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}>
-          <EditJourneyForm />
-        </div>
-        {/* <Footer /> */}
-      </div>
+    <div>
+      {/* Header */}
+      <NavBar />
+      <EditJourneyForm />
+      {/* <Footer /> */}
+    </div>
   );
 };
 export default DetailsPage;

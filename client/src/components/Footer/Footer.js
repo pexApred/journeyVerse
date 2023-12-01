@@ -4,16 +4,16 @@ import './Footer.css';
 
 const Footer = () => {
   return (
-    <footer className='footer mt-auto py-3' style={{ backgroundColor: '#578F6A' }}>
+    <footer className='footer mt-auto py-3'>
       <Container className="flex-grow-1">
         <Row>
           <Col className='text-center text-sm-left'>
-            <Image src="./journeyverse-logo.png" alt="Logo" className="logo" fluid />
+            <Image src="journeyverse-logo.png" alt="Logo" className="logo" fluid />
           </Col>
-          <Col xs={12} sm={4} className="text-center">
-            <p className="footer-text">JourneyVerse ©2023</p>
+          <Col xs={4} sm={4} className="text-center">
+            <p className="footer-text">©2023 JourneyVerse</p>
           </Col>
-          <Col xs={12} sm={4} className="text-center text-sm-right">
+          <Col xs={4} sm={4} className="text-center text-sm-right">
             <a href="https://github.com/pexApred/journeyVerse" className="footer-link">GitHub</a>
           </Col>
         </Row>

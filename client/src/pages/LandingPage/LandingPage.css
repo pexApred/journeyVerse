@@ -1,12 +1,14 @@
 .landing-page {
-    height: 100vh;
+    /* height: 100vh;
     display: flex;
     align-items: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2em 0; */
   }
 
   .lead {
     max-width: 60%;
   }
-/*   
-  .custom-container {
-  } */

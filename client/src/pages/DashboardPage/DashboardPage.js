@@ -16,11 +16,7 @@ const DashboardPage = () => {
     <div>
       {/* Header */}
       <NavBar />
-      <div className="scrollable" style={{
-        backgroundImage: `url('../background.jpg')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}>
+      <div className="scrollable">
         <Container className="justify-content-center">
           {/* Profile Widget */}
           <div>

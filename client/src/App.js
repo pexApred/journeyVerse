@@ -79,7 +79,6 @@ const RoutesComponent = () => {
         <Route path="/dashboard" element={<DashBoard />} />
         <Route path="/journey" element={<JourneyPage />} />
         <Route path="/edit-journey/:id" element={<DetailsPage />} />
-
       </Routes>
     )
   } else {
