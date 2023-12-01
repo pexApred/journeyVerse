@@ -16,12 +16,8 @@ const JourneyPages = () => {
       <div>
         <NavBar />
       </div>
-      <div className="landing-page" style={{
-        backgroundImage: `url('../background.jpg')`,
-        backgroundSize: '100% 100%',
-        backgroundPosition: 'center'
-      }}>
-        <Container className='container'>
+      <div className="journey-page">
+        <Container className='journey-container'>
           <JourneyForm setJourneyData={setJourneyData} />
           {journeyData && (
             <>
@@ -44,7 +40,6 @@ const JourneyPages = () => {
     </>
   );
 };
-
 
 export default JourneyPages;
 

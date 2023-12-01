@@ -20,6 +20,7 @@ const SignupForm = () => {
   const navigate = useNavigate();
   const [showMessage, setShowMessage] = useState(false);
 
+
   useEffect(() => {
     if (data?.createUser) {
       AuthService.login(data.createUser.token);

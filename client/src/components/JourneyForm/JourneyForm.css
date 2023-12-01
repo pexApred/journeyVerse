@@ -11,14 +11,6 @@
 .journeyForm {
   overflow: auto;
   padding-top: 20px;
-
-  @media (max-width: 648px) {
-    margin-top: 600px;
-  }
-
-  @media (max-width: 896px) {
-    margin-top: 400px;
-  }
 }
 
 .removet {
