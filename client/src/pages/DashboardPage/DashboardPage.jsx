@@ -1,13 +1,13 @@
 import React from 'react';
-import JourneyList from '../../components/JourneyList/JourneyList.js';
-import NavBar from '../../components/NavBar/NavBar.js';
-import Footer from '../../components/Footer/Footer.js';
+import JourneyList from '../../components/JourneyList/JourneyList.jsx';
+import NavBar from '../../components/NavBar/NavBar.jsx';
+import Footer from '../../components/Footer/Footer.jsx';
 import { Link } from 'react-router-dom';
 // import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import './DashboardPage.css';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import Profile from '../../components/Profile/Profile.js';
+import Profile from '../../components/Profile/Profile.jsx';
 
 
 const DashboardPage = () => {
