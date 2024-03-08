@@ -24,10 +24,10 @@ const AppNavbar = () => {
   });
 
   const brandAnimation = useSpring({
-    from: { width: "290px", height: "290px" },
+    from: { width: "250px", height: "250px" },
     to: {
-      width: isOpen ? "10000px" : "290px",
-      height: isOpen ? "10000px" : "290px",
+      width: isOpen ? "10000px" : "250px",
+      height: isOpen ? "10000px" : "250px",
     },
     config: { duration: 400 },
   });
