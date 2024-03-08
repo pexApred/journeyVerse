@@ -1,53 +1,172 @@
-import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Navbar, Nav, Container, Modal, Tab, Image, Col } from 'react-bootstrap';
-import SignupForm from '../SignupForm/SignupForm';
-import LoginForm from '../LoginForm/LoginForm';
-import AuthService from '../../utils/auth';
-import './NavBar.css';
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import AuthService from "../../utils/auth";
+import { Modal, Header, Tab, Nav } from "react-bootstrap";
+import { useSpring, useTransition, animated } from "@react-spring/web";
+import SignupForm from "../SignupForm/SignupForm";
+import LoginForm from "../LoginForm/LoginForm";
+
+import "./NavBar.css";
 
 const AppNavbar = () => {
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
+  const [showNavModal, setShowNavModal] = useState(false);
   const [loggedIn, setLoggedIn] = useState(AuthService.loggedIn());
+  const [isOpen, setIsOpen] = useState(false);
+  const [items, setItems] = useState("");
+
+  const transitions = useTransition(items, {
+    from: { opacity: 0, transform: "translate3d(0,-40px,0)", rotateX: 0 },
+    enter: { opacity: 1, transform: "translate3d(0,0px,0)", rotateX: 360 },
+    leave: { opacity: 0, transform: "translate3d(0,-40px,0)", rotate: 180 },
+    config: { mass: 1, tension: 120, friction: 14, duration: 1000 },
+    items: items,
+  });
+
+  const brandAnimation = useSpring({
+    from: { width: "290px", height: "290px" },
+    to: {
+      width: isOpen ? "10000px" : "290px",
+      height: isOpen ? "10000px" : "290px",
+    },
+    config: { duration: 400 },
+  });
+
+  const halfStyle = useSpring({
+    to: {
+      opacity: isOpen ? 1 : 1,
+      color: isOpen ? "#ffffff" : "transparent",
+    },
+    config: { mass: 1, tension: 120, friction: 14, duration: 200 },
+  });
+
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    console.log('logout clicked');
     AuthService.logout();
     setLoggedIn(false);
-    navigate('/');
     setShowModal(false);
+    navigate("/");
+  };
+
+  const handleMouseEnter = () => {
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsOpen(false);
+  };
+
+  const handleBrandClick = () => {
+    console.log("Brand clicked");
+    setShowNavModal(true);
+  };
+
+  const handleExploreClick = () => {
+    setShowNavModal(false);
+    setIsOpen(false);
+    navigate("/");
   };
 
   return (
     <>
-      <Navbar className="navbar" variant="dark" expand="lg">
-        <Container fluid>
-          {/* <Col className='text-center text-sm-left'>
-            <Image src="./journeyverse-logo.png" alt="Logo" className="logo" fluid />           */}
-            <Navbar.Brand className='title' as={Link} to="/">JourneyVerse</Navbar.Brand>
-          {/* </Col> */}
-          <Navbar.Toggle aria-controls="navbar" />
-          <Navbar.Collapse id="navbar">
-            <Nav className="ml-auto d-flex">
-              <Nav.Link as={Link} to="/"></Nav.Link>
-              {loggedIn ? (
-                <>
-                  <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
-                  <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-                </>
-              ) : (
-                <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <nav
+        className="navbar"
+        onClick={handleMouseEnter}
+        // onMouseLeave={handleMouseLeave}
+      >
+        <div className="brand" onClick={handleBrandClick}>
+          <animated.div
+            className="brand-background"
+            style={brandAnimation}
+          ></animated.div>
+          {transitions((style, item) => (
+            <animated.h4 className="title" style={style}>
+              Journey
+              <animated.span className="half" style={halfStyle}>
+                Verse
+              </animated.span>
+            </animated.h4>
+          ))}
+          {isOpen && (
+            <Modal
+              size="lg"
+              show={showNavModal}
+              onHide={() => setShowNavModal(false)}
+              aria-labelledby="navbar-modal"
+              dialogClassName="full-screen-modal"
+            >
+              <Modal.Header>
+                <button
+                  type="button"
+                  className="close-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowNavModal(false);
+                    setIsOpen(false);
+                  }}
+                >
+                  &times;
+                </button>
+              </Modal.Header>
+              <Modal.Body className="modal-body-center">
+                <div className="navbar-dropdown">
+                  <Link
+                    className="home-link"
+                    to="/"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowNavModal(false);
+                      setIsOpen(false);
+                    }}
+                  >
+                    Explore
+                  </Link>
+                  {loggedIn ? (
+                    <>
+                      <Link
+                        className="dashboard-link"
+                        to="/dashboard"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowNavModal(false);
+                          setIsOpen(false);
+                        }}
+                      >
+                        My Trips
+                      </Link>
+                      <button className="button-links" onClick={handleLogout}>
+                        Sign Out
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      className="button-links"
+                      onClick={() => {
+                        setShowNavModal(false);
+                        setIsOpen(false);
+                        setShowModal(true);
+                      }}
+                    >
+                      Sign In
+                    </button>
+                  )}
+                </div>
+              </Modal.Body>
+            </Modal>
+          )}
+        </div>
+      </nav>
 
-      <Modal size="lg" show={showModal} onHide={() => setShowModal(false)} aria-labelledby="signup-modal">
+      <Modal
+        size="lg"
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        aria-labelledby="signup-modal"
+      >
         <Tab.Container defaultActiveKey="login">
           <Modal.Header closeButton>
-            <Modal.Title id="signup-modal" className='tab'>
+            <Modal.Title id="signup-modal" className="tab">
               <Nav variant="pills">
                 <Nav.Item>
                   <Nav.Link eventKey="login">Login</Nav.Link>
@@ -69,7 +188,6 @@ const AppNavbar = () => {
               </Tab.Pane>
             </Tab.Content>
           </Modal.Body>
-
         </Tab.Container>
       </Modal>
     </>
